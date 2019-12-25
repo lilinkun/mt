@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+    <color name="main_bg">#fff5f5f5</color>
+    <color name="line_bg">#F2F2F2</color>
+    <!--setting-->
+    <color name="setting_title_color">#FC377D</color>
+    <color name="setting_red_color">#E84545</color>
+    <color name="text_default">#9E9E9E</color>
+
+    <color name="login_text">#535353</color>
+    <color name="register_text_hint_bg">#D8D8D8</color>
+    <color name="register_vcode_bg">#FE744A</color>
+    <color name="white">#ffffffff</color>
+    <color name="start_btn_login">#76D845</color>
+    <color name="end_btn_login">#5EB433</color>
+    <color name="black">#000000</color>
+
+    <color name="green">#71BC2C</color>
+
+    <color name="line">#D2D2D2</color>
+
+</resources>

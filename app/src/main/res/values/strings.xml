@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">铭泰小助手</string>
+    <string name="bottom_text_1">首页</string>
+    <string name="bottom_text_2">购物车</string>
+    <string name="bottom_text_4">我的</string>
+
+
+    <!--登录-->
+    <string name="login">登录</string>
+    <string name="login_account">账号</string>
+    <string name="login_psw">密码</string>
+    <string name="login_input_phone">请输入帐号</string>
+    <string name="login_input_psw">请输入密码</string>
+    <string name="login_forget_psw">忘记密码</string>
+    <string name="login_register">立刻注册</string>
+
+    <!--会员注册-->
+    <string name="register_name">姓名(必填项)</string>
+    <string name="register_need">(必填项)</string>
+    <string name="register_account">昵称</string>
+    <string name="register_id_card">身份证号(必填项)</string>
+    <string name="register_friends">亲友人编号(必填项)</string>
+    <string name="register_bank">开户银行(必填项)</string>
+    <string name="register_bank_account">银行账号(必填项)</string>
+    <string name="register_mobile">手机号码(必填项)</string>
+    <string name="register_local">省/市/区(必填项)</string>
+    <string name="register_address">详细地址(必填项)</string>
+
+
+
+
+</resources>

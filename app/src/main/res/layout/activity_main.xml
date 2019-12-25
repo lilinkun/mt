@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/main_bg"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <com.mingtai.mt.ui.CustomViewPager
+        android:id="@+id/main_fragment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:flipInterval="30"
+        android:layout_above="@+id/menu_bottom" />
+
+
+    <LinearLayout
+        android:id="@+id/menu_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="55.0dip"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:background="@color/line_bg" />
+
+        <LinearLayout
+            android:id="@+id/menu"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
+
+            <include
+                layout="@layout/menu_bottom_1"
+                android:scaleType="centerCrop" />
+
+            <include
+                layout="@layout/menu_bottom_2"
+                android:scaleType="centerCrop" />
+
+            <include
+                layout="@layout/menu_bottom_3"
+                android:scaleType="centerCrop" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
