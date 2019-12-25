@@ -2,8 +2,10 @@ package com.mingtai.mt.http;
 
 
 import com.mingtai.mt.entity.PageBean;
+import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.http.FieldMap;
@@ -21,5 +23,9 @@ public interface RetrofitService {
     @POST("Api/")
     Observable<ResultBean<String, PageBean>> homelist(@FieldMap Map<String, String> map);
 
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<ArrayList<ProvinceBean>,Object>> getLocalData(@FieldMap Map<String, String> params);
 
 }

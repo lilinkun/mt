@@ -3,10 +3,12 @@ package com.mingtai.mt.manager;
 import android.content.Context;
 
 import com.mingtai.mt.entity.PageBean;
+import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.RetrofitHelper;
 import com.mingtai.mt.http.RetrofitService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import rx.Observable;
@@ -25,5 +27,14 @@ public class DataManager {
     public Observable<ResultBean<String, PageBean>> homelist(HashMap<String,String> hashMap){
         return mRetrofitService.homelist(hashMap);
     }
+
+
+    /**
+     * 获取收货区域
+     */
+    public Observable<ResultBean<ArrayList<ProvinceBean>,Object>> getLocalData(HashMap<String,String> mHashMap){
+        return mRetrofitService.getLocalData(mHashMap);
+    }
+
 
 }

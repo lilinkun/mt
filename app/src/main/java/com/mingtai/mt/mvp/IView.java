@@ -5,7 +5,5 @@ package com.mingtai.mt.mvp;
  */
 
 public interface IView {
-    void showPromptMessage(int resId);
-    void showPromptMessage(String message);
 
 }

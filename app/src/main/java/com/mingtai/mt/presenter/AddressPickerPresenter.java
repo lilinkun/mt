@@ -3,32 +3,31 @@ package com.mingtai.mt.presenter;
 import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
-import com.mingtai.mt.contract.RegisterContract;
-import com.mingtai.mt.entity.PageBean;
+import com.mingtai.mt.contract.AddressPickerContract;
+import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-/**
- * Created by LG on 2019/12/25.
- */
-public class RegisterPresenter extends BasePresenter {
+public class AddressPickerPresenter extends BasePresenter {
     private DataManager manager;
     private CompositeSubscription mCompositeSubscription;
     private Context mContext;
-    private RegisterContract registerContract;
+    private AddressPickerContract addressPickerContract;
 
     @Override
     public void onCreate(Context context, IView view) {
+        this.mContext = context;
         manager = new DataManager(context);
-        registerContract = (RegisterContract) view;
         mCompositeSubscription = new CompositeSubscription();
+        addressPickerContract = (AddressPickerContract) view;
     }
 
     @Override
@@ -38,31 +37,27 @@ public class RegisterPresenter extends BasePresenter {
 
     @Override
     public void onStop() {
-
+        mCompositeSubscription.unsubscribe();
     }
 
-    public void setData(String PageIndex, String PageCount, String GoodsType){
-        HashMap<String, String> params = new HashMap<>();
-        params.put("cls", "Goods");
-        params.put("fun", "GoodsListVip");
-        params.put("PageIndex", PageIndex);
-        params.put("PageCount", PageCount);
-        params.put("GoodsType", GoodsType);
 
-        mCompositeSubscription.add(manager.homelist(params)
+    public void getLocalData(String parentId,final int localType){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls","Region");
+        params.put("fun","RegionListDrop");
+        params.put("ParentId",parentId);
+        mCompositeSubscription.add(manager.getLocalData(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<String, PageBean>() {
+                .subscribe(new HttpResultCallBack<ArrayList<ProvinceBean>,Object>() {
                     @Override
-                    public void onResponse(String goodsListBeans, String status, PageBean page) {
-                        registerContract.setDataSuccess(goodsListBeans, page);
-
+                    public void onResponse(ArrayList<ProvinceBean> provinceBeans, String status, Object page) {
+                        addressPickerContract.getDataSuccess(provinceBeans,localType);
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
-                        registerContract.setDataFail(msg);
-
+                        addressPickerContract.getDataFail(msg);
                     }
                 }));
     }

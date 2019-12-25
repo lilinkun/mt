@@ -23,5 +23,10 @@
     <color name="green">#71BC2C</color>
 
     <color name="line">#D2D2D2</color>
+    <color name="line_DDDDDD">#DDDDDD</color>
+    <color name="black_333333">#333333</color>
 
+    <color name="list_divider">#999999</color>
+    <color name="bg_list">#F6F6F6</color>
+    <color name="groupon_text">#f85306</color>
 </resources>
