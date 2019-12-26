@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.adressselectorlib.AddressPickerView;
@@ -25,8 +26,8 @@ import butterknife.OnClick;
  */
 public class RegisterActivity extends BaseActivity implements RegisterContract {
 
-    @BindView(R.id.et_province)
-    EditText et_province;
+    @BindView(R.id.tv_province)
+    TextView tv_province;
 
     private AddressPickerView addressView;
     private String mProvinceCode;
@@ -44,7 +45,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     public void initEventAndData() {
 
         registerPresenter.onCreate(this,this);
-        registerPresenter.setData("1","20","12");
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
                 addressView.setOnAddressPickerSure(new AddressPickerView.OnAddressPickerSureListener() {
                     @Override
                     public void onSureClick(String address, String provinceCode, String cityCode, String districtCode, String zipCode) {
-                        et_province.setText(address);
+                        tv_province.setText(address);
                         mProvinceCode = provinceCode;
                         mCityCode = cityCode;
                         mAreaCode = districtCode;

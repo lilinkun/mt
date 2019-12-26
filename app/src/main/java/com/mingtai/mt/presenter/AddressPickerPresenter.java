@@ -59,6 +59,9 @@ public class AddressPickerPresenter extends BasePresenter {
                     public void onErr(String msg, String status) {
                         addressPickerContract.getDataFail(msg);
                     }
+
+
+
                 }));
     }
 }

@@ -23,9 +23,9 @@ public class RetrofitHelper {
     private Context mCntext;
     //        接口根地址
 //    public static final String BASE_URL = "http://wlm.mmibb.net:99/api/WebService/";
-    public static final String BASE_URL = "https://api.vlmei.com/api/WebService/";
+//    public static final String BASE_URL = "https://api.vlmei.com/api/WebService/";
+    public static final String BASE_URL = "http://192.168.0.168:8081/api/WebService/";
 
-    public static final String ImageUrl = "http://api.boos999.com/api/ClearImg/Upload";
     //    设置超时时间
     private static final long DEFAULT_TIMEOUT = 15_000L;
     private static final String TAG = "retrofit";

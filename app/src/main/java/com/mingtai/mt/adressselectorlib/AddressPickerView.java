@@ -117,7 +117,7 @@ public class AddressPickerView extends RelativeLayout implements View.OnClickLis
         mRvList.post(new Runnable() {
             @Override
             public void run() {
-                initData();
+//                initData();
             }
         });
     }
