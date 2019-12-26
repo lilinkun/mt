@@ -22,6 +22,8 @@ import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.mvp.IView;
 import com.mingtai.mt.presenter.RegisterPresenter;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -34,12 +36,18 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     TextView tv_province;
     @BindView(R.id.et_friends_id)
     EditText et_friends_id;
+    @BindView(R.id.tv_register)
+    TextView tv_register;
+    @BindView(R.id.et_register_name)
+    EditText et_register_name;
 
     private AddressPickerView addressView;
     private String mProvinceCode;
     private String mCityCode;
     private String mAreaCode;
     private String mZipCode;
+    private ArrayList<EditText> editTexts = new ArrayList<>();
+    private boolean isRegister = true;
     RegisterPresenter registerPresenter = new RegisterPresenter();
 
     @Override
@@ -52,27 +60,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
         registerPresenter.onCreate(this,this);
 
-        et_friends_id.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().length() > 0){
-                    toast(s.toString());
-                }else {
-                    toast("您没有输入");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
+        setEditString(et_register_name);
+        setEditString(et_friends_id);
 
     }
 
@@ -127,4 +116,39 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
                 break;
         }
     }
+
+
+    String str = "";
+    public String setEditString(EditText editString){
+        editTexts.add(editString);
+        editString.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                str = s.toString();
+                isRegister = true;
+                for (int i = 0;i < editTexts.size(); i++){
+                    if(editTexts.get(i).getText().toString().trim().length() == 0){
+                        isRegister = false;
+                    }
+                }
+                if (isRegister){
+                    tv_register.setBackgroundColor(getResources().getColor(R.color.green));
+                }else {
+                    tv_register.setBackgroundColor(getResources().getColor(R.color.line));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        return str;
+    }
+
 }
