@@ -2,10 +2,14 @@ package com.mingtai.mt.activity;
 
 
 import android.graphics.drawable.BitmapDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -28,6 +32,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
     @BindView(R.id.tv_province)
     TextView tv_province;
+    @BindView(R.id.et_friends_id)
+    EditText et_friends_id;
 
     private AddressPickerView addressView;
     private String mProvinceCode;
@@ -45,6 +51,29 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     public void initEventAndData() {
 
         registerPresenter.onCreate(this,this);
+
+        et_friends_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() > 0){
+                    toast(s.toString());
+                }else {
+                    toast("您没有输入");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
     }
 
     @Override
