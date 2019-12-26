@@ -63,6 +63,14 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
         setEditString(et_register_name);
         setEditString(et_friends_id);
 
+        et_friends_id.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    toast(et_friends_id.getText().toString());
+                }
+            }
+        });
     }
 
     @Override
@@ -145,7 +153,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
         return str;
