@@ -3,6 +3,7 @@ package com.mingtai.mt.manager;
 import android.content.Context;
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
@@ -27,6 +28,10 @@ public class DataManager {
 
     public Observable<ResultBean<String, PageBean>> homelist(HashMap<String,String> hashMap){
         return mRetrofitService.homelist(hashMap);
+    }
+
+    public Observable<ResultBean<FriendsBean, Object>> queryName(HashMap<String,String> hashMap){
+        return mRetrofitService.queryName(hashMap);
     }
 
     public Observable<ResultBean<AccountBean,Object>> login(HashMap<String,String> mHashMap){

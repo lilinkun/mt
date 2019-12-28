@@ -18,9 +18,11 @@ import com.mingtai.mt.R;
 import com.mingtai.mt.adressselectorlib.AddressPickerView;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.contract.RegisterContract;
+import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.mvp.IView;
 import com.mingtai.mt.presenter.RegisterPresenter;
+import com.mingtai.mt.util.MingtaiUtil;
 
 import java.util.ArrayList;
 
@@ -40,6 +42,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     TextView tv_register;
     @BindView(R.id.et_register_name)
     EditText et_register_name;
+    @BindView(R.id.tv_friends_name)
+    TextView tv_friends_name;
 
     private AddressPickerView addressView;
     private String mProvinceCode;
@@ -63,11 +67,28 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
         setEditString(et_register_name);
         setEditString(et_friends_id);
 
+        et_register_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (et_register_name.getText().toString().trim().length() > 0){
+
+                    }else {
+                        toast("请输入姓名");
+                    }
+                }
+            }
+        });
+
         et_friends_id.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    toast(et_friends_id.getText().toString());
+                    if (et_friends_id.getText().toString().trim().length() > 0) {
+                        registerPresenter.queryName(et_friends_id.getText().toString(), "1", MingtaiUtil.SESSIONID(RegisterActivity.this));
+                    }else {
+                        toast("请输入亲友人编号");
+                    }
                 }
             }
         });
@@ -80,6 +101,17 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
     @Override
     public void setDataFail(String msg) {
+
+    }
+
+    @Override
+    public void queryNameSuccess(FriendsBean friendsBean) {
+        toast(friendsBean.getNickName());
+        tv_friends_name.setText(friendsBean.getNickName());
+    }
+
+    @Override
+    public void queryNameFail(String msg) {
 
     }
 

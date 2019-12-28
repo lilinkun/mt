@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.RegisterContract;
+import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
@@ -62,6 +63,33 @@ public class RegisterPresenter extends BasePresenter {
                     @Override
                     public void onErr(String msg, String status) {
                         registerContract.setDataFail(msg);
+
+                    }
+                }));
+    }
+
+
+    public void queryName(String UserName, String UserType, String SessionId){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "UserBaseQueryNameGet");
+        params.put("UserName", UserName);
+        params.put("UserType", UserType);
+        params.put("SessionId", SessionId);
+
+        mCompositeSubscription.add(manager.queryName(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
+                    @Override
+                    public void onResponse(FriendsBean friendsBean, String status, Object o) {
+                        registerContract.queryNameSuccess(friendsBean);
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        registerContract.queryNameFail(msg);
 
                     }
                 }));
