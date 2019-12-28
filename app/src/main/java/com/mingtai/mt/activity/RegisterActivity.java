@@ -85,7 +85,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
                     if (et_friends_id.getText().toString().trim().length() > 0) {
-                        registerPresenter.queryName(et_friends_id.getText().toString(), "1", MingtaiUtil.SESSIONID(RegisterActivity.this));
+                        registerPresenter.queryName(et_friends_id.getText().toString(), "0", MingtaiUtil.SESSIONID(RegisterActivity.this));
                     }else {
                         toast("请输入亲友人编号");
                     }
