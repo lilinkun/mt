@@ -1,5 +1,7 @@
 package com.mingtai.mt.util;
 
+import android.content.Context;
+
 /**
  * Created by LG on 2019/12/17.
  */
@@ -13,4 +15,9 @@ public class MingtaiUtil {
     public static String RESULT_FAIL = "fail";
 
     public static final String TYPEID = "TYPEID";
+
+    public static String SESSIONID(Context mContext) {
+//      return  "wlm06afbb052494856945c98f32d8be2c45";
+        return "mt" + DeviceData.getUniqueId(mContext);
+    }
 }

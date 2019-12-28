@@ -1,6 +1,7 @@
 package com.mingtai.mt.http;
 
 
+import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
@@ -27,5 +28,9 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<ArrayList<ProvinceBean>,Object>> getLocalData(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<AccountBean,Object>> login(@FieldMap Map<String, String> params);
 
 }

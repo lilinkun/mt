@@ -2,6 +2,7 @@ package com.mingtai.mt.manager;
 
 import android.content.Context;
 
+import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
@@ -28,6 +29,9 @@ public class DataManager {
         return mRetrofitService.homelist(hashMap);
     }
 
+    public Observable<ResultBean<AccountBean,Object>> login(HashMap<String,String> mHashMap){
+        return mRetrofitService.login(mHashMap);
+    }
 
     /**
      * 获取收货区域
