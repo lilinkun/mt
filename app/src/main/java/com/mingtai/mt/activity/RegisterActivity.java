@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -44,6 +45,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     EditText et_register_name;
     @BindView(R.id.tv_friends_name)
     TextView tv_friends_name;
+    @BindView(R.id.ll_local_server)
+    LinearLayout ll_local_server;
 
     private AddressPickerView addressView;
     private String mProvinceCode;
@@ -108,6 +111,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     public void queryNameSuccess(FriendsBean friendsBean) {
         toast(friendsBean.getNickName());
         tv_friends_name.setText(friendsBean.getNickName());
+        ll_local_server.setVisibility(View.VISIBLE);
     }
 
     @Override
