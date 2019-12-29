@@ -29,4 +29,7 @@
     <color name="list_divider">#999999</color>
     <color name="bg_list">#F6F6F6</color>
     <color name="groupon_text">#f85306</color>
+
+
+    <color name="local_transparent">#80000000</color>
 </resources>

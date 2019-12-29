@@ -16,7 +16,8 @@
 
     <!--会员注册-->
     <string name="register_name">姓名(必填项)</string>
-    <string name="register_need">(必填项)</string>
+    <string name="register_need_local">服务区域编号(必填项)</string>
+    <string name="register_server_local">服务区域</string>
     <string name="register_account">昵称</string>
     <string name="register_id_card">身份证号(必填项)</string>
     <string name="register_friends">亲友人编号(必填项)</string>

@@ -10,16 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.adapter.ServerLocalAdapter;
 import com.mingtai.mt.adressselectorlib.AddressPickerView;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.contract.RegisterContract;
 import com.mingtai.mt.entity.FriendsBean;
+import com.mingtai.mt.entity.LocalBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.mvp.IView;
 import com.mingtai.mt.presenter.RegisterPresenter;
@@ -47,8 +51,13 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     TextView tv_friends_name;
     @BindView(R.id.ll_local_server)
     LinearLayout ll_local_server;
+    @BindView(R.id.ll_server_local)
+    LinearLayout ll_server_local;
+    @BindView(R.id.tv_server_local)
+    TextView tv_server_local;
 
     private AddressPickerView addressView;
+    private String localStr;
     private String mProvinceCode;
     private String mCityCode;
     private String mAreaCode;
@@ -108,10 +117,15 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     }
 
     @Override
-    public void queryNameSuccess(FriendsBean friendsBean) {
+    public void queryNameSuccess(FriendsBean friendsBean,String code) {
         toast(friendsBean.getNickName());
         tv_friends_name.setText(friendsBean.getNickName());
         ll_local_server.setVisibility(View.VISIBLE);
+        ll_server_local.setVisibility(View.VISIBLE);
+
+        if (code.equals("-1")){
+            tv_server_local.setText("自动滑落");
+        }
     }
 
     @Override
@@ -157,6 +171,36 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
                         }*/
                     }
                 });
+                break;
+
+            case R.id.rl_server_local:
+                View contentView1 = LayoutInflater.from(this).inflate(R.layout.popup_list, null);
+
+                ListView listView1 = (ListView) contentView1.findViewById(R.id.rv_list);
+                listView1.setVisibility(View.VISIBLE);
+                listView1.setAdapter(new ServerLocalAdapter(this));
+
+                final PopupWindow popupWindow1 = new PopupWindow(contentView1,
+                        LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT, true);
+                popupWindow1.setContentView(contentView1);
+                popupWindow1.setOutsideTouchable(true);
+                popupWindow1.setBackgroundDrawable(new BitmapDrawable());
+                popupWindow1.showAsDropDown(ll_server_local);
+                popupWindow1.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        tv_server_local.setText(localStr);
+                    }
+                });
+                listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        localStr = LocalBean.values()[position].getLocalStr();
+                        popupWindow1.dismiss();
+
+                    }
+                });
+
                 break;
         }
     }

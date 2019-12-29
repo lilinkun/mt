@@ -83,7 +83,7 @@ public class RegisterPresenter extends BasePresenter {
                 .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
                     @Override
                     public void onResponse(FriendsBean friendsBean, String status, Object o) {
-                        registerContract.queryNameSuccess(friendsBean);
+                        registerContract.queryNameSuccess(friendsBean,status);
 
                     }
 
