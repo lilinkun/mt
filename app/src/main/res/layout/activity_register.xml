@@ -219,7 +219,6 @@
                     android:layout_marginBottom="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_10"
                     android:background="@null"
-                    android:hint="请输入服务区域"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/tv_local_server"
                     android:textColor="@color/black_333333"
@@ -268,6 +267,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:hint="请输入服务区域"
                     android:textColor="@color/black_333333" />
 
 

@@ -55,7 +55,7 @@ public abstract class HttpResultCallBack<M, T> extends Subscriber<ResultBean<M, 
             if (result.getData() == null) {
                 onResponse(result.getData(), result.getCode(), result.getPage());
             } else {
-                onResponse(result.getData(), MingtaiUtil.RESULT_SUCCESS, result.getPage());
+                onResponse(result.getData(), result.getCode(), result.getPage());
             }
         } else {
             onHttpFail(result.getDesc(), MingtaiUtil.RESULT_FAIL + result.getCode());
