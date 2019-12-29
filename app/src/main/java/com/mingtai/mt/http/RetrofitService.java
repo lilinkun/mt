@@ -25,11 +25,13 @@ public interface RetrofitService {
     @POST("Api/")
     Observable<ResultBean<String, PageBean>> homelist(@FieldMap Map<String, String> map);
 
-
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<FriendsBean, Object>> queryName(@FieldMap Map<String, String> map);
 
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<FriendsBean, Object>> getRefereesName(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("Api/")

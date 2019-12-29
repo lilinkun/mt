@@ -49,6 +49,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
                     loginPresenter.setLogin(et_login_input_account.getText().toString(),et_login_input_psd.getText().toString());
 
                 }
+//                UiHelper.launcher(this,MainActivity.class);
 
                 break;
 

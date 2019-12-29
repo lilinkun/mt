@@ -38,6 +38,11 @@ public class DataManager {
         return mRetrofitService.login(mHashMap);
     }
 
+    public Observable<ResultBean<FriendsBean, Object>> getRefereesName(HashMap<String,String> hashMap){
+        return mRetrofitService.getRefereesName(hashMap);
+    }
+
+
     /**
      * 获取收货区域
      */

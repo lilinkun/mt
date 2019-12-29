@@ -30,6 +30,13 @@
     <color name="bg_list">#F6F6F6</color>
     <color name="groupon_text">#f85306</color>
 
+    <color name="blue">#3898FC</color>
+    <color name="gray">#D0D5DB</color>
+
+    <color name="pop_text">#B2B2B2</color>
+
+    <color name="sale_title">#FBFBFB</color>
+    <color name="sale_line">#C4C4C4</color>
 
     <color name="local_transparent">#80000000</color>
 </resources>

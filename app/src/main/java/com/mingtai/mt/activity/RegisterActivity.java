@@ -5,16 +5,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
@@ -25,7 +24,6 @@ import com.mingtai.mt.contract.RegisterContract;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.LocalBean;
 import com.mingtai.mt.entity.PageBean;
-import com.mingtai.mt.mvp.IView;
 import com.mingtai.mt.presenter.RegisterPresenter;
 import com.mingtai.mt.util.MingtaiUtil;
 
@@ -55,6 +53,10 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     LinearLayout ll_server_local;
     @BindView(R.id.tv_server_local)
     TextView tv_server_local;
+    @BindView(R.id.tv_serverer_id)
+    TextView tv_serverer_id;
+    @BindView(R.id.rl_server_local)
+    RelativeLayout rl_server_local;
 
     private AddressPickerView addressView;
     private String localStr;
@@ -113,7 +115,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
     @Override
     public void setDataFail(String msg) {
-
+        toast(msg);
     }
 
     @Override
@@ -124,13 +126,32 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
         ll_server_local.setVisibility(View.VISIBLE);
 
         if (code.equals("-1")){
-            tv_server_local.setText("自动滑落");
+            tv_server_local.setText(LocalBean.HUALUO.getLocalStr());
+            tv_serverer_id.setText("");
+            rl_server_local.setClickable(false);
+            registerPresenter.getRefereesName(friendsBean.getNickName(),"0",MingtaiUtil.SESSIONID(RegisterActivity.this));
+        }else if (code.equals("0")){
+            tv_serverer_id.setText("");
+            tv_server_local.setText(LocalBean.SERVER.getLocalStr());
+            rl_server_local.setClickable(true);
+        }else {
+            rl_server_local.setClickable(true);
         }
     }
 
     @Override
     public void queryNameFail(String msg) {
+        toast(msg);
+    }
 
+    @Override
+    public void getRefereesNameSuccess(FriendsBean friendsBean, String code) {
+        tv_serverer_id.setText(friendsBean.getNickName());
+    }
+
+    @Override
+    public void getRefereesNameFail(String msg) {
+        toast(msg);
     }
 
     @OnClick({R.id.ll_province})

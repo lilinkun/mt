@@ -94,4 +94,30 @@ public class RegisterPresenter extends BasePresenter {
                     }
                 }));
     }
+
+    public void getRefereesName(String UserName, String UserType, String SessionId){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "GetRefereesLeftSubarea");
+        params.put("UserName", UserName);
+        params.put("UserType", UserType);
+        params.put("SessionId", SessionId);
+
+        mCompositeSubscription.add(manager.getRefereesName(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
+                    @Override
+                    public void onResponse(FriendsBean friendsBean, String status, Object o) {
+                        registerContract.getRefereesNameSuccess(friendsBean,status);
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        registerContract.getRefereesNameFail(msg);
+
+                    }
+                }));
+    }
 }
