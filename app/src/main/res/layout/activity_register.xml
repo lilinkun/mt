@@ -294,15 +294,33 @@
                 android:layout_marginTop="@dimen/margin_15"
                 android:textColor="@color/black"/>
 
-            <TextView
-                android:id="@+id/tv_serverer_id"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@null"
-                android:textColor="@color/black_333333"
-                android:textColorHint="@color/line" />
+                >
+                <EditText
+                    android:id="@+id/et_serverer_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@null"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_serverer"
+                    android:textColor="@color/black_333333"
+                    android:textColorHint="@color/line" />
+
+                <TextView
+                    android:id="@+id/tv_serverer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/black_333333" />
+
+
+            </RelativeLayout>
+
 
         </LinearLayout>
 

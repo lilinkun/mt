@@ -53,8 +53,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     LinearLayout ll_server_local;
     @BindView(R.id.tv_server_local)
     TextView tv_server_local;
-    @BindView(R.id.tv_serverer_id)
-    TextView tv_serverer_id;
+    @BindView(R.id.et_serverer_id)
+    EditText et_serverer_id;
     @BindView(R.id.rl_server_local)
     RelativeLayout rl_server_local;
 
@@ -127,15 +127,18 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
         if (code.equals("-1")){
             tv_server_local.setText(LocalBean.HUALUO.getLocalStr());
-            tv_serverer_id.setText("");
+            et_serverer_id.setText("");
+            et_serverer_id.setClickable(false);
             rl_server_local.setClickable(false);
             registerPresenter.getRefereesName(friendsBean.getNickName(),"0",MingtaiUtil.SESSIONID(RegisterActivity.this));
         }else if (code.equals("0")){
-            tv_serverer_id.setText("");
+            et_serverer_id.setText(et_friends_id.getText().toString());
             tv_server_local.setText(LocalBean.SERVER.getLocalStr());
             rl_server_local.setClickable(true);
+            et_serverer_id.setClickable(true);
         }else {
             rl_server_local.setClickable(true);
+            et_serverer_id.setClickable(true);
         }
     }
 
@@ -146,7 +149,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
     @Override
     public void getRefereesNameSuccess(FriendsBean friendsBean, String code) {
-        tv_serverer_id.setText(friendsBean.getNickName());
+        et_serverer_id.setText(friendsBean.getNickName());
     }
 
     @Override
@@ -154,7 +157,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
         toast(msg);
     }
 
-    @OnClick({R.id.ll_province})
+    @OnClick({R.id.ll_province,R.id.rl_server_local})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ll_province:
