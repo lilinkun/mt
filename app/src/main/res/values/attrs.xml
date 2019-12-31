@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsTabTextClickColor" format="color" />
+        <attr name="pstsTabTextUnclickColor" format="color" />
+        <attr name="pstsTabTextSize" format="dimension"/>
+
+    </declare-styleable>
+</resources>

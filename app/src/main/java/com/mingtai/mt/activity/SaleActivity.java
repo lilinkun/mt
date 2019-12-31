@@ -15,6 +15,7 @@ import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.util.MingtaiUtil;
+import com.mingtai.mt.util.UiHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,6 +40,8 @@ public class SaleActivity extends BaseActivity {
     TextView et_servicer_name;
     @BindView(R.id.et_business_name)
     EditText et_business_name;
+    @BindView(R.id.tv_next)
+    TextView tv_next;
 
     private String send_type_str;
     private int type = 0;
@@ -68,7 +71,7 @@ public class SaleActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_send_type})
+    @OnClick({R.id.ll_send_type,R.id.tv_next})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ll_send_type:
@@ -109,6 +112,12 @@ public class SaleActivity extends BaseActivity {
                 popupWindow.setFocusable(true);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.showAtLocation(findViewById(R.id.main_view), Gravity.CENTER, 0, 0);
+
+                break;
+
+            case R.id.tv_next:
+
+                UiHelper.launcher(this,GoodsActivity.class);
 
                 break;
         }

@@ -39,4 +39,6 @@
     <color name="sale_line">#C4C4C4</color>
 
     <color name="local_transparent">#80000000</color>
+
+    <color name="psts_unclick_text_bg">#e6e6e6</color>
 </resources>

@@ -97,9 +97,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (et_register_name.getText().toString().trim().length() > 0){
-
-                    }else {
+                    if (et_register_name.getText().toString().trim().length() == 0){
                         toast("请输入姓名");
                     }
                 }
