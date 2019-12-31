@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
+import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.util.MingtaiUtil;
 
 import butterknife.BindView;
@@ -31,6 +33,12 @@ public class SaleActivity extends BaseActivity {
     LinearLayout ll_business;
     @BindView(R.id.tv_detail)
     TextView tv_detail;
+    @BindView(R.id.et_servicer_id)
+    TextView et_servicer_id;
+    @BindView(R.id.et_servicer_name)
+    TextView et_servicer_name;
+    @BindView(R.id.et_business_name)
+    EditText et_business_name;
 
     private String send_type_str;
     private int type = 0;
@@ -48,10 +56,14 @@ public class SaleActivity extends BaseActivity {
 
         if (type == 1){
             tv_detail.setText("保单详情(消费-经销商)");
+            et_servicer_id.setText(ProApplication.mAccountBean.getUserName());
+            et_servicer_name.setText(ProApplication.mAccountBean.getNickName());
         }else if (type == 2){
             tv_detail.setText("保单详情(升级-经销商)");
         }else if (type == 3){
             tv_detail.setText("保单详情(业绩调拨-经销商)");
+            et_servicer_id.setText(ProApplication.mAccountBean.getUserName());
+            et_servicer_name.setText(ProApplication.mAccountBean.getNickName());
         }
 
     }
@@ -113,6 +125,7 @@ public class SaleActivity extends BaseActivity {
             numberPicker.setValue(1);
             ll_business.setVisibility(View.VISIBLE);
             ll_personal.setVisibility(View.GONE);
+            et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
         }
     }
 

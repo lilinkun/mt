@@ -131,6 +131,7 @@
                 android:textColor="@color/black"/>
 
             <EditText
+                android:id="@+id/et_reigster_idcard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
@@ -338,6 +339,7 @@
                 android:textColor="@color/black"/>
 
             <EditText
+                android:id="@+id/et_reigster_bank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
@@ -366,6 +368,7 @@
                 android:textColor="@color/black"/>
 
             <EditText
+                android:id="@+id/et_register_bank_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
@@ -395,6 +398,7 @@
                 android:textColor="@color/black"/>
 
             <EditText
+                android:id="@+id/et_register_mobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"

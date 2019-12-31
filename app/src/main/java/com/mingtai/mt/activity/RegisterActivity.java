@@ -57,6 +57,14 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     EditText et_serverer_id;
     @BindView(R.id.rl_server_local)
     RelativeLayout rl_server_local;
+    @BindView(R.id.et_reigster_idcard)
+    EditText et_reigster_idcard;
+    @BindView(R.id.et_reigster_bank)
+    EditText et_reigster_bank;
+    @BindView(R.id.et_register_bank_account)
+    EditText et_register_bank_account;
+    @BindView(R.id.et_register_mobile)
+    EditText et_register_mobile;
 
     private AddressPickerView addressView;
     private String localStr;
@@ -80,6 +88,10 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
         setEditString(et_register_name);
         setEditString(et_friends_id);
+        setEditString(et_reigster_idcard);
+        setEditString(et_register_bank_account);
+        setEditString(et_reigster_bank);
+        setEditString(et_register_mobile);
 
         et_register_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

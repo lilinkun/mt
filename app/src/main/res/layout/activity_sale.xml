@@ -61,18 +61,20 @@
             android:layout_marginBottom="@dimen/margin_10"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_servicer_id"
+            <EditText
+                android:id="@+id/et_servicer_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@null"
                 android:textColor="@color/line"/>
 
-            <TextView
-                android:id="@+id/tv_servicer_name"
+            <EditText
+                android:id="@+id/et_servicer_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@null"
                 android:textColor="@color/line"/>
             
         </LinearLayout>
@@ -159,9 +161,10 @@
 
                 <EditText
                     android:id="@+id/et_sale_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/pop_text"
+                    android:background="@null"
                     />
 
             </RelativeLayout>
@@ -195,9 +198,10 @@
 
                     <EditText
                         android:id="@+id/et_sale_mobile"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/pop_text"
+                        android:background="@null"
                         />
 
                 </RelativeLayout>
@@ -264,11 +268,12 @@
 
                     <EditText
                         android:id="@+id/et_business_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="输入编号"
                         android:textColorHint="@color/line"
                         android:textColor="@color/pop_text"
+                        android:background="@null"
                         />
 
                 <View

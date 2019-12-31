@@ -3,6 +3,7 @@ package com.mingtai.mt.util;
 import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,6 +23,7 @@ public class DeviceData {
             return id;
         }
     }
+
 
 
     private static String toMD5(String text) throws NoSuchAlgorithmException {

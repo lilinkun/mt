@@ -3,6 +3,7 @@ package com.mingtai.mt.presenter;
 import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
+import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.LoginContract;
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.PageBean;
@@ -53,7 +54,7 @@ public class LoginPresenter extends BasePresenter {
         params.put("PassWord", psw);
         params.put("CheckCode", "APP");
         params.put("key", "APP");
-        params.put("SessionId", MingtaiUtil.SESSIONID(mContext));
+        params.put("SessionId", ProApplication.SESSIONID(mContext));
 
         mCompositeSubscription.add(manager.login(params)
                 .subscribeOn(Schedulers.io())
