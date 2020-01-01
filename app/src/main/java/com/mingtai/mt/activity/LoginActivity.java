@@ -89,6 +89,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
         ProApplication.mAccountBean = msg;
 
         UiHelper.launcher(this,MainActivity.class);
+        finish();
 
     }
 
