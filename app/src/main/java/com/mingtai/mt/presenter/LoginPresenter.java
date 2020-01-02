@@ -46,7 +46,7 @@ public class LoginPresenter extends BasePresenter {
 
     }
 
-    public void setLogin(String account,String psw){
+    public void setLogin(String account,String psw,String sessionId){
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "Login");
@@ -54,7 +54,7 @@ public class LoginPresenter extends BasePresenter {
         params.put("PassWord", psw);
         params.put("CheckCode", "APP");
         params.put("key", "APP");
-        params.put("SessionId", ProApplication.SESSIONID(mContext));
+        params.put("SessionId", sessionId);
 
         mCompositeSubscription.add(manager.login(params)
                 .subscribeOn(Schedulers.io())

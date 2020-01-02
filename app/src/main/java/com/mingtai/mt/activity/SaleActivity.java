@@ -14,6 +14,10 @@ import android.widget.TextView;
 import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
+import com.mingtai.mt.contract.SaleContract;
+import com.mingtai.mt.entity.PersonalInfoBean;
+import com.mingtai.mt.entity.StoreInfoAddressBean;
+import com.mingtai.mt.presenter.SalePresenter;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -24,27 +28,42 @@ import butterknife.OnClick;
  * Created by lilinkun
  * on 2019/12/29
  */
-public class SaleActivity extends BaseActivity {
+public class SaleActivity extends BaseActivity implements SaleContract {
 
     @BindView(R.id.tv_send_type)
     TextView tv_send_type;
     @BindView(R.id.ll_personal)
     LinearLayout ll_personal;
-    @BindView(R.id.ll_business)
-    LinearLayout ll_business;
+    @BindView(R.id.ll_store)
+    LinearLayout ll_store;
     @BindView(R.id.tv_detail)
     TextView tv_detail;
     @BindView(R.id.et_servicer_id)
-    TextView et_servicer_id;
+    EditText et_servicer_id;
     @BindView(R.id.et_servicer_name)
     TextView et_servicer_name;
     @BindView(R.id.et_business_name)
     EditText et_business_name;
     @BindView(R.id.tv_next)
     TextView tv_next;
+    @BindView(R.id.et_sale_name)
+    EditText et_sale_name;
+    @BindView(R.id.et_sale_mobile)
+    EditText et_sale_mobile;
+    @BindView(R.id.tv_province)
+    TextView tv_province;
+    @BindView(R.id.tv_address)
+    TextView tv_address;
 
     private String send_type_str;
-    private int type = 0;
+    private int typeInt = 0;
+    private int PersonalInt = 0;
+    private int StoreInt = 1;
+    private StoreInfoAddressBean personalInfoBean;
+    private StoreInfoAddressBean storeInfoAddressBean;
+    private String personalStr;
+
+    private SalePresenter salePresenter = new SalePresenter();
 
 
     @Override
@@ -55,6 +74,11 @@ public class SaleActivity extends BaseActivity {
     @Override
     public void initEventAndData() {
 
+        salePresenter.onCreate(this,this);
+        /*if (ProApplication.mAccountBean.getIsSingleCenter() > 0) {
+            salePresenter.getStoreAddress(ProApplication.mAccountBean.getStoreNo(),ProApplication.SESSIONID(this));
+        }*/
+
         int type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("type");
 
         if (type == 1){
@@ -62,19 +86,45 @@ public class SaleActivity extends BaseActivity {
             et_servicer_id.setText(ProApplication.mAccountBean.getUserName());
             et_servicer_name.setText(ProApplication.mAccountBean.getNickName());
         }else if (type == 2){
-            tv_detail.setText("保单详情(升级-经销商)");
+            tv_detail.setText("消费订单(升级-经销商)");
+            if (getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id") != null && getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id").toString().trim().length() > 0){
+                et_servicer_id.setText(getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id"));
+                et_servicer_id.setFocusable(false);
+            }
+
         }else if (type == 3){
             tv_detail.setText("保单详情(业绩调拨-经销商)");
             et_servicer_id.setText(ProApplication.mAccountBean.getUserName());
             et_servicer_name.setText(ProApplication.mAccountBean.getNickName());
         }
 
+        et_business_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (storeInfoAddressBean == null) {
+                    salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                }else {
+                    getStoreAddressSuccess(storeInfoAddressBean);
+                }
+            }
+        });
+
+        et_servicer_id.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (typeInt == PersonalInt) {
+                    salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                }
+            }
+        });
+
     }
 
-    @OnClick({R.id.ll_send_type,R.id.tv_next})
+    @OnClick({R.id.ll_send_type,R.id.tv_next,R.id.ll_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ll_send_type:
+                ll_personal.setVisibility(View.VISIBLE);
                 final String[] s = new String[]{"配送到个人","配送到商铺"};
 
                 final PopupWindow popupWindow = new PopupWindow(this);
@@ -93,7 +143,7 @@ public class SaleActivity extends BaseActivity {
                     //当NunberPicker的值发生改变时，将会激发该方法
                     @Override
                     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                        type = newVal;
+                        typeInt = newVal;
                         send_type_str = s[newVal];
                         setType(numberPicker,s);
                     }
@@ -120,22 +170,103 @@ public class SaleActivity extends BaseActivity {
                 UiHelper.launcher(this,GoodsActivity.class);
 
                 break;
+
+
+            case R.id.ll_back:
+
+                finish();
+
+                break;
         }
     }
 
     private void setType(NumberPicker numberPicker,String[] s){
-        if (type == 0) {
-            ll_personal.setVisibility(View.VISIBLE);
-            ll_business.setVisibility(View.GONE);
+        if (typeInt == 0) {
+            ll_store.setVisibility(View.GONE);
             send_type_str = s[0];
             numberPicker.setValue(0);
-        }else if (type == 1){
+
+            if (et_servicer_id.getText().toString() == null || et_servicer_id.getText().toString().trim().length() == 0){
+                eartyEdit();
+            }
+
+            if (personalStr == null || !personalStr.equals(et_servicer_id.getText().toString()) ) {
+                if (et_servicer_id.getText().toString().trim().length() > 0) {
+                    personalStr = et_servicer_id.getText().toString();
+                    salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(this));
+                }
+            }
+
+        }else if (typeInt == 1){
             send_type_str = s[1];
             numberPicker.setValue(1);
-            ll_business.setVisibility(View.VISIBLE);
-            ll_personal.setVisibility(View.GONE);
-            et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
+            ll_store.setVisibility(View.VISIBLE);
+            et_business_name.setFocusable(false);
+            if (ProApplication.mAccountBean.getIsSingleCenter() > 0) {
+                et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
+            }
+
+            if (storeInfoAddressBean == null) {
+                if (et_business_name.getText().toString().trim().length() > 0) {
+                    salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(this));
+                }
+            }else {
+                getStoreAddressSuccess(storeInfoAddressBean);
+            }
+
         }
     }
 
+    @Override
+    public void getDataSuccess() {
+
+    }
+
+    @Override
+    public void getDataFail(String msg) {
+
+    }
+
+    @Override
+    public void getStoreAddressSuccess(StoreInfoAddressBean storeInfoAddressBean) {
+        this.storeInfoAddressBean = storeInfoAddressBean;
+        et_sale_name.setFocusable(false);
+        et_sale_name.setText(storeInfoAddressBean.getName());
+        et_sale_mobile.setFocusable(false);
+        et_sale_mobile.setText(storeInfoAddressBean.getPhone());
+        tv_province.setFocusable(false);
+        tv_province.setText(storeInfoAddressBean.getProvince_name() + " " + storeInfoAddressBean.getCity_name() + " " + storeInfoAddressBean.getArea_name());
+        tv_address.setFocusable(false);
+        tv_address.setText(storeInfoAddressBean.getAddress());
+    }
+
+    @Override
+    public void getStoreAddressFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
+    public void getPersonalAddressSuccess(StoreInfoAddressBean personalInfoBean) {
+        this.personalInfoBean = personalInfoBean;
+        et_sale_name.setFocusable(true);
+        et_sale_name.setText(personalInfoBean.getName());
+        et_sale_mobile.setFocusable(true);
+        et_sale_mobile.setText(storeInfoAddressBean.getPhone());
+        tv_province.setFocusable(true);
+        tv_province.setText(storeInfoAddressBean.getProvince_name() + " " + storeInfoAddressBean.getCity_name() + " " + storeInfoAddressBean.getArea_name());
+        tv_address.setFocusable(true);
+        tv_address.setText(storeInfoAddressBean.getAddress());
+    }
+
+    @Override
+    public void getPersonalAddressFail(String msg) {
+        toast(msg);
+    }
+
+    public void eartyEdit(){
+        et_sale_name.setText("");
+        et_sale_mobile.setText("");
+        tv_province.setText("");
+        tv_address.setText("");
+    }
 }

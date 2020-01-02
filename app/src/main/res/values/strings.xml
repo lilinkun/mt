@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">智慧生活</string>
+    <string name="app_name">智惠生活</string>
     <string name="bottom_text_1">首页</string>
     <string name="bottom_text_2">报单</string>
     <string name="bottom_text_4">我的</string>
@@ -32,6 +32,10 @@
     <string name="business_name">店铺(必填项)</string>
     <string name="remarks">备注</string>
     <string name="remarks_tips">请输入备注</string>
+
+    <string name="store_id">店铺编号</string>
+    <string name="store_address">收货地址(必填项)</string>
+
 
 
 

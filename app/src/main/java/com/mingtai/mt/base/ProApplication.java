@@ -23,7 +23,10 @@ public class ProApplication extends Application {
         mContext = this;
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         displayMetrics.scaledDensity = displayMetrics.density;
+
     }
+
+
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -42,11 +45,13 @@ public class ProApplication extends Application {
 
     public static String SESSIONID(Context mContext) {
 //      return  "wlm06afbb052494856945c98f32d8be2c45";
-        return "mt222222";
+        return "mt" + DeviceData.getUniqueId(mContext);
     }
 
 
     public static synchronized ProApplication context() {
         return (ProApplication) mContext;
     }
+
+
 }

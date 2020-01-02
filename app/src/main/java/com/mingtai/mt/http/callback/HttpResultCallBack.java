@@ -31,9 +31,9 @@ public abstract class HttpResultCallBack<M, T> extends Subscriber<ResultBean<M, 
         if (e != null) {
             if (e instanceof ResultException) {
                 ResultException err = (ResultException) e;
-//                onErr(err.getErrMsg(), WlmUtil.RESULT_FAIL);
+                onErr(err.getErrMsg(), MingtaiUtil.RESULT_FAIL);
             } else {
-//                onErr(e.getMessage(), WlmUtil.RESULT_FAIL);
+                onErr(e.getMessage(), MingtaiUtil.RESULT_FAIL);
                 Log.d("HttpResultCallBack", "解析失败==：" + e.getMessage());
             }
         }

@@ -6,22 +6,15 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="40dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_register_title"
         android:layout_width="match_parent"
         android:layout_height="49dp"
         >
 
         <LinearLayout
+            android:id="@+id/ll_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -50,17 +43,29 @@
         android:layout_height="0.5dp"
         android:background="@color/line"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
+        android:layout_below="@+id/rl_register_title">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_10">
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:orientation="vertical">
 
         <TextView
@@ -78,19 +83,22 @@
             android:background="@null"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginBottom="@dimen/margin_10"
+            android:textSize="@dimen/textsize14"
             android:textColorHint="@color/line"
-            android:textColor="@color/black_333333"
+            android:textColor="@color/register_text_bg"
             android:hint="请输入姓名"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/black"/>
+            android:background="@color/line"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -102,24 +110,29 @@
                 android:textColor="@color/black"/>
 
             <EditText
+                android:id="@+id/et_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@null"
                 android:hint="请输入昵称"
-                android:textColor="@color/black_333333"
-                android:textColorHint="@color/line" />
+                android:textColor="@color/register_text_bg"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/textsize14" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/black"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_10"
+            android:background="@color/register_line"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -136,20 +149,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
+                android:textSize="@dimen/textsize14"
                 android:background="@null"
                 android:hint="请输入身份证号"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/register_text_bg"
                 android:textColorHint="@color/line" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/black"/>
+                android:background="@color/line"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -164,18 +180,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-            <EditText
-                android:id="@+id/et_friends_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@null"
-                android:hint="请输入亲友人编号"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tv_friends_name"
-                android:textColor="@color/black_333333"
-                android:textColorHint="@color/line" />
+                <EditText
+                    android:id="@+id/et_friends_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:textSize="@dimen/textsize14"
+                    android:background="@null"
+                    android:hint="请输入亲友人编号"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_friends_name"
+                    android:textColor="@color/register_text_bg"
+                    android:textColorHint="@color/line" />
 
                 <TextView
                     android:id="@+id/tv_friends_name"
@@ -183,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/black_333333" />
+                    android:textColor="@color/register_text_bg" />
 
 
             </RelativeLayout>
@@ -191,7 +208,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/black"/>
+                android:background="@color/line"/>
         </LinearLayout>
 
         <LinearLayout
@@ -199,6 +216,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:visibility="gone">
 
             <TextView
@@ -220,9 +239,11 @@
                     android:layout_marginBottom="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_10"
                     android:background="@null"
+                    android:hint="请输入服务区域编号"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/tv_local_server"
-                    android:textColor="@color/black_333333"
+                    android:textColor="@color/register_text_bg"
+                    android:textSize="@dimen/textsize14"
                     android:textColorHint="@color/line" />
 
                 <TextView
@@ -231,7 +252,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/black_333333" />
+                    android:textColor="@color/register_text_bg" />
 
 
             </RelativeLayout>
@@ -239,7 +260,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/black"/>
+                android:background="@color/line"/>
         </LinearLayout>
 
         <LinearLayout
@@ -247,6 +268,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:visibility="gone">
 
             <TextView
@@ -270,8 +293,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/margin_10"
                     android:layout_marginBottom="@dimen/margin_10"
-                    android:hint="请输入服务区域"
-                    android:textColor="@color/black_333333" />
+                    android:textSize="@dimen/textsize14"
+                    android:hint="请选择服务区域"
+                    android:textColorHint="@color/line"
+                    android:textColor="@color/register_text_bg" />
 
 
             </RelativeLayout>
@@ -279,12 +304,16 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/black"/>
+                android:background="@color/line"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_server_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <TextView
@@ -307,8 +336,10 @@
                     android:layout_marginTop="@dimen/margin_10"
                     android:background="@null"
                     android:layout_centerVertical="true"
+                    android:textSize="@dimen/textsize14"
+                    android:hint="请输入服务人员编号"
                     android:layout_toLeftOf="@+id/tv_serverer"
-                    android:textColor="@color/black_333333"
+                    android:textColor="@color/register_text_bg"
                     android:textColorHint="@color/line" />
 
                 <TextView
@@ -317,7 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/black_333333" />
+                    android:textColor="@color/register_text_bg" />
 
 
             </RelativeLayout>
@@ -325,68 +356,16 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_bank"
-                android:textSize="@dimen/textsize14"
-                android:layout_marginTop="@dimen/margin_15"
-                android:textColor="@color/black"/>
-
-            <EditText
-                android:id="@+id/et_reigster_bank"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@null"
-                android:textColor="@color/black_333333"
-                android:textColorHint="@color/line" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/black"/>
-        </LinearLayout>
+            android:layout_height="@dimen/margin_10"
+            android:background="@color/register_line"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/register_bank_account"
-                android:textSize="@dimen/textsize14"
-                android:layout_marginTop="@dimen/margin_15"
-                android:textColor="@color/black"/>
-
-            <EditText
-                android:id="@+id/et_register_bank_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@null"
-                android:textColor="@color/black_333333"
-                android:hint="请输入银行账号"
-                android:textColorHint="@color/line" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/black"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -405,19 +384,110 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@null"
                 android:hint="请输入手机号码"
-                android:textColor="@color/black_333333"
+                android:textSize="@dimen/textsize14"
+                android:textColor="@color/register_text_bg"
                 android:textColorHint="@color/line" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/black"/>
+                android:background="@color/line"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_bank"
+                android:textSize="@dimen/textsize14"
+                android:layout_marginTop="@dimen/margin_15"
+                android:textColor="@color/black"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/tv_reigster_bank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@null"
+                    android:textSize="@dimen/textsize14"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/iv_reigster_bank"
+                    android:textColor="@color/register_text_bg"
+                    android:hint="请选择开户银行"
+                    android:textColorHint="@color/line" />
+
+                <ImageView
+                    android:id="@+id/iv_reigster_bank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:src="@mipmap/ic_right_arrow"/>
+
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_bank_account"
+                android:textSize="@dimen/textsize14"
+                android:layout_marginTop="@dimen/margin_15"
+                android:textColor="@color/black"/>
+
+            <EditText
+                android:id="@+id/et_register_bank_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@null"
+                android:textSize="@dimen/textsize14"
+                android:textColor="@color/register_text_bg"
+                android:hint="请输入银行账号"
+                android:textColorHint="@color/line" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_province"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -432,17 +502,45 @@
                 android:id="@+id/tv_province"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize14"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
-                android:textColor="@color/black_333333"
+                android:hint="请选择省市区"
+                android:textColor="@color/register_text_bg"
                 android:textColorHint="@color/line" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/black"/>
+                android:background="@color/line"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize14"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:hint="请补充详细地址"
+                android:background="@null"
+                android:textColor="@color/register_text_bg"
+                android:textColorHint="@color/line" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"/>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -458,6 +556,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:textColor="@color/white"
+        android:clickable="false"
         android:text="注册"/>
 
 </RelativeLayout>

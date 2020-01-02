@@ -2,10 +2,14 @@ package com.mingtai.mt.http;
 
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.FriendsBean;
+import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.PageBean;
+import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
+import com.mingtai.mt.entity.StoreInfoAddressBean;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,7 +27,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
-    Observable<ResultBean<String, PageBean>> homelist(@FieldMap Map<String, String> map);
+    Observable<ResultBean<String, Object>> register(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("Api/")
@@ -31,7 +35,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
-    Observable<ResultBean<FriendsBean, Object>> getRefereesName(@FieldMap Map<String, String> map);
+    Observable<ResultBean<String, Object>> getRefereesName(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("Api/")
@@ -40,5 +44,27 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<AccountBean,Object>> login(@FieldMap Map<String, String> params);
+
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<ArrayList<BankBean>, Object>> getBankInfo(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<HomeBean, Object>> getHomeSettingData(@FieldMap Map<String, String> params);
+
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<HomeBean, Object>> getHomeData(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<StoreInfoAddressBean, Object>> getStoreAddress(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<StoreInfoAddressBean, Object>> getPersonalAddress(@FieldMap Map<String, String> params);
 
 }

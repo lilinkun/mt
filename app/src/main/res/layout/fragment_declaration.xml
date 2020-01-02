@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -22,9 +23,18 @@
             android:scaleType="fitXY"/>
 
 
-        <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_declaration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+
+   <!-- <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -34,13 +44,20 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:src="@mipmap/ic_register"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_20"
                     android:layout_marginBottom="@dimen/margin_20"
                     android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:text="会员注册"/>
 
 
@@ -67,9 +84,17 @@
 
         </LinearLayout>
 
+
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -110,7 +135,13 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line"/>
+
+    </LinearLayout>-->
 
 
 </LinearLayout>

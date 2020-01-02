@@ -43,7 +43,6 @@
         <activity android:name=".activity.GoodsActivity"
             android:screenOrientation="portrait"/>
 
-
     </application>
 
 </manifest>
