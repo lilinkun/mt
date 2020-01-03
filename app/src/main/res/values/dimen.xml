@@ -13,7 +13,10 @@
     <dimen name="textsize20">20.0sp</dimen>
     <dimen name="textsize22">22.0sp</dimen>
 
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_30">30dp</dimen>

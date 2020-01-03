@@ -1,25 +1,33 @@
 package com.mingtai.mt.activity;
 
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.adapter.LevelAdapter;
+import com.mingtai.mt.adressselectorlib.AddressPickerView;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.SaleContract;
-import com.mingtai.mt.entity.PersonalInfoBean;
+import com.mingtai.mt.entity.BankBean;
+import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.presenter.SalePresenter;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,8 +48,8 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     TextView tv_detail;
     @BindView(R.id.et_servicer_id)
     EditText et_servicer_id;
-    @BindView(R.id.et_servicer_name)
-    TextView et_servicer_name;
+    @BindView(R.id.tv_servicer_name)
+    TextView tv_servicer_name;
     @BindView(R.id.et_business_name)
     EditText et_business_name;
     @BindView(R.id.tv_next)
@@ -52,16 +60,29 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     EditText et_sale_mobile;
     @BindView(R.id.tv_province)
     TextView tv_province;
-    @BindView(R.id.tv_address)
-    TextView tv_address;
+    @BindView(R.id.et_address)
+    EditText et_address;
+    @BindView(R.id.ll_province)
+    LinearLayout ll_province;
+    @BindView(R.id.ll_update_level)
+    LinearLayout ll_update_level;
+    @BindView(R.id.tv_update_level)
+    TextView tv_update_level;
 
     private String send_type_str;
     private int typeInt = 0;
     private int PersonalInt = 0;
     private int StoreInt = 1;
+    private int type = 0;
     private StoreInfoAddressBean personalInfoBean;
     private StoreInfoAddressBean storeInfoAddressBean;
     private String personalStr;
+    private String mProvinceCode;
+    private String mCityCode;
+    private String mAreaCode;
+    private String mZipCode;
+    private FriendsBean friendsBean;
+    private AddressPickerView addressView;
 
     private SalePresenter salePresenter = new SalePresenter();
 
@@ -79,32 +100,42 @@ public class SaleActivity extends BaseActivity implements SaleContract {
             salePresenter.getStoreAddress(ProApplication.mAccountBean.getStoreNo(),ProApplication.SESSIONID(this));
         }*/
 
-        int type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("type");
-
-        if (type == 1){
-            tv_detail.setText("保单详情(消费-经销商)");
+        if (ProApplication.mAccountBean.getStoreNo() != null && ProApplication.mAccountBean.getStoreNo().toString().trim().length() > 0) {
+            et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
+            et_business_name.setFocusable(false);
+        }else {
+            tv_servicer_name.setFocusable(false);
+            et_servicer_id.setFocusable(false);
             et_servicer_id.setText(ProApplication.mAccountBean.getUserName());
-            et_servicer_name.setText(ProApplication.mAccountBean.getNickName());
-        }else if (type == 2){
+            tv_servicer_name.setText(ProApplication.mAccountBean.getSurName() + "  当前级别：" + ProApplication.mAccountBean.getUserLevelName());
+        }
+
+        type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("type");
+
+        if (type == MingtaiUtil.SALEINT){
+            tv_detail.setText("消费订单(消费-经销商)");
+        }else if (type == MingtaiUtil.UPDATEINT){
             tv_detail.setText("消费订单(升级-经销商)");
             if (getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id") != null && getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id").toString().trim().length() > 0){
                 et_servicer_id.setText(getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id"));
                 et_servicer_id.setFocusable(false);
+                salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
             }
 
-        }else if (type == 3){
-            tv_detail.setText("保单详情(业绩调拨-经销商)");
-            et_servicer_id.setText(ProApplication.mAccountBean.getUserName());
-            et_servicer_name.setText(ProApplication.mAccountBean.getNickName());
+        }else if (type == MingtaiUtil.TIAOBOINT){
+            tv_detail.setText("消费订单(业绩调拨-经销商)");
         }
 
         et_business_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (storeInfoAddressBean == null) {
-                    salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
-                }else {
-                    getStoreAddressSuccess(storeInfoAddressBean);
+
+                if (!hasFocus) {
+                    if (storeInfoAddressBean == null) {
+                        salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                    } else {
+                        getStoreAddressSuccess(storeInfoAddressBean);
+                    }
                 }
             }
         });
@@ -112,15 +143,18 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         et_servicer_id.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (typeInt == PersonalInt) {
-                    salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                if (!hasFocus) {
+                    if (typeInt == PersonalInt) {
+                        salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                    }
+                    salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
                 }
             }
         });
 
     }
 
-    @OnClick({R.id.ll_send_type,R.id.tv_next,R.id.ll_back})
+    @OnClick({R.id.ll_send_type,R.id.tv_next,R.id.ll_back,R.id.ll_province,R.id.main_view,R.id.ll_update_level})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ll_send_type:
@@ -145,6 +179,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                         typeInt = newVal;
                         send_type_str = s[newVal];
+                        tv_send_type.setText(send_type_str);
                         setType(numberPicker,s);
                     }
                 });
@@ -167,8 +202,37 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
             case R.id.tv_next:
 
-                UiHelper.launcher(this,GoodsActivity.class);
 
+                if (!MingtaiUtil.editIsNotNull(et_servicer_id)) {
+                    saleToast(R.string.input_service_id);
+                }else if (!MingtaiUtil.editIsNotNull(tv_send_type)){
+                    saleToast(R.string.choose_send_type);
+                }else if (!MingtaiUtil.editIsNotNull(et_business_name)){
+                    saleToast(R.string.input_store_id);
+                }else if (!MingtaiUtil.editIsNotNull(et_address)){
+                    saleToast(R.string.hint_input_address);
+                }else if (!MingtaiUtil.editIsNotNull(tv_province)){
+                    saleToast(R.string.hint_choose_address);
+                }else if (!MingtaiUtil.editIsNotNull(et_sale_mobile)){
+                    saleToast(R.string.hint_input_mobile);
+                }
+
+                if (ProApplication.mAccountBean.getStoreNo() != null && ProApplication.mAccountBean.getStoreNo().toString().trim().length() > 0) {
+
+                    if (MingtaiUtil.editIsNotNull(tv_servicer_name)){
+                        if ((typeInt == PersonalInt && personalInfoBean != null) || (typeInt == StoreInt && storeInfoAddressBean != null)) {
+                            salePresenter.saleNext(et_business_name.getText().toString(), et_servicer_id.getText().toString());
+                        }
+                    }else {
+                        if (MingtaiUtil.editIsNotNull(et_servicer_id)) {
+                            salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                        }
+                    }
+                }else {
+                    if (MingtaiUtil.editIsNotNull(et_business_name)){
+                        salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                    }
+                }
                 break;
 
 
@@ -177,15 +241,68 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 finish();
 
                 break;
+
+            case R.id.ll_province:
+
+                final PopupWindow popupWindow1 = new PopupWindow(this);
+                View rootView1 = LayoutInflater.from(this).inflate(R.layout.pop_address_picker, null, false);
+                addressView = rootView1.findViewById(R.id.apvAddress);
+                addressView.setOnAddressPickerSure(new AddressPickerView.OnAddressPickerSureListener() {
+                    @Override
+                    public void onSureClick(String address, String provinceCode, String cityCode, String districtCode, String zipCode) {
+                        tv_province.setText(address);
+                        mProvinceCode = provinceCode;
+                        mCityCode = cityCode;
+                        mAreaCode = districtCode;
+                        mZipCode = zipCode;
+                        popupWindow1.dismiss();
+                    }
+
+                    @Override
+                    public void onExit() {
+                        popupWindow1.dismiss();
+                    }
+                });
+                popupWindow1.setContentView(rootView1);
+                popupWindow1.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                popupWindow1.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                popupWindow1.setBackgroundDrawable(new BitmapDrawable());
+                popupWindow1.setFocusable(true);
+                popupWindow1.setOutsideTouchable(true);
+                popupWindow1.showAtLocation(findViewById(R.id.main_view), Gravity.CENTER, 0, 0);
+                popupWindow1.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        /*if (imageView != null && imageView.isShown()) {
+                            imageView.setVisibility(View.GONE);
+                        }*/
+                    }
+                });
+
+                break;
+
+            case R.id.main_view:
+                if (et_servicer_id.getText().toString().trim().length() > 0) {
+                    salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                }
+                break;
+
+            case R.id.ll_update_level:
+
+                salePresenter.chooseUpdateLevel(ProApplication.SESSIONID(this));
+
+                break;
         }
     }
 
     private void setType(NumberPicker numberPicker,String[] s){
         if (typeInt == 0) {
-            ll_store.setVisibility(View.GONE);
+            ll_store.setVisibility(View.VISIBLE);
             send_type_str = s[0];
             numberPicker.setValue(0);
-
+            ll_province.setFocusable(true);
+            ll_province.setFocusableInTouchMode(true);
+            ll_province.setClickable(true);
             if (et_servicer_id.getText().toString() == null || et_servicer_id.getText().toString().trim().length() == 0){
                 eartyEdit();
             }
@@ -195,17 +312,16 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     personalStr = et_servicer_id.getText().toString();
                     salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(this));
                 }
+            }else {
+                getPersonalAddressSuccess(personalInfoBean);
             }
 
         }else if (typeInt == 1){
             send_type_str = s[1];
             numberPicker.setValue(1);
             ll_store.setVisibility(View.VISIBLE);
-            et_business_name.setFocusable(false);
-            if (ProApplication.mAccountBean.getIsSingleCenter() > 0) {
-                et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
-            }
-
+            ll_province.setFocusable(false);
+            ll_province.setClickable(false);
             if (storeInfoAddressBean == null) {
                 if (et_business_name.getText().toString().trim().length() > 0) {
                     salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(this));
@@ -218,26 +334,15 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     }
 
     @Override
-    public void getDataSuccess() {
-
-    }
-
-    @Override
-    public void getDataFail(String msg) {
-
-    }
-
-    @Override
     public void getStoreAddressSuccess(StoreInfoAddressBean storeInfoAddressBean) {
         this.storeInfoAddressBean = storeInfoAddressBean;
         et_sale_name.setFocusable(false);
         et_sale_name.setText(storeInfoAddressBean.getName());
         et_sale_mobile.setFocusable(false);
-        et_sale_mobile.setText(storeInfoAddressBean.getPhone());
-        tv_province.setFocusable(false);
+        et_sale_mobile.setText(storeInfoAddressBean.getMobile());
         tv_province.setText(storeInfoAddressBean.getProvince_name() + " " + storeInfoAddressBean.getCity_name() + " " + storeInfoAddressBean.getArea_name());
-        tv_address.setFocusable(false);
-        tv_address.setText(storeInfoAddressBean.getAddress());
+        et_address.setFocusable(false);
+        et_address.setText(storeInfoAddressBean.getAddress());
     }
 
     @Override
@@ -249,13 +354,18 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     public void getPersonalAddressSuccess(StoreInfoAddressBean personalInfoBean) {
         this.personalInfoBean = personalInfoBean;
         et_sale_name.setFocusable(true);
+        et_sale_name.setFocusableInTouchMode(true);
+        et_sale_name.requestFocus();
         et_sale_name.setText(personalInfoBean.getName());
         et_sale_mobile.setFocusable(true);
-        et_sale_mobile.setText(storeInfoAddressBean.getPhone());
-        tv_province.setFocusable(true);
-        tv_province.setText(storeInfoAddressBean.getProvince_name() + " " + storeInfoAddressBean.getCity_name() + " " + storeInfoAddressBean.getArea_name());
-        tv_address.setFocusable(true);
-        tv_address.setText(storeInfoAddressBean.getAddress());
+        et_sale_mobile.setFocusableInTouchMode(true);
+        et_sale_mobile.requestFocus();
+        et_sale_mobile.setText(personalInfoBean.getMobile());
+        tv_province.setText(personalInfoBean.getProvince_name() + " " + personalInfoBean.getCity_name() + " " + personalInfoBean.getArea_name());
+        et_address.setFocusable(true);
+        et_address.setFocusableInTouchMode(true);
+        et_address.requestFocus();
+        et_address.setText(personalInfoBean.getAddress());
     }
 
     @Override
@@ -263,10 +373,96 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         toast(msg);
     }
 
+    @Override
+    public void saleNextSuccess(String str) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("GoodsType",type);
+        UiHelper.launcherBundle(this,GoodsActivity.class,bundle);
+    }
+
+    @Override
+    public void saleNextFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
+    public void queryNameSuccess(FriendsBean friendsBean, String code) {
+        this.friendsBean = friendsBean;
+        tv_servicer_name.setText(friendsBean.getNickName() + "  当前级别:" + friendsBean.getUserLevelName());
+
+        if (type == 2){
+            ll_update_level.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void queryNameFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
+    public void getLevelInfoSuccess(ArrayList<BankBean> getLevelInfoSuccess) {
+        final ArrayList<BankBean> arrayList = new ArrayList<>();
+        if (friendsBean != null){
+            int forLength = 0;
+            if (ProApplication.mAccountBean.isAgreement()){
+                forLength = getLevelInfoSuccess.size();
+            }else {
+                forLength = getLevelInfoSuccess.size() - 2;
+            }
+            for (int i = 0; i < forLength;i++) {
+                if(friendsBean.getUserLevel() < getLevelInfoSuccess.get(i).getId()){
+
+                    arrayList.add(getLevelInfoSuccess.get(i));
+                }
+            }
+        }
+
+        View contentView1 = LayoutInflater.from(this).inflate(R.layout.popup_list, null);
+
+        ListView listView1 = (ListView) contentView1.findViewById(R.id.rv_list);
+        listView1.setVisibility(View.VISIBLE);
+        listView1.setAdapter(new LevelAdapter(this,arrayList));
+
+        final PopupWindow popupWindow1 = new PopupWindow(contentView1,
+                LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow1.setContentView(contentView1);
+        popupWindow1.setOutsideTouchable(true);
+        popupWindow1.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow1.showAsDropDown(ll_update_level);
+        popupWindow1.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+            }
+        });
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tv_update_level.setText(arrayList.get(position).getBankName());
+                popupWindow1.dismiss();
+
+            }
+        });
+    }
+
+    @Override
+    public void getLevelInfoFail(String msg) {
+
+    }
+
     public void eartyEdit(){
         et_sale_name.setText("");
         et_sale_mobile.setText("");
         tv_province.setText("");
-        tv_address.setText("");
+        et_address.setText("");
     }
+
+
+
+    private void saleToast(int msg){
+        toast(msg);
+        return;
+    }
+
+
 }

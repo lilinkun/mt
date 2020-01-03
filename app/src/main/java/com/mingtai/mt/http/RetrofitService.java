@@ -3,7 +3,9 @@ package com.mingtai.mt.http;
 
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.BankBean;
+import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.FriendsBean;
+import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
@@ -66,5 +68,17 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<StoreInfoAddressBean, Object>> getPersonalAddress(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> saleNext(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<ArrayList<CategoryBean>, Object>> getCategoryDataSuccess(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<ArrayList<GoodsBean>, Object>> getGoods(@FieldMap Map<String, String> params);
 
 }

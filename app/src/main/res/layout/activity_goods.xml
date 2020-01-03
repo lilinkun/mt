@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/line_bg"
     android:orientation="vertical">
 
 
@@ -52,9 +53,69 @@
             android:id="@+id/tab_strip"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/white"
             app:pstsTabTextClickColor="@color/green"
-            app:pstsTabTextUnclickColor="@color/psts_unclick_text_bg"
             app:pstsUnderlineColor="@color/green"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_goods"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_above="@+id/rl_goods_bottom"
+                />
+
+            <LinearLayout
+                android:id="@+id/rl_goods_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_50"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textsize10"
+                    android:layout_marginLeft="@dimen/textsize10"
+                    android:textColor="@color/setting_red_color"
+                    android:text="¥"/>
+
+                <TextView
+                    android:id="@+id/tv_total_goods_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textsize16"
+                    android:textColor="@color/setting_red_color"
+                    android:text="1234"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:text="结算"
+                    android:background="@color/green"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize16"
+                    android:textColor="@color/white"
+                    />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
 
 
     </LinearLayout>

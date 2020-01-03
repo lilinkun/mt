@@ -30,6 +30,11 @@ public class CustomViewPager extends ViewPager
         return false;
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return false;
+    }
+
     public void setScanScroll(boolean paramBoolean)
     {
         this.isCanScroll = paramBoolean;

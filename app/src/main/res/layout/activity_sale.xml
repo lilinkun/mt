@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="顾客编号(必填项)"
+            android:text="经销商编号(必填项)"
             android:textSize="@dimen/textsize14"
             android:textColor="@color/black_333333"
             android:layout_marginTop="@dimen/margin_15"
@@ -85,16 +85,18 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:textSize="@dimen/textsize14"
-                android:textColor="@color/line"/>
+                android:hint="@string/input_service_id"
+                android:textColorHint="@color/line"
+                android:textColor="@color/sale_text_bg"/>
 
-            <EditText
-                android:id="@+id/et_servicer_name"
+            <TextView
+                android:id="@+id/tv_servicer_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="@dimen/textsize14"
                 android:background="@null"
-                android:textColor="@color/line"/>
+                android:textColor="@color/sale_text_bg"/>
             
         </LinearLayout>
 
@@ -102,6 +104,60 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/line"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_update_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="升级级别"
+                android:textSize="@dimen/textsize14"
+                android:textColor="@color/black_333333"
+                android:layout_marginTop="@dimen/margin_15"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_update_level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_toLeftOf="@+id/iv_update_level"
+                    android:textSize="@dimen/textsize14"
+                    android:background="@null"
+                    android:hint="请选择升级级别"
+                    android:textColorHint="@color/line"
+                    android:textColor="@color/sale_text_bg"/>
+
+                <ImageView
+                    android:id="@+id/iv_update_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:src="@mipmap/ic_right_arrow"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"/>
+
+
 
         </LinearLayout>
 
@@ -115,6 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="配送方式"
+            android:textSize="@dimen/textsize14"
             android:textColor="@color/black_333333"
             android:layout_marginTop="@dimen/margin_15"
             />
@@ -130,10 +187,10 @@
                 android:id="@+id/tv_send_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/register_text_bg"
+                android:textColor="@color/sale_text_bg"
                 android:textSize="@dimen/textsize14"
                 android:textColorHint="@color/pop_text"
-                android:hint="选择配送方式"/>
+                android:hint="@string/choose_send_type"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -151,6 +208,42 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/store_id"
+                android:textSize="@dimen/textsize14"
+                android:textColor="@color/black_333333"
+                android:layout_marginTop="@dimen/margin_15"
+                />
+
+
+            <EditText
+                android:id="@+id/et_business_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:hint="@string/input_store_id"
+                android:textColorHint="@color/line"
+                android:textSize="@dimen/textsize14"
+                android:textColor="@color/sale_text_bg"
+                android:background="@null"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line"/>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_personal"
@@ -158,39 +251,6 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ll_store"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/store_id"
-                    android:textColor="@color/black_333333"
-                    android:layout_marginTop="@dimen/margin_15"
-                    />
-
-
-                <EditText
-                    android:id="@+id/et_business_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="输入编号"
-                    android:textColorHint="@color/line"
-                    android:textColor="@color/register_text_bg"
-                    android:background="@null"
-                    />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/line"/>
-
-            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -217,7 +277,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textsize14"
-                    android:textColor="@color/register_text_bg"
+                    android:textColor="@color/sale_text_bg"
+                    android:hint="@string/hint_input_name"
+                    android:textColorHint="@color/line"
                     android:background="@null"
                     />
 
@@ -255,8 +317,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/textsize14"
-                        android:textColor="@color/register_text_bg"
+                        android:textColor="@color/sale_text_bg"
                         android:background="@null"
+                        android:hint="@string/hint_input_mobile"
+                        android:textColorHint="@color/line"
                         />
 
                 </RelativeLayout>
@@ -289,7 +353,8 @@
                     android:layout_marginBottom="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_10"
                     android:textSize="@dimen/textsize14"
-                    android:textColor="@color/register_text_bg"
+                    android:textColor="@color/sale_text_bg"
+                    android:hint="@string/hint_choose_address"
                     android:textColorHint="@color/line" />
 
                 <View
@@ -312,14 +377,16 @@
                     android:layout_marginTop="@dimen/margin_15"
                     android:textColor="@color/black_333333"/>
 
-                <TextView
-                    android:id="@+id/tv_address"
+                <EditText
+                    android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:textColor="@color/register_text_bg"
+                    android:textColor="@color/sale_text_bg"
                     android:textSize="@dimen/textsize14"
+                    android:background="@null"
+                    android:hint="@string/hint_input_address"
                     android:textColorHint="@color/line" />
 
                 <View
@@ -340,6 +407,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/remarks"
+                android:textSize="@dimen/textsize14"
                 android:textColor="@color/black_333333"
                 android:layout_marginTop="@dimen/margin_15"
                 />
@@ -350,8 +418,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/remarks_tips"
+                android:textSize="@dimen/textsize14"
                 android:textColorHint="@color/line"
-                android:textColor="@color/register_text_bg"
+                android:textColor="@color/sale_text_bg"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@null"
@@ -376,6 +445,8 @@
         android:gravity="center"
         android:background="@color/green"
         android:layout_alignParentBottom="true"
+        android:textSize="@dimen/textsize15"
+        android:textColor="@color/white"
         android:text="下一步"/>
 
 </RelativeLayout>

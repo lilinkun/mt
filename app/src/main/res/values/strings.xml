@@ -37,6 +37,14 @@
     <string name="store_address">收货地址(必填项)</string>
 
 
+    <string name="choose_send_type">选择配送方式</string>
+    <string name="input_service_id">请填写经销商编号</string>
+    <string name="input_store_id">请填写店铺编号</string>
+    <string name="hint_input_name">请输入姓名</string>
+    <string name="hint_input_mobile">请输入手机号码</string>
+    <string name="hint_choose_address">请选择省市区</string>
+    <string name="hint_input_address">请输入详细地址</string>
+
 
 
 </resources>

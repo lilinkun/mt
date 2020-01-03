@@ -4,11 +4,14 @@ import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.SaleContract;
+import com.mingtai.mt.entity.BankBean;
+import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -62,7 +65,7 @@ public class SalePresenter extends BasePresenter {
 
                     @Override
                     public void onErr(String msg, String status) {
-                        saleContract.getDataFail(msg);
+                        saleContract.getStoreAddressFail(msg);
 
                     }
                 }));
@@ -93,6 +96,94 @@ public class SalePresenter extends BasePresenter {
 
                     }
                 }));
+    }
+
+
+    /**
+     * 点击下一步
+     * @param ParentUserName
+     * @param UserName
+     */
+    public void saleNext(String ParentUserName,String UserName){
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "UserResettlementISExits");
+        params.put("ParentUserName", ParentUserName);
+        params.put("UserName", UserName);
+        mCompositeSubscription.add(manager.saleNext(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String, Object>() {
+                    @Override
+                    public void onResponse(String goodsListBeans, String status, Object page) {
+                        saleContract.saleNextSuccess(goodsListBeans);
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        saleContract.saleNextFail(msg);
+
+                    }
+                }));
+    }
+
+    /**
+     * 点击亲友人获取信息
+     * @param UserName
+     * @param UserType
+     * @param SessionId
+     */
+    public void queryName(String UserName, String UserType, String SessionId){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "UserBaseQueryNameGet");
+        params.put("UserName", UserName);
+        params.put("UserType", UserType);
+        params.put("SessionId", SessionId);
+
+        mCompositeSubscription.add(manager.queryName(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
+                    @Override
+                    public void onResponse(FriendsBean friendsBean, String status, Object o) {
+                        saleContract.queryNameSuccess(friendsBean,status);
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        saleContract.queryNameFail(msg);
+
+                    }
+                }));
+    }
+
+
+    public void chooseUpdateLevel( String SessionId){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "UserLevelNameList");
+        params.put("SessionId", SessionId);
+
+        mCompositeSubscription.add(manager.getBankInfo(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<ArrayList<BankBean>, Object>() {
+
+                    @Override
+                    public void onResponse(ArrayList<BankBean> addressBeans, String status, Object page) {
+                        saleContract.getLevelInfoSuccess(addressBeans);
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        saleContract.getLevelInfoFail(msg);
+                    }
+                })
+        );
     }
 
 }

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.entity.CategoryBean;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView implements ViewPa
 
     private Context context;
     private int tabWidth;
-    private ArrayList<String> titles;
+    private ArrayList<CategoryBean> titles;
     private int count;
     private Paint mPaint;
     private float mTranslationX;
@@ -94,7 +95,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView implements ViewPa
         viewPager.setCurrentItem(position, false);
     }
 
-    public void setTitles(ArrayList<String> titles, int position, Handler handler) {
+    public void setTitles(ArrayList<CategoryBean> titles, int position, Handler handler) {
         this.position = position;
         this.handler = handler;
         this.titles = titles;
@@ -143,7 +144,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView implements ViewPa
             } else {
                 tv.setTextColor(mUnclickColor);
             }
-            tv.setText(titles.get(i));
+            tv.setText(titles.get(i).getCategoryName());
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, textsize);//字体大小
             tv.setPadding(25, 15, 25, 15);
             tv.setLayoutParams(lp);

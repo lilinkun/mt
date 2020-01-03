@@ -6,8 +6,6 @@ import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.RegisterContract;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.FriendsBean;
-import com.mingtai.mt.entity.PageBean;
-import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;

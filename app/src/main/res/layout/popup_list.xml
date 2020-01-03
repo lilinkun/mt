@@ -7,7 +7,7 @@
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/local_transparent"
+        android:background="@color/black_333333"
         />
 
 </LinearLayout>

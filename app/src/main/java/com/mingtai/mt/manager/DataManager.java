@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.BankBean;
+import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.FriendsBean;
+import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
@@ -101,6 +103,27 @@ public class DataManager {
      */
     public Observable<ResultBean<StoreInfoAddressBean, Object>> getPersonalAddress(HashMap<String, String> mHashMap) {
         return mRetrofitService.getPersonalAddress(mHashMap);
+    }
+
+    /**
+     * 消费下一步
+     */
+    public Observable<ResultBean<String, Object>> saleNext(HashMap<String, String> mHashMap) {
+        return mRetrofitService.saleNext(mHashMap);
+    }
+
+    /**
+     * 获取商品分类
+     */
+    public Observable<ResultBean<ArrayList<CategoryBean>, Object>> getCategoryDataSuccess(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getCategoryDataSuccess(mHashMap);
+    }
+
+    /**
+     * 获取商品分类
+     */
+    public Observable<ResultBean<ArrayList<GoodsBean>, Object>> getGoods(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getGoods(mHashMap);
     }
 
 

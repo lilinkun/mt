@@ -32,6 +32,7 @@ import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.LocalBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.presenter.RegisterPresenter;
+import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
 import java.nio.channels.InterruptedByTimeoutException;
@@ -158,7 +159,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     @Override
     public void setDataSuccess(String msg) {
         Bundle bundle = new Bundle();
-        bundle.putInt("type",2);
+        bundle.putInt("type", MingtaiUtil.UPDATEINT);
         bundle.putString("id",et_serverer_id.getText().toString());
         UiHelper.launcherBundle(this,SaleActivity.class,bundle);
         finish();

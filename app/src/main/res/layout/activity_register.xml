@@ -85,8 +85,8 @@
             android:layout_marginBottom="@dimen/margin_10"
             android:textSize="@dimen/textsize14"
             android:textColorHint="@color/line"
-            android:textColor="@color/register_text_bg"
-            android:hint="请输入姓名"/>
+            android:textColor="@color/sale_text_bg"
+            android:hint="@string/hint_input_name"/>
 
         <View
             android:layout_width="match_parent"
@@ -117,7 +117,7 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@null"
                 android:hint="请输入昵称"
-                android:textColor="@color/register_text_bg"
+                android:textColor="@color/sale_text_bg"
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/textsize14" />
 
@@ -152,7 +152,7 @@
                 android:textSize="@dimen/textsize14"
                 android:background="@null"
                 android:hint="请输入身份证号"
-                android:textColor="@color/register_text_bg"
+                android:textColor="@color/sale_text_bg"
                 android:textColorHint="@color/line" />
 
             <View
@@ -191,7 +191,7 @@
                     android:hint="请输入亲友人编号"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/tv_friends_name"
-                    android:textColor="@color/register_text_bg"
+                    android:textColor="@color/sale_text_bg"
                     android:textColorHint="@color/line" />
 
                 <TextView
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/register_text_bg" />
+                    android:textColor="@color/sale_text_bg" />
 
 
             </RelativeLayout>
@@ -242,7 +242,7 @@
                     android:hint="请输入服务区域编号"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/tv_local_server"
-                    android:textColor="@color/register_text_bg"
+                    android:textColor="@color/sale_text_bg"
                     android:textSize="@dimen/textsize14"
                     android:textColorHint="@color/line" />
 
@@ -252,7 +252,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/register_text_bg" />
+                    android:textColor="@color/sale_text_bg" />
 
 
             </RelativeLayout>
@@ -296,7 +296,7 @@
                     android:textSize="@dimen/textsize14"
                     android:hint="请选择服务区域"
                     android:textColorHint="@color/line"
-                    android:textColor="@color/register_text_bg" />
+                    android:textColor="@color/sale_text_bg" />
 
 
             </RelativeLayout>
@@ -339,7 +339,7 @@
                     android:textSize="@dimen/textsize14"
                     android:hint="请输入服务人员编号"
                     android:layout_toLeftOf="@+id/tv_serverer"
-                    android:textColor="@color/register_text_bg"
+                    android:textColor="@color/sale_text_bg"
                     android:textColorHint="@color/line" />
 
                 <TextView
@@ -348,7 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/register_text_bg" />
+                    android:textColor="@color/sale_text_bg" />
 
 
             </RelativeLayout>
@@ -383,9 +383,9 @@
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@null"
-                android:hint="请输入手机号码"
+                android:hint="@string/hint_input_mobile"
                 android:textSize="@dimen/textsize14"
-                android:textColor="@color/register_text_bg"
+                android:textColor="@color/sale_text_bg"
                 android:textColorHint="@color/line" />
 
             <View
@@ -425,7 +425,7 @@
                     android:textSize="@dimen/textsize14"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/iv_reigster_bank"
-                    android:textColor="@color/register_text_bg"
+                    android:textColor="@color/sale_text_bg"
                     android:hint="请选择开户银行"
                     android:textColorHint="@color/line" />
 
@@ -472,7 +472,7 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@null"
                 android:textSize="@dimen/textsize14"
-                android:textColor="@color/register_text_bg"
+                android:textColor="@color/sale_text_bg"
                 android:hint="请输入银行账号"
                 android:textColorHint="@color/line" />
 
@@ -505,8 +505,8 @@
                 android:textSize="@dimen/textsize14"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
-                android:hint="请选择省市区"
-                android:textColor="@color/register_text_bg"
+                android:hint="@string/hint_choose_address"
+                android:textColor="@color/sale_text_bg"
                 android:textColorHint="@color/line" />
 
             <View
@@ -531,9 +531,9 @@
                 android:textSize="@dimen/textsize14"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
-                android:hint="请补充详细地址"
+                android:hint="@string/hint_input_address"
                 android:background="@null"
-                android:textColor="@color/register_text_bg"
+                android:textColor="@color/sale_text_bg"
                 android:textColorHint="@color/line" />
 
             <View
