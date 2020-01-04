@@ -73,6 +73,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     private int typeInt = 0;
     private int PersonalInt = 0;
     private int StoreInt = 1;
+    private int userLevel = 0;
     private int type = 0;
     private StoreInfoAddressBean personalInfoBean;
     private StoreInfoAddressBean storeInfoAddressBean;
@@ -215,6 +216,12 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     saleToast(R.string.hint_choose_address);
                 }else if (!MingtaiUtil.editIsNotNull(et_sale_mobile)){
                     saleToast(R.string.hint_input_mobile);
+                }
+
+                if (type == MingtaiUtil.UPDATEINT) {
+                    if (!MingtaiUtil.editIsNotNull(et_servicer_id)) {
+                        saleToast(R.string.hint_input_update_level);
+                    }
                 }
 
                 if (ProApplication.mAccountBean.getStoreNo() != null && ProApplication.mAccountBean.getStoreNo().toString().trim().length() > 0) {
@@ -377,6 +384,30 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     public void saleNextSuccess(String str) {
         Bundle bundle = new Bundle();
         bundle.putInt("GoodsType",type);
+        if (type == MingtaiUtil.UPDATEINT) {
+            bundle.putInt("UserLevel", userLevel);
+        }else {
+            bundle.putInt("UserLevel", friendsBean.getUserLevel());
+        }
+        bundle.putInt("deliveryMethod",typeInt);
+        StoreInfoAddressBean addressBean;
+        if (typeInt == PersonalInt){
+            addressBean = personalInfoBean;
+
+            if (mProvinceCode != null ) {
+                addressBean.setProv(Integer.valueOf(mProvinceCode));
+                addressBean.setCity(Integer.valueOf(mCityCode));
+                addressBean.setArea(Integer.valueOf(mAreaCode));
+                addressBean.setPost(mZipCode);
+            }
+        }else {
+            addressBean = storeInfoAddressBean;
+        }
+        String name = et_sale_name.getText().toString();
+        addressBean.setName(name);
+        addressBean.setMobile(et_sale_mobile.getText().toString());
+
+        bundle.putSerializable("StoreInfoAddressBean",addressBean);
         UiHelper.launcherBundle(this,GoodsActivity.class,bundle);
     }
 
@@ -439,6 +470,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tv_update_level.setText(arrayList.get(position).getBankName());
+                userLevel = arrayList.get(position).getId();
                 popupWindow1.dismiss();
 
             }

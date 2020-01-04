@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by kai
+ * Created by lilinkun
  * on 2019/12/28
  */
 public class LoginPresenter extends BasePresenter {

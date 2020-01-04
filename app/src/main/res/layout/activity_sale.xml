@@ -51,7 +51,11 @@
         android:layout_height="1dp"
         android:background="@color/sale_line"/>
 
-    <LinearLayout
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_50">
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_10"
@@ -137,7 +141,7 @@
                     android:layout_toLeftOf="@+id/iv_update_level"
                     android:textSize="@dimen/textsize14"
                     android:background="@null"
-                    android:hint="请选择升级级别"
+                    android:hint="@string/hint_input_update_level"
                     android:textColorHint="@color/line"
                     android:textColor="@color/sale_text_bg"/>
 
@@ -435,6 +439,8 @@
 
 
     </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
     

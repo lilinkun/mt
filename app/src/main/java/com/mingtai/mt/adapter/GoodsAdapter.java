@@ -1,17 +1,20 @@
 package com.mingtai.mt.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.entity.ChooseItemBean;
 import com.mingtai.mt.entity.GoodsBean;
 
 import java.util.ArrayList;
@@ -31,11 +34,12 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
     private ModifyCountInterface modifyCountInterface;
     private int sumGoodsNum = 0;
     private OnItemClickListener mItemClickListener;
+    private ArrayList<ChooseItemBean> chooseItemBeans;
 
-
-    public GoodsAdapter(Context context, ArrayList<GoodsBean> goodsBeans) {
+    public GoodsAdapter(Context context, ArrayList<GoodsBean> goodsBeans, ArrayList<ChooseItemBean> chooseItemBeans) {
         this.context = context;
         this.goodsBeans = goodsBeans;
+        this.chooseItemBeans = chooseItemBeans;
     }
 
     @Override
@@ -57,7 +61,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
         holder.goodsName.setText(goodsBeans.get(position).getGoodsName());
         holder.goodsPrice.setText("¥" + goodsBeans.get(position).getPrice() + "");
-
+        holder.tv_goods_market_price.setText(goodsBeans.get(position).getMarketPrice()+"");
+        holder.tv_goods_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //        holder.singleCheckBox.setChecked(map.get(goodsBeans.get(position).getCartId()).isChoosed());
 
         if (goodsBeans.get(position).getIntegral() > 0) {
@@ -67,28 +72,57 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
         holder.tv_goods_id.setText("产品编号:" + goodsBeans.get(position).getGoodsSn());
 
+        for (int i = 0; i < chooseItemBeans.size(); i++){
+            if (chooseItemBeans.get(i).getGoodsSn().equals(goodsBeans.get(position).getGoodsSn())){
+                holder.goodsNum.setText(chooseItemBeans.get(i).getNum() + "");
+                holder.singleCheckBox.setChecked(true);
+            }
+        }
+
 //        Picasso.with(context).load(ProApplication.HEADIMG + orderListBeans.get(position).getGoodsImg()).error(R.mipmap.ic_adapter_error).into(holder.goodsImage);
 
         holder.increaseGoodsNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modifyCountInterface.doIncrease(position, holder.goodsNum, holder.singleCheckBox.isChecked());
+                int num = Integer.valueOf(holder.goodsNum.getText().toString()) + 1;
+                holder.goodsNum.setText(num+"");
+                if (holder.singleCheckBox.isChecked()) {
+                    checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(), position, Integer.valueOf(holder.goodsNum.getText().toString()));
+                }
+
             }
         });
         holder.reduceGoodsNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modifyCountInterface.doDecrease(position, holder.goodsNum, holder.singleCheckBox.isChecked());
+                int num = Integer.valueOf(holder.goodsNum.getText().toString()) - 1;
+                if (num != 0) {
+                    holder.goodsNum.setText(num + "");
+                    if (holder.singleCheckBox.isChecked()) {
+                        checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(), position, Integer.valueOf(holder.goodsNum.getText().toString()));
+                    }
+                }
             }
         });
 
 //        holder.singleCheckBox.setChecked(child.isChoosed());
-        holder.singleCheckBox.setOnClickListener(new View.OnClickListener() {
+//        holder.singleCheckBox.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                child.setChoosed(((CheckBox) v).isChecked());
+//                holder.singleCheckBox.setChecked(((CheckBox) v).isChecked());
+//                checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(),position, Integer.valueOf(holder.goodsNum.getText().toString()));
+//            }
+//        });
+
+        holder.singleCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-//                child.setChoosed(((CheckBox) v).isChecked());
-                holder.singleCheckBox.setChecked(((CheckBox) v).isChecked());
-                checkInterface.checkChild(position, ((CheckBox) v).isChecked());
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(),position, Integer.valueOf(holder.goodsNum.getText().toString()));
+                }else{
+                    checkInterface.unCheckItem(goodsBeans.get(position).getGoodsSn(),position);
+                }
             }
         });
         /*
@@ -172,12 +206,19 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
     public interface CheckInterface {
 
         /**
-         * 子选框状态改变触发的事件
+         * 选中事件
          *
          * @param position  子元素的位置
-         * @param isChecked 子元素的选中与否
+         * @param num 子元素的选中与否
          */
-        void checkChild(int position, boolean isChecked);
+        void checkItem(String goodsSn,int position, int num);
+
+        /**
+         * 取消事件
+         * @param goodsSn
+         * @param position
+         */
+        void unCheckItem(String goodsSn,int position);
     }
 
 
@@ -192,7 +233,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         @BindView(R.id.goods_price)
         TextView goodsPrice;
         @BindView(R.id.goods_data)
-        RelativeLayout goodsData;
+        LinearLayout goodsData;
         @BindView(R.id.reduce_goodsNum)
         ImageView reduceGoodsNum;
         @BindView(R.id.goods_Num)
@@ -205,6 +246,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         TextView tv_integral_price;
         @BindView(R.id.tv_goods_id)
         TextView tv_goods_id;
+        @BindView(R.id.tv_goods_market_price)
+        TextView tv_goods_market_price;
 
         public ViewHolder(View itemView) {
             super(itemView);

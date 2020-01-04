@@ -16,4 +16,7 @@ public interface GoodsContract extends IView {
 
     public void getGoodsDataSuccess(ArrayList<GoodsBean> categoryBeans);
     public void getGoodsDataFail(String msg);
+
+    public void settlementSuccess(String msg);
+    public void settlementFail(String msg);
 }

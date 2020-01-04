@@ -8,6 +8,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.HomeContract;
 import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.presenter.HomePresenter;
+import com.mingtai.mt.util.UToast;
 
 import butterknife.BindView;
 
@@ -32,17 +33,17 @@ public class HomeFragment extends BaseFragment implements HomeContract {
         homePresenter.onCreate(getActivity(),this);
         homePresenter.getSettingParameter(ProApplication.SESSIONID(getActivity()));
 
-        homePresenter.getHomeData(ProApplication.SESSIONID(getActivity()));
+//        homePresenter.getHomeData(ProApplication.SESSIONID(getActivity()));
 
     }
 
     @Override
     public void getDataSuccess(HomeBean msg) {
-
+        ProApplication.mHomeBean = msg;
     }
 
     @Override
     public void getDataFail(String msg) {
-
+        UToast.show(getActivity(),msg);
     }
 }

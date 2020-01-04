@@ -1,7 +1,7 @@
 package com.mingtai.mt.entity;
 
 /**
- * Created by kai
+ * Created by lilinkun
  * on 2019/12/29
  */
 public enum LocalBean {

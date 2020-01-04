@@ -14,6 +14,8 @@ public class HomeBean {
     private String ImgVer;
     private String KFMobile;
     private boolean IsPDType;
+    private int IsShippingFree;
+    private int ShippingPrice;
 
     public String getUpgradeUrl() {
         return UpgradeUrl;
@@ -85,5 +87,21 @@ public class HomeBean {
 
     public void setPDType(boolean PDType) {
         IsPDType = PDType;
+    }
+
+    public int getIsShippingFree() {
+        return IsShippingFree;
+    }
+
+    public void setIsShippingFree(int isShippingFree) {
+        IsShippingFree = isShippingFree;
+    }
+
+    public int getShippingPrice() {
+        return ShippingPrice;
+    }
+
+    public void setShippingPrice(int shippingPrice) {
+        ShippingPrice = shippingPrice;
     }
 }

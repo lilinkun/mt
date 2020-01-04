@@ -4,7 +4,7 @@ import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.mvp.IView;
 
 /**
- * Created by kai
+ * Created by lilinkun
  * on 2019/12/28
  */
 public interface LoginContract extends IView {

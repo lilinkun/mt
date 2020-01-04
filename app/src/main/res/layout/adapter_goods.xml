@@ -33,12 +33,13 @@
             android:scaleType="centerCrop"
             app:radius="5dp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/goods_data"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_2"
             android:layout_marginRight="@dimen/margin_2"
+            android:orientation="vertical"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:paddingBottom="@dimen/margin_5">
@@ -76,29 +77,29 @@
                     android:id="@+id/goods_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
                     android:lines="1"
                     android:textColor="@color/setting_title_color"
                     android:textSize="@dimen/textsize14"
                     />
 
+                <TextView
+                    android:id="@+id/tv_goods_market_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/goods_price"
+                    android:textColor="@color/line"
+                    android:orientation="horizontal"
+                    />
+
                 <LinearLayout
                     android:id="@+id/ll_integral"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:visibility="gone"
-                    android:layout_toRightOf="@+id/goods_price"
+                    android:layout_below="@+id/goods_price"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+"
-                        android:lines="1"
-                        android:textColor="@color/setting_title_color"
-                        android:textSize="@dimen/textsize12"/>
 
                     <TextView
                         android:id="@+id/tv_integral_price"
@@ -160,7 +161,7 @@
                         android:src="@mipmap/ic_goods_plus" />
                 </LinearLayout>
             </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

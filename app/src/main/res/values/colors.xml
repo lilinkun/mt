@@ -49,4 +49,7 @@
 
     <color name="sale_text_bg">#3898FC</color>
     <color name="pop_text_bg">#222222</color>
+
+    <color name="start_intergal_bg">#FCF2E9</color>
+    <color name="new_bg">#F4F4F4</color>
 </resources>

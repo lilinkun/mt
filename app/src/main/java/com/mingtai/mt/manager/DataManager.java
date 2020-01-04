@@ -126,5 +126,12 @@ public class DataManager {
         return mRetrofitService.getGoods(mHashMap);
     }
 
+    /**
+     * 结算
+     */
+    public Observable<ResultBean<String, Object>> settlement(HashMap<String, String> mHashMap) {
+        return mRetrofitService.settlement(mHashMap);
+    }
+
 
 }

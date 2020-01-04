@@ -1,9 +1,11 @@
 package com.mingtai.mt.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by LG on 2020/1/2.
  */
-public class StoreInfoAddressBean {
+public class StoreInfoAddressBean implements Serializable {
     private String AddressID;
     private int UserId;
     private String Name;
@@ -22,6 +24,30 @@ public class StoreInfoAddressBean {
     private String town_name;
     private String UserName;
     private String Post;
+
+    public StoreInfoAddressBean() {
+    }
+
+    public StoreInfoAddressBean(String addressID, int userId, String name, String address, String mobile, String phone, String createDate, boolean isDefault, int country, int prov, int area, int city, String province_name, String city_name, String area_name, String town_name, String userName, String post) {
+        AddressID = addressID;
+        UserId = userId;
+        Name = name;
+        Address = address;
+        Mobile = mobile;
+        Phone = phone;
+        CreateDate = createDate;
+        IsDefault = isDefault;
+        this.country = country;
+        this.prov = prov;
+        this.area = area;
+        this.city = city;
+        this.province_name = province_name;
+        this.city_name = city_name;
+        this.area_name = area_name;
+        this.town_name = town_name;
+        UserName = userName;
+        Post = post;
+    }
 
     public String getAddressID() {
         return AddressID;

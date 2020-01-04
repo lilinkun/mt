@@ -1,5 +1,6 @@
 package com.mingtai.mt.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import com.mingtai.mt.activity.RegisterActivity;
 import com.mingtai.mt.activity.SaleActivity;
 import com.mingtai.mt.adapter.DeclarationAdapter;
 import com.mingtai.mt.base.BaseFragment;
+import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.ui.SpaceItemDecoration;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
@@ -23,6 +25,8 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
 
     @BindView(R.id.rv_declaration)
     RecyclerView rv_declaration;
+
+    private boolean isRegister = true;
 
     @Override
     public int getlayoutId() {
@@ -50,71 +54,60 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
 
     @Override
     public void onItemClick(int position) {
-        switch (position){
+        if (ProApplication.mAccountBean.getIsSingleCenter() > 0 || ProApplication.mAccountBean.isAgreement()) {
+
+            isRegister = true;
+
+        } else {
+
+            isRegister = false;
+
+        }
+        switch (position) {
             case 0:
 
-                UiHelper.launcher(getActivity(), RegisterActivity.class);
+                if (isRegister) {
+                    UiHelper.launcher(getActivity(), RegisterActivity.class);
+                }else {
+                    dumpActivity(MingtaiUtil.SALEINT);
+                }
 
                 break;
 
             case 1:
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("type",MingtaiUtil.SALEINT);
-                UiHelper.launcherBundle(getActivity(), SaleActivity.class,bundle);
+                if (isRegister) {
+                    dumpActivity(MingtaiUtil.SALEINT);
+                }else {
+                    dumpActivity(MingtaiUtil.UPDATEINT);
+                }
 
                 break;
 
             case 2:
 
-                Bundle bundle1 = new Bundle();
-                bundle1.putInt("type",MingtaiUtil.UPDATEINT);
-                UiHelper.launcherBundle(getActivity(), SaleActivity.class,bundle1);
+                if (isRegister) {
+                    dumpActivity(MingtaiUtil.UPDATEINT);
+                }else {
+                    dumpActivity(MingtaiUtil.TIAOBOINT);
+                }
 
                 break;
 
             case 3:
 
-                Bundle bundle2 = new Bundle();
-                bundle2.putInt("type", MingtaiUtil.TIAOBOINT);
-                UiHelper.launcherBundle(getActivity(), SaleActivity.class,bundle2);
+                dumpActivity(MingtaiUtil.TIAOBOINT);
 
                 break;
+
         }
     }
 
-   /* @OnClick({R.id.ll_register,R.id.ll_sale,R.id.ll_update,R.id.ll_tiaobo})
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.ll_register:
+    private void dumpActivity(int type){
 
-                UiHelper.launcher(getActivity(), RegisterActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", type);
+        UiHelper.launcherBundle(getActivity(), SaleActivity.class, bundle);
+    }
 
-                break;
-
-            case R.id.ll_sale:
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("type",1);
-                UiHelper.launcherBundle(getActivity(), SaleActivity.class,bundle);
-
-                break;
-
-            case R.id.ll_update:
-
-                Bundle bundle1 = new Bundle();
-                bundle1.putInt("type",2);
-                UiHelper.launcherBundle(getActivity(), SaleActivity.class,bundle1);
-                break;
-
-            case R.id.ll_tiaobo:
-
-                Bundle bundle2 = new Bundle();
-                bundle2.putInt("type",3);
-                UiHelper.launcherBundle(getActivity(), SaleActivity.class,bundle2);
-
-                break;
-
-        }
-    }*/
 }

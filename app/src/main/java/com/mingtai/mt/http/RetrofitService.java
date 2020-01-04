@@ -81,4 +81,8 @@ public interface RetrofitService {
     @POST("Api/")
     Observable<ResultBean<ArrayList<GoodsBean>, Object>> getGoods(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> settlement(@FieldMap Map<String, String> params);
+
 }

@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by kai
+ * Created by lilinkun
  * on 2019/12/28
  */
 public class DeviceData {

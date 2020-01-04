@@ -16,6 +16,21 @@ public class CategoryBean {
     private boolean IsLeaf;
     private int SortRank;
 
+    public CategoryBean() {
+    }
+
+    public CategoryBean(String categoryID, String categoryParentId, String categoryName, String categoryImg, int categoryLevel, String categoryPath, boolean isUse, boolean isLeaf, int sortRank) {
+        CategoryID = categoryID;
+        CategoryParentId = categoryParentId;
+        CategoryName = categoryName;
+        CategoryImg = categoryImg;
+        CategoryLevel = categoryLevel;
+        CategoryPath = categoryPath;
+        IsUse = isUse;
+        IsLeaf = isLeaf;
+        SortRank = sortRank;
+    }
+
     public String getCategoryID() {
         return CategoryID;
     }

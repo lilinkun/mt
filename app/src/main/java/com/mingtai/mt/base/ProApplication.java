@@ -5,10 +5,11 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.util.DeviceData;
 
 /**
- * Created by kai
+ * Created by lilinkun
  * on 2019/12/31
  */
 public class ProApplication extends Application {
@@ -16,6 +17,7 @@ public class ProApplication extends Application {
     private static ProApplication instance;
 
     public static AccountBean mAccountBean = null;
+    public static HomeBean mHomeBean = null;
 
     @Override
     public void onCreate() {
