@@ -44,6 +44,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.OrderListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PayActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

@@ -2,11 +2,13 @@ package com.mingtai.mt.http;
 
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.OrderDetailBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.entity.ProvinceBean;
@@ -84,5 +86,17 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<String, Object>> settlement(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<BalanceBean, Object>> getBalance(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> sureGoodsOrder(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(@FieldMap Map<String, String> params);
 
 }

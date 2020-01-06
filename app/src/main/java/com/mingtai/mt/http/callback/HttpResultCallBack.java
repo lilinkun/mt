@@ -14,7 +14,7 @@ public abstract class HttpResultCallBack<M, T> extends Subscriber<ResultBean<M, 
     /**
      * 请求返回
      */
-    public abstract void onResponse(M m, String status, T page);
+    public abstract void onResponse(M m, String status, ResultBean<M,T> resultBean);
 
     public abstract void onErr(String msg, String status);
 
@@ -53,9 +53,9 @@ public abstract class HttpResultCallBack<M, T> extends Subscriber<ResultBean<M, 
         Log.d("HttpResultCallBack", "返回ok==：" + jsonResponse);
         if (result.getStatus().equals(MingtaiUtil.RESULT_SUCCESS)) {
             if (result.getData() == null) {
-                onResponse(result.getData(), result.getCode(), result.getPage());
+                onResponse(result.getData(), result.getCode(), result);
             } else {
-                onResponse(result.getData(), result.getCode(), result.getPage());
+                onResponse(result.getData(), result.getCode(), result);
             }
         } else {
             onHttpFail(result.getDesc(), MingtaiUtil.RESULT_FAIL + result.getCode());

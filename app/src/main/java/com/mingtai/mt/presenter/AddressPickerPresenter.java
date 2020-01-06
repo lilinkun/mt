@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.AddressPickerContract;
 import com.mingtai.mt.entity.ProvinceBean;
+import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
@@ -51,7 +52,7 @@ public class AddressPickerPresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<ArrayList<ProvinceBean>,Object>() {
                     @Override
-                    public void onResponse(ArrayList<ProvinceBean> provinceBeans, String status, Object page) {
+                    public void onResponse(ArrayList<ProvinceBean> provinceBeans, String status, ResultBean<ArrayList<ProvinceBean>,Object> page) {
                         addressPickerContract.getDataSuccess(provinceBeans,localType);
                     }
 

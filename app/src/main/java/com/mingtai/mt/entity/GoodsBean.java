@@ -52,6 +52,65 @@ public class GoodsBean implements Parcelable {
     private int UpgradeIntegral;
     private int UpgradePrice;
 
+    protected GoodsBean(Parcel in) {
+        GoodsId = in.readString();
+        CategoryId = in.readString();
+        CategoryPath = in.readString();
+        BrandId = in.readString();
+        GoodsSn = in.readString();
+        GoodsName = in.readString();
+        GoodsSmallName = in.readString();
+        GoodsSpec1 = in.readString();
+        GoodsSpec2 = in.readString();
+        GoodsUnit = in.readString();
+        GoodsGG = in.readString();
+        BrowserCount = in.readInt();
+        GoodsNumber = in.readInt();
+        UseNumber = in.readInt();
+        GoodsWeight = in.readInt();
+        MarketPrice = in.readDouble();
+        Price = in.readDouble();
+        GoodsBrief = in.readString();
+        GoodsDesc = in.readString();
+        GoodsImg = in.readString();
+        GoodsImgList = in.readString();
+        GoodsIndexType = in.readInt();
+        GoodsIndexImg = in.readString();
+        IsCarriage = in.readByte() != 0;
+        IsOnSale = in.readByte() != 0;
+        IsDelete = in.readByte() != 0;
+        GoodsFlag = in.readInt();
+        GoodsType = in.readInt();
+        GoodsTypeName = in.readString();
+        GoodsIndexTypeName = in.readString();
+        GoodsFlagName = in.readString();
+        Integral = in.readInt();
+        ReturnIntegral = in.readInt();
+        CreateDate = in.readString();
+        LastUpdate = in.readString();
+        MobileDesc = in.readString();
+        Qty = in.readInt();
+        BackSay = in.readString();
+        SortRank = in.readString();
+        BeginDate = in.readString();
+        EndDate = in.readString();
+        IsSetMeal = in.readInt();
+        UpgradeIntegral = in.readInt();
+        UpgradePrice = in.readInt();
+    }
+
+    public static final Creator<GoodsBean> CREATOR = new Creator<GoodsBean>() {
+        @Override
+        public GoodsBean createFromParcel(Parcel in) {
+            return new GoodsBean(in);
+        }
+
+        @Override
+        public GoodsBean[] newArray(int size) {
+            return new GoodsBean[size];
+        }
+    };
+
     public String getGoodsId() {
         return GoodsId;
     }
@@ -411,6 +470,49 @@ public class GoodsBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(GoodsId);
+        dest.writeString(CategoryId);
+        dest.writeString(CategoryPath);
+        dest.writeString(BrandId);
+        dest.writeString(GoodsSn);
+        dest.writeString(GoodsName);
+        dest.writeString(GoodsSmallName);
+        dest.writeString(GoodsSpec1);
+        dest.writeString(GoodsSpec2);
+        dest.writeString(GoodsUnit);
+        dest.writeString(GoodsGG);
+        dest.writeInt(BrowserCount);
+        dest.writeInt(GoodsNumber);
+        dest.writeInt(UseNumber);
+        dest.writeInt(GoodsWeight);
+        dest.writeDouble(MarketPrice);
+        dest.writeDouble(Price);
+        dest.writeString(GoodsBrief);
+        dest.writeString(GoodsDesc);
+        dest.writeString(GoodsImg);
+        dest.writeString(GoodsImgList);
+        dest.writeInt(GoodsIndexType);
+        dest.writeString(GoodsIndexImg);
+        dest.writeByte((byte) (IsCarriage ? 1 : 0));
+        dest.writeByte((byte) (IsOnSale ? 1 : 0));
+        dest.writeByte((byte) (IsDelete ? 1 : 0));
+        dest.writeInt(GoodsFlag);
+        dest.writeInt(GoodsType);
+        dest.writeString(GoodsTypeName);
+        dest.writeString(GoodsIndexTypeName);
+        dest.writeString(GoodsFlagName);
+        dest.writeInt(Integral);
+        dest.writeInt(ReturnIntegral);
+        dest.writeString(CreateDate);
+        dest.writeString(LastUpdate);
+        dest.writeString(MobileDesc);
+        dest.writeInt(Qty);
+        dest.writeString(BackSay);
+        dest.writeString(SortRank);
+        dest.writeString(BeginDate);
+        dest.writeString(EndDate);
+        dest.writeInt(IsSetMeal);
+        dest.writeInt(UpgradeIntegral);
+        dest.writeInt(UpgradePrice);
     }
 }

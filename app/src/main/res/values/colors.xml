@@ -9,7 +9,7 @@
     <color name="line_bg">#F2F2F2</color>
     <!--setting-->
     <color name="setting_title_color">#FC377D</color>
-    <color name="setting_red_color">#E84545</color>
+    <color name="setting_red_color">#f85905</color>
     <color name="text_default">#9E9E9E</color>
 
     <color name="login_text">#535353</color>
@@ -52,4 +52,7 @@
 
     <color name="start_intergal_bg">#FCF2E9</color>
     <color name="new_bg">#F4F4F4</color>
+
+    <color name="order_line_bg">#FAFFF4</color>
+    <color name="pay_text">#555555</color>
 </resources>

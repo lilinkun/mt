@@ -12,6 +12,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.LoginContract;
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.presenter.LoginPresenter;
+import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
 import butterknife.BindView;
@@ -41,7 +42,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
         loginPresenter.onCreate(this,this);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
         if (sharedPreferences != null && sharedPreferences.getBoolean("isLogin",false)){
             et_login_input_account.setText(sharedPreferences.getString("account",""));
             et_login_input_psd.setText(sharedPreferences.getString("psd",""));
@@ -55,7 +56,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
         switch (view.getId()){
             case R.id.btn_login:
 
-                SharedPreferences sharedPreferences = getSharedPreferences("login",MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
                 if (cb_remember_psd.isChecked()){
 
                     sharedPreferences.edit().putString("account",et_login_input_account.getText().toString())

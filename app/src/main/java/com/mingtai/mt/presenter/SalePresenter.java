@@ -6,6 +6,8 @@ import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.SaleContract;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.FriendsBean;
+import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
@@ -58,7 +60,7 @@ public class SalePresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<StoreInfoAddressBean, Object>() {
                     @Override
-                    public void onResponse(StoreInfoAddressBean goodsListBeans, String status, Object page) {
+                    public void onResponse(StoreInfoAddressBean goodsListBeans, String status, ResultBean<StoreInfoAddressBean, Object> page) {
                         saleContract.getStoreAddressSuccess(goodsListBeans);
 
                     }
@@ -85,7 +87,7 @@ public class SalePresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<StoreInfoAddressBean, Object>() {
                     @Override
-                    public void onResponse(StoreInfoAddressBean goodsListBeans, String status, Object page) {
+                    public void onResponse(StoreInfoAddressBean goodsListBeans, String status, ResultBean<StoreInfoAddressBean, Object> page) {
                         saleContract.getPersonalAddressSuccess(goodsListBeans);
 
                     }
@@ -116,7 +118,7 @@ public class SalePresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<String, Object>() {
                     @Override
-                    public void onResponse(String goodsListBeans, String status, Object page) {
+                    public void onResponse(String goodsListBeans, String status, ResultBean<String, Object> page) {
                         saleContract.saleNextSuccess(goodsListBeans);
 
                     }
@@ -148,7 +150,7 @@ public class SalePresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
                     @Override
-                    public void onResponse(FriendsBean friendsBean, String status, Object o) {
+                    public void onResponse(FriendsBean friendsBean, String status, ResultBean<FriendsBean, Object> o) {
                         saleContract.queryNameSuccess(friendsBean,status);
 
                     }
@@ -174,7 +176,7 @@ public class SalePresenter extends BasePresenter {
                 .subscribe(new HttpResultCallBack<ArrayList<BankBean>, Object>() {
 
                     @Override
-                    public void onResponse(ArrayList<BankBean> addressBeans, String status, Object page) {
+                    public void onResponse(ArrayList<BankBean> addressBeans, String status, ResultBean<ArrayList<BankBean>, Object> page) {
                         saleContract.getLevelInfoSuccess(addressBeans);
                     }
 

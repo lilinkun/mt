@@ -6,16 +6,18 @@
     android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_bottom_price"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_40"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:background="@color/start_intergal_bg"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textsize14"
-                android:text="总积分值："
+                android:text="总分值："
                 android:layout_marginLeft="@dimen/margin_10"
                 android:textColor="@color/setting_red_color"/>
 
@@ -68,10 +70,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/textsize10"
+                android:textSize="@dimen/textsize14"
                 android:layout_marginLeft="@dimen/textsize10"
                 android:textColor="@color/setting_red_color"
-                android:text="¥"/>
+                android:text="实付¥"/>
 
             <TextView
                 android:id="@+id/tv_total_goods_price"
@@ -80,6 +82,14 @@
                 android:textSize="@dimen/textsize16"
                 android:textColor="@color/setting_red_color"
                 android:text="0"/>
+
+            <TextView
+                android:id="@+id/tv_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize14"
+                android:textColor="@color/setting_red_color"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

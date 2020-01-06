@@ -6,7 +6,9 @@ import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.LoginContract;
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.PageBean;
+import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
@@ -61,7 +63,7 @@ public class LoginPresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<AccountBean, Object>() {
                     @Override
-                    public void onResponse(AccountBean goodsListBeans, String status, Object o) {
+                    public void onResponse(AccountBean goodsListBeans, String status, ResultBean<AccountBean, Object> o) {
                         loginContract.setDataSuccess(goodsListBeans);
 
                     }

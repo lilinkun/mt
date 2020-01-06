@@ -133,6 +133,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
             }
         });*/
 
+        holder.ll_goods_adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.singleCheckBox.isChecked()){
+                    holder.singleCheckBox.setChecked(false);
+                }else {
+                    holder.singleCheckBox.setChecked(true);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -140,6 +151,10 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         return goodsBeans.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     public ModifyCountInterface getModifyCountInterface() {
         return modifyCountInterface;
@@ -248,6 +263,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         TextView tv_goods_id;
         @BindView(R.id.tv_goods_market_price)
         TextView tv_goods_market_price;
+        @BindView(R.id.ll_goods_adapter)
+        LinearLayout ll_goods_adapter;
 
         public ViewHolder(View itemView) {
             super(itemView);

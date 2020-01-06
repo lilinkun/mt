@@ -16,6 +16,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.GoodsContract;
 import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.ChooseItemBean;
+import com.mingtai.mt.entity.CustomPriceBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.presenter.GoodsPresenter;
@@ -25,7 +26,6 @@ import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +49,8 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
     TextView tv_total_price;
     @BindView(R.id.tv_total_ShippingFree)
     TextView tv_total_ShippingFree;
+    @BindView(R.id.tv_point)
+    TextView tv_point;
 
     private GoodsPresenter goodsPresenter = new GoodsPresenter();
     private int position = 0;
@@ -143,16 +145,6 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         }
     }
 
-    @Override
-    public void settlementSuccess(String msg) {
-
-    }
-
-    @Override
-    public void settlementFail(String msg) {
-
-    }
-
 
     @Override
     public void checkItem(String goodsSn,int position, int num) {
@@ -170,6 +162,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                         int intergral = Integer.valueOf(tv_total_integral.getText().toString()) + goodsBeans.get(position).getIntegral() * rechangeNum;
                         tv_total_price.setText(p+"");
                         tv_total_integral.setText("" +intergral);
+                        tv_point.setText("  分值:" + intergral );
 
                         if (p < ShippingFree){
                             if (tv_total_ShippingFree.getText().toString().equals("0")) {
@@ -180,7 +173,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                             total_ShippingFree = 0;
                         }
                         tv_total_ShippingFree.setText(total_ShippingFree+"");
-                        tv_total_goods_price.setText(p +"");
+                        tv_total_goods_price.setText(MingtaiUtil.isCoin(p) +"");
                     }
                 }
             }else {
@@ -196,6 +189,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                 int intergral = goodsBeans.get(position).getIntegral() * num + Integer.valueOf(tv_total_integral.getText().toString());
                 tv_total_price.setText(p+"");
                 tv_total_integral.setText("" +intergral);
+                tv_point.setText("  分值:" + intergral );
 
                 if (p < ShippingFree){
                     if (tv_total_ShippingFree.getText().toString().equals("0")) {
@@ -206,7 +200,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                     total_ShippingFree = 0;
                 }
                 tv_total_ShippingFree.setText(total_ShippingFree+"");
-                tv_total_goods_price.setText(p+total_ShippingFree +"");
+                tv_total_goods_price.setText(MingtaiUtil.isCoin(p+total_ShippingFree) +"");
             }
 
         }else {
@@ -223,6 +217,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
             int intergral = goodsBeans.get(position).getIntegral() * num;
             tv_total_price.setText(p+"");
             tv_total_integral.setText("" +intergral);
+            tv_point.setText("  分值:" + intergral );
 
             if (p < ShippingFree){
                 total_ShippingFree = ShippingFreePrice;
@@ -230,7 +225,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                 total_ShippingFree = 0;
             }
             tv_total_ShippingFree.setText(total_ShippingFree+"");
-            tv_total_goods_price.setText(p+total_ShippingFree +"");
+            tv_total_goods_price.setText(MingtaiUtil.isCoin(p+total_ShippingFree) +"");
         }
     }
 
@@ -247,6 +242,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                 int intergral = Integer.valueOf(tv_total_integral.getText().toString()) - goodsBeans.get(position).getIntegral() * num;
                 tv_total_price.setText( p +"");
                 tv_total_integral.setText(intergral + "");
+                tv_point.setText("  分值:" + intergral );
 
                 if (p < ShippingFree){
                     total_ShippingFree = ShippingFreePrice;
@@ -254,15 +250,13 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                     total_ShippingFree = 0;
                 }
                 tv_total_ShippingFree.setText(total_ShippingFree+"");
-                tv_total_goods_price.setText(p+total_ShippingFree +"");
+                tv_total_goods_price.setText(MingtaiUtil.isCoin(p+total_ShippingFree) +"");
                 chooseItemBeans.remove(i);
             }
         }
 
     }
 
-    String goodsIdStr = "";
-    String goodsNum = "";
 
     @OnClick({R.id.tv_settlement})
     public void onClick(View view){
@@ -271,10 +265,14 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
                 if (chooseGoodsList.size() > 0) {
 
+                    CustomPriceBean CustomPriceBean = new CustomPriceBean(tv_total_goods_price.getText().toString(),tv_total_ShippingFree.getText().toString(),
+                            tv_total_integral.getText().toString(),tv_total_price.getText().toString(),deliveryMethod,goodsType,userlevel);
 
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("ChooseItemBeans", chooseItemBeans);
                     bundle.putParcelableArrayList("GOODSBEANS", chooseGoodsBeans);
+                    bundle.putSerializable("ADDRESS", addressBean);
+                    bundle.putSerializable("CUSTOMPRICEBEAN",CustomPriceBean);
 
                     UiHelper.launcherBundle(this, OrderListActivity.class, bundle);
 

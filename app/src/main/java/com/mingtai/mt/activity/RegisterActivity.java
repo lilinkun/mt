@@ -160,7 +160,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     public void setDataSuccess(String msg) {
         Bundle bundle = new Bundle();
         bundle.putInt("type", MingtaiUtil.UPDATEINT);
-        bundle.putString("id",et_serverer_id.getText().toString());
+        bundle.putString("id",msg);
         UiHelper.launcherBundle(this,SaleActivity.class,bundle);
         finish();
     }

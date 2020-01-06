@@ -7,6 +7,7 @@ import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.HomeContract;
 import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.PageBean;
+import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
@@ -56,7 +57,7 @@ public class HomePresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<HomeBean, Object>() {
                     @Override
-                    public void onResponse(HomeBean goodsListBeans, String status, Object page) {
+                    public void onResponse(HomeBean goodsListBeans, String status, ResultBean<HomeBean, Object> page) {
                         homeContract.getDataSuccess(goodsListBeans);
 
                     }
@@ -79,7 +80,7 @@ public class HomePresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<HomeBean, Object>() {
                     @Override
-                    public void onResponse(HomeBean goodsListBeans, String status, Object page) {
+                    public void onResponse(HomeBean goodsListBeans, String status, ResultBean<HomeBean, Object> page) {
                         homeContract.getDataSuccess(goodsListBeans);
 
                     }

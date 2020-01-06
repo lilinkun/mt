@@ -1,5 +1,6 @@
 package com.mingtai.mt.activity;
 
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -27,6 +28,7 @@ import com.mingtai.mt.presenter.SalePresenter;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -169,6 +171,8 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 numberPicker.setDisplayedValues(s);
                 numberPicker.setMaxValue(s.length-1);
                 numberPicker.setMinValue(0);
+
+                setNumberPickerTextColor(numberPicker,getResources().getColor(R.color.white));
 
                 setType(numberPicker,s);
 
@@ -496,5 +500,30 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         return;
     }
 
+    public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color) {
+        boolean result = false;
+        final int count = numberPicker.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = numberPicker.getChildAt(i);
+            if (child instanceof EditText) {
+                try {
+                    Field selectorWheelPaintField = numberPicker.getClass()
+                            .getDeclaredField("mSelectorWheelPaint");
+                    selectorWheelPaintField.setAccessible(true);
+                    ((Paint) selectorWheelPaintField.get(numberPicker)).setColor(color);
+                    ((EditText) child).setTextColor(color);
+                    numberPicker.invalidate();
+                    result = true;
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
 
 }

@@ -3,11 +3,13 @@ package com.mingtai.mt.manager;
 import android.content.Context;
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.OrderDetailBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.entity.ProvinceBean;
@@ -133,5 +135,26 @@ public class DataManager {
         return mRetrofitService.settlement(mHashMap);
     }
 
+    /**
+     * 余额
+     */
+    public Observable<ResultBean<BalanceBean, Object>> getBalance(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getBalance(mHashMap);
+    }
+
+    /**
+     * 支付订单信息
+     */
+    public Observable<ResultBean<String, Object>> sureGoodsOrder(HashMap<String, String> mHashMap) {
+        return mRetrofitService.sureGoodsOrder(mHashMap);
+    }
+
+
+    /**
+     * 获取订单详情
+     */
+    public Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getOrderDetail(mHashMap);
+    }
 
 }

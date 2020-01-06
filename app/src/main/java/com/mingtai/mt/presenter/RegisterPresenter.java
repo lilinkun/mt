@@ -1,11 +1,13 @@
 package com.mingtai.mt.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.RegisterContract;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.FriendsBean;
+import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
@@ -28,6 +30,7 @@ public class RegisterPresenter extends BasePresenter {
 
     @Override
     public void onCreate(Context context, IView view) {
+        this.mContext = context;
         manager = new DataManager(context);
         registerContract = (RegisterContract) view;
         mCompositeSubscription = new CompositeSubscription();
@@ -65,7 +68,9 @@ public class RegisterPresenter extends BasePresenter {
      * @param SessionId
      */
     public void register(String UserName, String Mobile, String PDTypeId,String Resettlement,String Referees,String NickName, String SurName, String UserCode,
-                         String UserType,String BankName,String BankNo,String Subarea,String ActivationPerson,String prov,String city,String area,String Address,String Zip,String SessionId){
+                         String UserType,String BankName,String BankNo,String Subarea,String ActivationPerson,String prov,String city,String area,
+                         String Address,String Zip,String SessionId){
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "注册中...", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "UserBaseCreate");
@@ -101,15 +106,21 @@ public class RegisterPresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<String, Object>() {
                     @Override
-                    public void onResponse(String goodsListBeans, String status, Object page) {
-                        registerContract.setDataSuccess(goodsListBeans);
+                    public void onResponse(String goodsListBeans, String status, ResultBean<String,Object> page) {
+                        registerContract.setDataSuccess(page.getDesc());
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
                         registerContract.setDataFail(msg);
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
                 }));
     }
@@ -133,7 +144,7 @@ public class RegisterPresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
                     @Override
-                    public void onResponse(FriendsBean friendsBean, String status, Object o) {
+                    public void onResponse(FriendsBean friendsBean, String status, ResultBean<FriendsBean, Object> o) {
                         registerContract.queryNameSuccess(friendsBean,status);
 
                     }
@@ -165,7 +176,7 @@ public class RegisterPresenter extends BasePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<String, Object>() {
                     @Override
-                    public void onResponse(String str, String status, Object o) {
+                    public void onResponse(String str, String status, ResultBean<String,Object> o) {
                         registerContract.getRefereesNameSuccess(str,status);
 
                     }
@@ -190,7 +201,7 @@ public class RegisterPresenter extends BasePresenter {
                 .subscribe(new HttpResultCallBack<ArrayList<BankBean>, Object>() {
 
                     @Override
-                    public void onResponse(ArrayList<BankBean> addressBeans, String status, Object page) {
+                    public void onResponse(ArrayList<BankBean> addressBeans, String status, ResultBean<ArrayList<BankBean>,Object> page) {
                         registerContract.getBankInfoSuccess(addressBeans);
                     }
 

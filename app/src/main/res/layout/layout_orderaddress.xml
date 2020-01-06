@@ -46,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black_333333"
                 android:text="@string/goods_consignee_name"
-                android:visibility="gone"
                 />
 
             <TextView
@@ -81,6 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/margin_10"
+        android:visibility="gone"
         android:layout_toRightOf="@+id/iv_location"
         android:layout_toLeftOf="@+id/iv_address_right"
         android:textColor="@color/black_333333"
@@ -93,6 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/margin_15"
         android:src="@mipmap/ic_right_arrow"/>
 
