@@ -24,6 +24,7 @@ import com.mingtai.mt.fragment.WaitPayFragment;
 import com.mingtai.mt.fragment.WaitReceiveFragment;
 import com.mingtai.mt.interf.IPayOrderClickListener;
 import com.mingtai.mt.presenter.OrderListPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.ButtonUtils;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
@@ -71,6 +72,7 @@ public class OrderListActivity extends BaseActivity implements IPayOrderClickLis
     public void initEventAndData() {
 
         orderListPresenter.onCreate(this, this);
+        ActivityUtil.addActivity(this);
 
         initData();
 

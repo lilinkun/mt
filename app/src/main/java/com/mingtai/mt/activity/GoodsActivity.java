@@ -95,6 +95,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         goodsPresenter.getCategory(ProApplication.SESSIONID(this));
 
         ActivityUtil.addHomeActivity(this);
+        ActivityUtil.addActivity(this);
 
         ShippingFree = ProApplication.mHomeBean.getIsShippingFree();
         ShippingFreePrice = ProApplication.mHomeBean.getShippingPrice();

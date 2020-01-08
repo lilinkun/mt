@@ -105,6 +105,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         }*/
 
         ActivityUtil.addHomeActivity(this);
+        ActivityUtil.addActivity(this);
 
         if (ProApplication.mAccountBean.getStoreNo() != null && ProApplication.mAccountBean.getStoreNo().toString().trim().length() > 0) {
             et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
@@ -425,7 +426,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         String name = et_sale_name.getText().toString();
         addressBean.setName(name);
         addressBean.setMobile(et_sale_mobile.getText().toString());
-
+        ProApplication.STORENO = et_business_name.getText().toString();
         bundle.putSerializable("StoreInfoAddressBean",addressBean);
         UiHelper.launcherBundle(this,GoodsActivity.class,bundle);
     }

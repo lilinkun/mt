@@ -18,6 +18,7 @@ public class ProApplication extends Application {
 
     public static AccountBean mAccountBean = null;
     public static HomeBean mHomeBean = null;
+    public static String STORENO = null;
 
     @Override
     public void onCreate() {

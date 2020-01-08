@@ -46,6 +46,7 @@ public class PayResultActivity extends BaseActivity implements PayResultContract
     public void initEventAndData() {
 
         ActivityUtil.addHomeActivity(this);
+        ActivityUtil.addActivity(this);
 
         String price = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.PRICE);
         orderid = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.ORDERSN);
@@ -97,6 +98,7 @@ public class PayResultActivity extends BaseActivity implements PayResultContract
             case R.id.ll_back:
                 setResult(RESULT_OK);
                 finish();
+                ActivityUtil.finishHomeAll();
 
                 break;
         }

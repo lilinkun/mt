@@ -31,6 +31,7 @@ import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.interf.IWxResultListener;
 import com.mingtai.mt.presenter.PayPresenter;
 import com.mingtai.mt.ui.PasswordView;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -124,6 +125,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 //        Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
         payPresenter.onCreate(this, this);
+        ActivityUtil.addActivity(this);
 
 //        iwxapi = WXAPIFactory.createWXAPI(this, WlmUtil.APP_ID, true);
 //        iwxapi.registerApp(WlmUtil.APP_ID);
