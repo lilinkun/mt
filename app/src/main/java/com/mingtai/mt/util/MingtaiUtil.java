@@ -20,12 +20,15 @@ public class MingtaiUtil {
     public static final String TYPEID = "TYPEID";
     public static final String LOGIN = "login";
     public static final String ORDERSN = "ORDERSN";
+    public static final String GOODSTYPE = "goodstype";
+    public static final String PRICE = "PRICE";
 
     public static final int UPDATEINT = 2;
     public static final int SALEINT = 4;
     public static final int TIAOBOINT = 8;
 
 
+    public static final String PAGE_COUNT = "20";
 
 
     public static boolean editIsNotNull(EditText editText){

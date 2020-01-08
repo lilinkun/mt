@@ -6,6 +6,7 @@ import com.mingtai.mt.mvp.IView;
  * Created by LG on 2020/1/6.
  */
 public interface OrderListContract extends IView {
-    public void getTlementSuccess(String msg);
-    public void getTlementFail(String msg);
+    public void sureReceiptSuccess(String collectDeleteBean);
+
+    public void sureReceiptFail(String msg);
 }

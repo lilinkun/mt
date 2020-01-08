@@ -25,6 +25,7 @@ import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.presenter.SalePresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -72,9 +73,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     TextView tv_update_level;
 
     private String send_type_str;
-    private int typeInt = 0;
-    private int PersonalInt = 0;
-    private int StoreInt = 1;
+    private int typeInt = 1;
+    private int PersonalInt = 1;
+    private int StoreInt = 2;
     private int userLevel = 0;
     private int type = 0;
     private StoreInfoAddressBean personalInfoBean;
@@ -103,6 +104,8 @@ public class SaleActivity extends BaseActivity implements SaleContract {
             salePresenter.getStoreAddress(ProApplication.mAccountBean.getStoreNo(),ProApplication.SESSIONID(this));
         }*/
 
+        ActivityUtil.addHomeActivity(this);
+
         if (ProApplication.mAccountBean.getStoreNo() != null && ProApplication.mAccountBean.getStoreNo().toString().trim().length() > 0) {
             et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
             et_business_name.setFocusable(false);
@@ -116,9 +119,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("type");
 
         if (type == MingtaiUtil.SALEINT){
-            tv_detail.setText("消费订单(消费-经销商)");
+            tv_detail.setText(R.string.declaration_sale);
         }else if (type == MingtaiUtil.UPDATEINT){
-            tv_detail.setText("消费订单(升级-经销商)");
+            tv_detail.setText(R.string.declaration_upgrade);
             if (getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id") != null && getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id").toString().trim().length() > 0){
                 et_servicer_id.setText(getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id"));
                 et_servicer_id.setFocusable(false);
@@ -126,7 +129,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
             }
 
         }else if (type == MingtaiUtil.TIAOBOINT){
-            tv_detail.setText("消费订单(业绩调拨-经销商)");
+            tv_detail.setText(R.string.declaration_tiaobo);
         }
 
         et_business_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -135,7 +138,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
                 if (!hasFocus) {
                     if (storeInfoAddressBean == null) {
-                        salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                        if (typeInt == StoreInt && MingtaiUtil.editIsNotNull(et_business_name)) {
+                            salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                        }
                     } else {
                         getStoreAddressSuccess(storeInfoAddressBean);
                     }
@@ -172,7 +177,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 numberPicker.setMaxValue(s.length-1);
                 numberPicker.setMinValue(0);
 
-                setNumberPickerTextColor(numberPicker,getResources().getColor(R.color.white));
+//                setNumberPickerTextColor(numberPicker,getResources().getColor(R.color.white));
 
                 setType(numberPicker,s);
 
@@ -182,7 +187,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     //当NunberPicker的值发生改变时，将会激发该方法
                     @Override
                     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                        typeInt = newVal;
+                        typeInt = newVal+1;
                         send_type_str = s[newVal];
                         tv_send_type.setText(send_type_str);
                         setType(numberPicker,s);
@@ -240,7 +245,12 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                         }
                     }
                 }else {
-                    if (MingtaiUtil.editIsNotNull(et_business_name)){
+
+                    if ((typeInt == PersonalInt && personalInfoBean != null) || (typeInt == StoreInt && storeInfoAddressBean != null)) {
+                        salePresenter.saleNext(et_business_name.getText().toString(), et_servicer_id.getText().toString());
+                    }
+
+                    if (typeInt == StoreInt && storeInfoAddressBean == null && MingtaiUtil.editIsNotNull(et_business_name)){
                         salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
                     }
                 }
@@ -307,7 +317,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     }
 
     private void setType(NumberPicker numberPicker,String[] s){
-        if (typeInt == 0) {
+        if (typeInt == 1) {
             ll_store.setVisibility(View.VISIBLE);
             send_type_str = s[0];
             numberPicker.setValue(0);
@@ -322,12 +332,17 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 if (et_servicer_id.getText().toString().trim().length() > 0) {
                     personalStr = et_servicer_id.getText().toString();
                     salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(this));
+
+                    if (ProApplication.mAccountBean.getStoreNo() == null || ProApplication.mAccountBean.getStoreNo().toString().trim().length() == 0) {
+                        salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                    }
+
                 }
             }else {
                 getPersonalAddressSuccess(personalInfoBean);
             }
 
-        }else if (typeInt == 1){
+        }else if (typeInt == 2){
             send_type_str = s[1];
             numberPicker.setValue(1);
             ll_store.setVisibility(View.VISIBLE);

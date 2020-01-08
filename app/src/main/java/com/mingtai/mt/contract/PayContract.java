@@ -34,6 +34,12 @@ public interface PayContract extends IView {
 
 
     public void setDataSuccess(OrderDetailBean orderDetailBeans);
-
     public void setDataFail(String msg);
+
+    /**
+     * 调拨
+     * @param msg
+     */
+    public void getPointSuccess(String msg);
+    public void getPointFail(String msg);
 }

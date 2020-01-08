@@ -50,16 +50,26 @@ public class PayPresenter extends BasePresenter {
     }
 
 
-
-    public void getPayOrderInfo(String OrderSn, String OrderAmount, String Logo_ID, String payType, String Integral, String PassWordTwo, String Money1, String Money2, String Money5, String SessionId) {
-        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "获取数据中...", true);
+    /**
+     *
+     * @param OrderSn  订单号
+     * @param OrderAmount  付款金额
+     * @param Logo_ID    在线支付方式
+     * @param Integral    积分
+     * @param PassWordTwo  交易密码
+     * @param Money1   付款金额
+     * @param Money2   付款金额
+     * @param Money5    付款金额
+     * @param SessionId
+     */
+    public void getPayOrderInfo(String OrderSn, String OrderAmount, String Logo_ID, String Integral, String PassWordTwo, String Money1, String Money2, String Money5, String SessionId) {
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "支付中...", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "OrderInfo");
         params.put("fun", "OrderInfoPay");
         params.put("OrderSn", OrderSn);
         params.put("OrderAmount", OrderAmount);
         params.put("LogoID", Logo_ID);
-        params.put("payType", payType);
         params.put("Integral", Integral);
         params.put("PassWordTwo", PassWordTwo);
         params.put("Money1", Money1);
@@ -123,6 +133,7 @@ public class PayPresenter extends BasePresenter {
      * @param SessionId
      */
     public void orderDetail(String OrderSn, String SessionId) {
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "获取订单中", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "OrderInfo");
         params.put("fun", "OrderInfoGoodsDetail");
@@ -135,11 +146,42 @@ public class PayPresenter extends BasePresenter {
                     @Override
                     public void onResponse(OrderDetailBean orderDetailBeans, String status, ResultBean<OrderDetailBean, Object> page) {
                         payContract.setDataSuccess(orderDetailBeans);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
                         payContract.setDataFail(msg);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+                }));
+    }
+
+
+    public void unloadPoint(String OrderSn,String HarmonicDate,String Integral, String SessionId){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "OrderInfo");
+        params.put("fun", "OrderInfoHormonic");
+        params.put("HarmonicDate", HarmonicDate);
+        params.put("Integral", Integral);
+        params.put("OrderSn", OrderSn);
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.unloadPoint(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String, Object>() {
+                    @Override
+                    public void onResponse(String s, String status, ResultBean<String, Object> page) {
+                        payContract.getPointSuccess(s);
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        payContract.getPointFail(msg);
                     }
                 }));
     }

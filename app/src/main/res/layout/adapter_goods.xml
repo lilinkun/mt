@@ -32,6 +32,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:scaleType="centerCrop"
+            android:background="@color/line_bg"
             app:radius="5dp" />
 
         <LinearLayout
@@ -55,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="五月天【沉梦昂志】演唱会武汉站"
                 android:textColor="@color/pop_text_bg"
                 android:textSize="@dimen/textsize14" />
 
@@ -99,7 +99,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:background="@drawable/blue_bg"
                     android:layout_below="@+id/goods_price"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:paddingLeft="@dimen/padding_5"
+                    android:paddingRight="@dimen/padding_5"
                     android:orientation="horizontal">
 
                     <TextView
@@ -107,16 +111,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lines="1"
-                        android:textColor="@color/setting_title_color"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/textsize12"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="积分"
+                        android:text="分值"
                         android:lines="1"
-                        android:textColor="@color/setting_title_color"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/textsize12"/>
 
                 </LinearLayout>

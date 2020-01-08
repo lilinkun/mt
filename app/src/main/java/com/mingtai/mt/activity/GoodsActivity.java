@@ -22,6 +22,7 @@ import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.presenter.GoodsPresenter;
 import com.mingtai.mt.ui.PagerSlidingTabStrip;
 import com.mingtai.mt.ui.SpaceItemDecoration;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -92,6 +93,8 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
         goodsPresenter.onCreate(this,this);
         goodsPresenter.getCategory(ProApplication.SESSIONID(this));
+
+        ActivityUtil.addHomeActivity(this);
 
         ShippingFree = ProApplication.mHomeBean.getIsShippingFree();
         ShippingFreePrice = ProApplication.mHomeBean.getShippingPrice();
@@ -274,7 +277,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                     bundle.putSerializable("ADDRESS", addressBean);
                     bundle.putSerializable("CUSTOMPRICEBEAN",CustomPriceBean);
 
-                    UiHelper.launcherBundle(this, OrderListActivity.class, bundle);
+                    UiHelper.launcherBundle(this, OrderSureActivity.class, bundle);
 
                     /*for (int i = 0; i < chooseItemBeans.size();i++){
                         if ( goodsIdStr.equals("") && goodsNum.equals("")) {

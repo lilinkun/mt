@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/npColor"
-            android:background="@color/black_333333"
+            android:background="@color/line"
             />
 
 

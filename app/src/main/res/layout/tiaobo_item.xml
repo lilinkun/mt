@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/padding_5"
+        android:paddingBottom="@dimen/padding_5"
+        android:focusable="false"
+        android:layout_weight="1"
+        android:background="@drawable/edit_background"/>
+
+    <EditText
+        android:id="@+id/et_point"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/padding_5"
+        android:paddingBottom="@dimen/padding_5"
+        android:focusable="false"
+        android:background="@drawable/edit_background"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_reduce"
+        android:layout_width="@dimen/margin_20"
+        android:layout_height="@dimen/margin_20"
+        android:text="-"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/textsize20"/>
+
+</LinearLayout>

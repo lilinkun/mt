@@ -1,5 +1,6 @@
 package com.mingtai.mt.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
@@ -32,7 +33,7 @@ public class LoginPresenter extends BasePresenter {
 
     @Override
     public void onCreate(Context context, IView view) {
-
+        mContext = context;
         manager = new DataManager(context);
         loginContract = (LoginContract) view;
         mCompositeSubscription = new CompositeSubscription();
@@ -49,6 +50,8 @@ public class LoginPresenter extends BasePresenter {
     }
 
     public void setLogin(String account,String psw,String sessionId){
+
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "登录中...", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "Login");
@@ -66,12 +69,18 @@ public class LoginPresenter extends BasePresenter {
                     public void onResponse(AccountBean goodsListBeans, String status, ResultBean<AccountBean, Object> o) {
                         loginContract.setDataSuccess(goodsListBeans);
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
                         loginContract.setDataFail(msg);
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
                 }));
 

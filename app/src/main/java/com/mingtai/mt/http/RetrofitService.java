@@ -8,6 +8,7 @@ import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.OrderDetailBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
@@ -32,6 +33,10 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<String, Object>> register(@FieldMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> modifyPsd(@FieldMap Map<String, String> map);
 
     @FormUrlEncoded
     @POST("Api/")
@@ -98,5 +103,23 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> unloadPoint(@FieldMap Map<String, String> params);
+
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<ArrayList<OrderBean>, Object>> getSelfOrderList(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> exitOrder(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> sureReceipt(@FieldMap Map<String, String> params);
+
 
 }

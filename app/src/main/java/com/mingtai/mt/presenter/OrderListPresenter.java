@@ -6,6 +6,7 @@ import android.content.Context;
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.OrderListContract;
 import com.mingtai.mt.entity.ResultBean;
+import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
@@ -29,8 +30,8 @@ public class OrderListPresenter extends BasePresenter {
     public void onCreate(Context context, IView view) {
         this.mContext = context;
         manager = new DataManager(mContext);
-        orderListContract = (OrderListContract) view;
         mCompositeSubscription = new CompositeSubscription();
+        orderListContract = (OrderListContract) view;
     }
 
     @Override
@@ -40,64 +41,86 @@ public class OrderListPresenter extends BasePresenter {
 
     @Override
     public void onStop() {
-        mCompositeSubscription.unsubscribe();
+        if (mCompositeSubscription.isUnsubscribed()) {
+            mCompositeSubscription.unsubscribe();
+        }
+    }
+
+
+    public void getOrderData(String SessionId) {
     }
 
     /**
-     *  结算
-     * @param GoodsId    商品
-     * @param OrderAmount  金额
-     * @param ShippingFree 运费
-     * @param goodsNum    数量
-     * @param Consignee   收货人
-     * @param Mobile      手机
-     * @param SingleCenterName  店铺
-     * @param deliveryMethod   配送方式
-     * @param prov      省份
-     * @param city      城市
-     * @param area      地区
-     * @param OrderType  订单类型
-     * @param Address    收货地址
-     * @param UserName   经销商
-     * @param Post       邮编
-     * @param PostScript  说明
-     * @param Integral    总分值
-     * @param SessionId
+     * 余额支付
      */
-    public void settlement(String GoodsId,String OrderAmount,String ShippingFree,String goodsNum,String Consignee,String Mobile,String SingleCenterName,
-                           String deliveryMethod,String prov,String city,String area,String OrderType,String Address,String UserName,String Post,
-                           String PostScript,String Integral,String SessionId){
-
-        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "提交订单中...", true);
-        HashMap<String, String> params = new HashMap<>();
-        params.put("cls", "UserBase");
-        params.put("fun", "UserBaseRecurring");
-        params.put("GoodsId", GoodsId);
-        params.put("OrderAmount", OrderAmount);
-        params.put("ShippingFree", ShippingFree);
-        params.put("goodsNum", goodsNum);
-        params.put("Consignee", Consignee);
-        params.put("Mobile", Mobile);
-        params.put("SingleCenterName", SingleCenterName);
-        params.put("deliveryMethod", deliveryMethod);
-        params.put("prov", prov);
-        params.put("city", city);
-        params.put("area", area);
-        params.put("OrderType", OrderType);
-        params.put("Address", Address);
-        params.put("UserName", UserName);
-        params.put("Post", Post);
-        params.put("PostScript", PostScript);
-        params.put("Integral", Integral);
+    public void selfPay(String PayPwd, String OrderNo, String SessionId) {
+        /*HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "Order");
+        params.put("fun", "BankNoPay");
+        params.put("PayPwd", PayPwd);
+        params.put("OrderNo", OrderNo);
         params.put("SessionId", SessionId);
-        mCompositeSubscription.add(manager.settlement(params)
+        mCompositeSubscription.add(manager.selfPay(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<String, Object>() {
                     @Override
-                    public void onResponse(String goodsBeans, String status, ResultBean<String, Object> page) {
-                        orderListContract.getTlementSuccess(goodsBeans);
+                    public void onResponse(String collectDeleteBean, String status, Object page) {
+                        orderListContract.selfPaySuccess(collectDeleteBean);
+                    }
 
+                    @Override
+                    public void onErr(String msg, String status) {
+                        orderListContract.selfPayFail(msg);
+                    }
+                }));*/
+    }
+
+
+    /**
+     * 确认收货
+     */
+    public void sureReceipt(String OrderId, String SessionId) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "OrderInfo");
+        params.put("fun", "OrderInfoVIPConfirm");
+        params.put("OrderSn", OrderId);
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.sureReceipt(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String, Object>() {
+                    @Override
+                    public void onResponse(String collectDeleteBean, String status, ResultBean<String,Object> page) {
+                        orderListContract.sureReceiptSuccess(collectDeleteBean);
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        orderListContract.sureReceiptFail(msg);
+                    }
+                }));
+    }
+
+    public void setWxPay(String Batch_No, String Charge_Amt, String Logo_ID, String Charge_Type, String apptype, String apppackage, String SessionId) {
+        /*final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "微信支付中...", true);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "BankCharge");
+        params.put("fun", "BankChargeRecharge");
+        params.put("Batch_No", Batch_No);
+        params.put("Charge_Amt", Charge_Amt);
+        params.put("Logo_ID", Logo_ID);
+        params.put("Charge_Type", Charge_Type);
+        params.put("apptype", apptype);
+        params.put("apppackage", apppackage);
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.wxPay(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<WxInfo, Object>() {
+                    @Override
+                    public void onResponse(WxInfo fareBean, String status, Object page) {
+//                        orderListContract.wxInfoSuccess(fareBean);
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
@@ -105,77 +128,12 @@ public class OrderListPresenter extends BasePresenter {
 
                     @Override
                     public void onErr(String msg, String status) {
-                        orderListContract.getTlementFail(msg);
-
+                        orderListContract.wxInfoFail(msg);
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
                     }
-                }));
-    }
-
-    /**
-     *  结算
-     * @param GoodsId    商品
-     * @param OrderAmount  金额
-     * @param ShippingFree 运费
-     * @param goodsNum    数量
-     * @param Consignee   收货人
-     * @param Mobile      手机
-     * @param SingleCenterName  店铺
-     * @param deliveryMethod   配送方式
-     * @param prov      省份
-     * @param city      城市
-     * @param area      地区
-     * @param OrderType  订单类型
-     * @param Address    收货地址
-     * @param UserName   经销商
-     * @param Post       邮编
-     * @param PostScript  说明
-     * @param Integral    总分值
-     * @param SessionId
-     */
-    public void settlement(String GoodsId,String UserLevel,String OrderAmount,String ShippingFree,String goodsNum,String Consignee,String Mobile,String SingleCenterName,
-                           String deliveryMethod,String prov,String city,String area,String OrderType,String Address,String UserName,String Post,
-                           String PostScript,String Integral,String SessionId){
-        HashMap<String, String> params = new HashMap<>();
-        params.put("cls", "UserBase");
-        params.put("fun", "UserBaseUpgrade");
-        params.put("GoodsId", GoodsId);
-        params.put("UserLevel", UserLevel);
-        params.put("OrderAmount", OrderAmount);
-        params.put("ShippingFree", ShippingFree);
-        params.put("goodsNum", goodsNum);
-        params.put("Consignee", Consignee);
-        params.put("Mobile", Mobile);
-        params.put("SingleCenterName", SingleCenterName);
-        params.put("deliveryMethod", deliveryMethod);
-        params.put("prov", prov);
-        params.put("city", city);
-        params.put("area", area);
-        params.put("OrderType", OrderType);
-        params.put("Address", Address);
-        params.put("UserName", UserName);
-        params.put("Post", Post);
-        params.put("PostScript", PostScript);
-        params.put("Integral", Integral);
-        params.put("SessionId", SessionId);
-        mCompositeSubscription.add(manager.settlement(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<String, Object>() {
-                    @Override
-                    public void onResponse(String goodsBeans, String status, ResultBean<String, Object> page) {
-                        orderListContract.getTlementSuccess(goodsBeans);
-
-                    }
-
-                    @Override
-                    public void onErr(String msg, String status) {
-                        orderListContract.getTlementFail(msg);
-
-                    }
-                }));
+                }));*/
     }
 
 }

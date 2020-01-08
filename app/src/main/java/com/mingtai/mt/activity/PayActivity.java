@@ -1,13 +1,12 @@
 package com.mingtai.mt.activity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
@@ -27,18 +26,19 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.PayContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.TiaoboBean;
 import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.interf.IWxResultListener;
-import com.mingtai.mt.interf.OnPasswordInputFinish;
 import com.mingtai.mt.presenter.PayPresenter;
 import com.mingtai.mt.ui.PasswordView;
 import com.mingtai.mt.util.MingtaiUtil;
+import com.mingtai.mt.util.UiHelper;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 
-import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -47,17 +47,6 @@ import butterknife.OnClick;
  */
 public class PayActivity extends BaseActivity implements PayContract, IWxResultListener {
 
-    private PayPresenter payPresenter = new PayPresenter();
-
-    private String orderid;
-    private String totalPrice;
-    private String where;
-    private Dialog payDialog;
-    private PopupWindow popupWindow;
-    private String point;
-    PasswordView passwordView;
-
-    private OrderDetailBean orderDetailBeans;
 
     @BindView(R.id.check_wx)
     CheckBox check_wx;
@@ -87,8 +76,42 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     TextView tv_surplus_point;
     @BindView(R.id.ll_tiaobo)
     LinearLayout ll_tiaobo;
+    @BindView(R.id.ll_table)
+    LinearLayout ll_table;
+    @BindView(R.id.ll_pay)
+    LinearLayout ll_pay;
+    @BindView(R.id.tv_add_tiaobo_item)
+    TextView tv_add_tiaobo_item;
+    @BindView(R.id.tv_right_now_pay)
+    TextView tv_right_now_pay;
+    @BindView(R.id.et_discount_pay)
+    EditText et_discount_pay;
+    @BindView(R.id.et_netcoin_pay)
+    EditText et_netcoin_pay;
 
     IWXAPI iwxapi = null;
+    private PayPresenter payPresenter = new PayPresenter();
+
+    private String orderid;
+    private String totalPrice;
+    private String where;
+    private Dialog payDialog;
+    private PopupWindow popupWindow;
+    private String point;
+    PasswordView passwordView;
+
+    private OrderDetailBean orderDetailBeans;
+    private BalanceBean balanceBean;
+
+    HashMap<String,View> stringViewHashMap = new HashMap<>();
+    HashMap<String,TextView> stringTextViewHashMap = new HashMap<>();
+
+    ArrayList<TiaoboBean> tiaoboBeans = new ArrayList<>();
+    ArrayList<Integer> strings = new ArrayList<>();
+
+    int addInt = 0;
+    int goodsType = 0;
+    double isRemainderPrice = 0;
 
     @Override
     public int getLayoutId() {
@@ -112,6 +135,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
         if (bundle != null) {
             orderid = bundle.getString(MingtaiUtil.ORDERSN);
+            goodsType = bundle.getInt(MingtaiUtil.GOODSTYPE);
         }
 //        tv_amount.setText(totalPrice + "");
         payPresenter.getBalance(ProApplication.SESSIONID(this));
@@ -129,8 +153,55 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             }
         });
 
+        if (goodsType == MingtaiUtil.TIAOBOINT){
+            ll_tiaobo.setVisibility(View.VISIBLE);
+            ll_pay.setVisibility(View.GONE);
+            tv_right_now_pay.setText("下一步");
+        }else {
+            ll_tiaobo.setVisibility(View.GONE);
+            ll_pay.setVisibility(View.VISIBLE);
+        }
+
+        et_discount_pay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (et_discount_pay.getText().toString().trim().length() > 0){
+                        if (Double.valueOf(et_discount_pay.getText().toString()) > isRemainderPrice ||
+                                Double.valueOf(et_discount_pay.getText().toString()) > balanceBean.getMoney5Balance()){
+                            et_discount_pay.setText("0");
+                            toast("输入的金额有误，请重新输入");
+                        }else {
+                            isRemainderPrice = isRemainderPrice - Double.valueOf(et_discount_pay.getText().toString());
+                        }
+                    }
+                }
+            }
+        });
+
+
+        et_netcoin_pay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (et_netcoin_pay.getText().toString().trim().length() > 0){
+                        if (Double.valueOf(et_netcoin_pay.getText().toString()) > isRemainderPrice ||
+                                Double.valueOf(et_netcoin_pay.getText().toString()) > balanceBean.getMoney1Balance()){
+                            toast("输入的金额有误，请重新输入");
+                            et_netcoin_pay.setText("0");
+                        }else {
+                            isRemainderPrice = isRemainderPrice - Double.valueOf(et_netcoin_pay.getText().toString());
+                        }
+                    }
+                }
+            }
+        });
+
+
+
     }
 
+    @SuppressLint("ResourceType")
     @OnClick({R.id.rl_wx, R.id.rl_self, R.id.tv_right_now_pay, R.id.ll_back,R.id.tv_add_tiaobo_item})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -157,57 +228,123 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
                 final SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN, MODE_PRIVATE);
 
-                if (tv_balance_not_enough != null && !tv_balance_not_enough.isShown()) {
+                if (tv_right_now_pay.getText().toString().equals("下一步")){
+                    if (tv_surplus_point.getText().toString().equals("0")) {
+                        String dateStr = "";
+                        String pointStr = "";
+                        for (int i = 0;i <tiaoboBeans.size();i++) {
+                            if (i == 0){
+                                dateStr =  tiaoboBeans.get(i).getTime();
+                                pointStr = tiaoboBeans.get(i).getValue()+"";
+                            }else {
+                                dateStr = dateStr + "," +tiaoboBeans.get(i).getTime();
+                                pointStr = pointStr + "," +tiaoboBeans.get(i).getValue();
+                            }
+                        }
+                        payPresenter.unloadPoint(orderid, dateStr,pointStr,ProApplication.SESSIONID(this));
+                    }else {
+                        toast("你输入的调拨值不正确");
+                    }
+                }else {
 
-                    View view1 = LayoutInflater.from(this).inflate(R.layout.dialog_pay, null);
+                    if (tv_balance_not_enough != null && !tv_balance_not_enough.isShown()) {
 
-                    popupWindow = new PopupWindow(this);
+                        View view1 = LayoutInflater.from(this).inflate(R.layout.layout_popup_psd, null);
 
-                    popupWindow.setContentView(view1);
-                    popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                    popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-                    popupWindow.setOutsideTouchable(true);
-                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                        popupWindow = new PopupWindow(this);
 
-                    popupWindow.showAsDropDown(ll_back);
+                        popupWindow.setContentView(view1);
+                        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                        popupWindow.setOutsideTouchable(true);
+                        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                        popupWindow.setFocusable(true);
+                        TextView tv_forgetPwd = view1.findViewById(R.id.tv_forgetPwd);
+                        ImageView tvCancel = view1.findViewById(R.id.tvCancel);
+                        final EditText et_psd = view1.findViewById(R.id.et_psd);
+                        TextView tv_pay = view1.findViewById(R.id.tv_pay);
 
-                    passwordView = view1.findViewById(R.id.pwd_view);
+                        et_psd.setFocusable(true);
+                        et_psd.setFocusableInTouchMode(true);
+                        et_psd.requestFocus();
 
-                    passwordView.setOnFinishInput(new OnPasswordInputFinish() {
-                        @Override
-                        public void inputFinish() {
-                            payPresenter.getPayOrderInfo(orderid, totalPrice + "", "", "0", point, passwordView.getStrPassword(),"","","", ProApplication.SESSIONID(PayActivity.this));
+                        tvCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                popupWindow.dismiss();
+                            }
+                        });
+
+                        tv_pay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (MingtaiUtil.editIsNotNull(et_psd)) {
+                                    payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", "0", orderDetailBeans.getIntegral() + "",
+                                            et_psd.getText().toString(), et_netcoin_pay.getText().toString(), "", et_discount_pay.getText().toString(),
+                                            ProApplication.SESSIONID(PayActivity.this));
+                                }else {
+                                    toast("密码不能为空");
+                                }
+                            }
+                        });
+
+
+                        tv_forgetPwd.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UiHelper.launcher(PayActivity.this, ModifyPayActivity.class);
+                            }
+                        });
+
+                        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+
+                            }
+                        });
+
+                        if (et_discount_pay.getText().toString().trim().length() == 0){
+                            et_discount_pay.setText("0");
+                        }
+                        if (et_netcoin_pay.getText().toString().trim().length() == 0){
+                            et_netcoin_pay.setText("0");
                         }
 
-                        @Override
-                        public void outfo() {
-                            popupWindow.dismiss();
+                        if (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()) > orderDetailBeans.getOrderAmount()){
+                            toast("输入的金额有误，请重新输入");
+                            et_discount_pay.setText("0");
+                            et_netcoin_pay.setText("0");
+                            return;
                         }
 
-                        @Override
-                        public void forgetPwd() {
-//                            UiHelper.launcher(PayActivity.this, ModifyPayActivity.class);
-                        }
-                    });
+                        double isRemainPrice = orderDetailBeans.getOrderAmount() - (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()));
 
-                    popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
+                        if (check_wx.isChecked() || check_self.isChecked()) {
 
+                            if (isRemainPrice == 0 && check_self.isChecked()) {
+                                popupWindow.showAsDropDown(ll_back);
+                            } else if (isRemainPrice > 0 && check_self.isChecked() && check_wx.isChecked()) {
+                                popupWindow.showAsDropDown(ll_back);
+                            } else if (isRemainPrice > 0 && check_wx.isChecked()) {
+                                toast("微信支付待开发");
+                            } else  if (isRemainPrice > 0 && !check_wx.isChecked()){
+                                toast("您输入的余额不足以支付，请一起选择微信支付");
+                            }
+                        }else {
+                            toast("请选择支付方式");
                         }
-                    });
+                    }
+
                 }
-
                 break;
 
             case R.id.ll_back:
 
-                /*if (where.equals(WlmUtil.GOODS)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("status", 0);
-                    bundle.putString("order_sn", orderid);
-                    UiHelper.launcherForResultBundle(this, AllOrderActivity.class, 0x0987, bundle);
-                }*/
+                Bundle bundle = new Bundle();
+                bundle.putInt("status", 0);
+                bundle.putString("order_sn", orderid);
+                UiHelper.launcherForResultBundle(this, OrderDetailActivity.class, 0x0987, bundle);
+
                 setResult(RESULT_OK);
                 finish();
 
@@ -215,38 +352,103 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
             case R.id.tv_add_tiaobo_item:
 
-//                PopupWindow popupWindow = new PopupWindow(this);
-//                View rootView = LayoutInflater.from(this).inflate(R.layout.,null);
-//                popupWindow.setContentView(rootView);
-//                popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-//                popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-//                popupWindow.setBackgroundDrawable(new BitmapDrawable());
-//                popupWindow.setFocusable(true);
-//                popupWindow.setOutsideTouchable(true);
-
                 Calendar calendar = Calendar.getInstance();
 
-                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener(){
+                new DatePickerDialog(this,2, new DatePickerDialog.OnDateSetListener(){
 
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    public void onDateSet(DatePicker view,final int year,final int month, int dayOfMonth) {
                         View view1 = LayoutInflater.from(PayActivity.this).inflate(R.layout.dialog_date,null);
-                        TextView tv_title = view1.findViewById(R.id.tv_title);
-                        tv_title.setText(year+"年" + (month+1) + "月" + dayOfMonth + "日调拨分值");
+//                        TextView tv_title = view1.findViewById(R.id.tv_title);
+//                        tv_title.setText(year+"年" + (month+1) + "月" + dayOfMonth + "日调拨分值");
                         final EditText editText = view1.findViewById(R.id.et_choose_point);
-                        new AlertDialog.Builder(PayActivity.this).setView(view1).setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (editText.getText().toString().trim().length() > 0){
+                        final TextView tv_exit = view1.findViewById(R.id.tv_exit);
+                        final TextView tv_sure = view1.findViewById(R.id.tv_sure);
 
-                                    if (Integer.valueOf(editText.getText().toString()) <= Integer.valueOf(tv_surplus_point.getText().toString())){
+                        final Dialog dialog = new Dialog(PayActivity.this);
+
+                        dialog.setContentView(view1);
+                        tv_exit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                        tv_sure.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (editText.getText().toString() != null && !editText.getText().toString().equals("") && editText.getText().toString().trim().length() > 0){
+                                    String editStr = editText.getText().toString();
+                                    int editInt = Integer.valueOf(editStr);
+                                    int surplus = Integer.valueOf(tv_surplus_point.getText().toString());
+
+
+                                    if (editInt <= surplus){
+
+                                        addInt++;
+
+                                        strings.add(addInt);
+
+                                        tv_surplus_point.setText(surplus-editInt +"");
+
+                                        if (surplus == editInt){
+                                            tv_add_tiaobo_item.setVisibility(View.GONE);
+                                        }
+
+                                        View view1 = LayoutInflater.from(PayActivity.this).inflate(R.layout.tiaobo_item,null);
+
+                                        EditText tv_date = view1.findViewById(R.id.tv_date);
+                                        EditText et_point = view1.findViewById(R.id.et_point);
+                                        TextView tv_reduce = view1.findViewById(R.id.tv_reduce);
+
+
+                                        TiaoboBean tiaoboBean = new TiaoboBean();
+                                        if (month < 9){
+                                            tiaoboBean.setTime(year + "-0"+(month+1));
+                                            tv_date.setText(year+"/0"+(month+1));
+                                        }else {
+                                            tiaoboBean.setTime(year + "-"+(month+1));
+                                            tv_date.setText(year+"/"+(month+1));
+                                        }
+                                            tiaoboBean.setValue(editInt);
+
+                                        tiaoboBeans.add(tiaoboBean);
+
+                                        et_point.setText(editStr);
+
+                                        final int temp = addInt;
+
+                                        stringViewHashMap.put("" + addInt,view1);
+                                        stringTextViewHashMap.put(""+addInt,editText);
+
+                                        ll_table.addView(view1);
+
+                                        tv_reduce.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                int s = Integer.valueOf(stringTextViewHashMap.get(temp+"").getText().toString());
+                                                tv_surplus_point.setText(Integer.valueOf(tv_surplus_point.getText().toString()) + s + "");
+                                                ll_table.removeView(stringViewHashMap.get(temp+""));
+                                                tv_add_tiaobo_item.setVisibility(View.VISIBLE);
+                                                for (int i = 0; i < strings.size();i++){
+                                                    if (strings.get(i) == temp){
+                                                        tiaoboBeans.remove(i);
+                                                    }
+                                                }
+                                            }
+                                        });
+
                                         dialog.dismiss();
                                     }else {
                                         toast("您的分值不够");
                                     }
                                 }
                             }
-                        }).show();
+                        });
+
+                        dialog.show();
                     }
                 }, calendar.get(Calendar.YEAR)
                         ,calendar.get(Calendar.MONTH)
@@ -279,11 +481,13 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             popupWindow.dismiss();
         }
 
-//        Bundle bundle = new Bundle();
-//        bundle.putString(WlmUtil.PRICE, totalPrice);
-//        bundle.putString(WlmUtil.ORDERID, orderid);
-//        bundle.putString(WlmUtil.GOODSTYPE, orderDetailBeans.getOrderType() + "");
-//        UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
+        Bundle bundle = new Bundle();
+        bundle.putString(MingtaiUtil.PRICE, totalPrice);
+        bundle.putString(MingtaiUtil.ORDERSN, orderid);
+        bundle.putString(MingtaiUtil.GOODSTYPE, orderDetailBeans.getOrderType() + "");
+        UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
+
+        finish();
 
     }
 
@@ -298,6 +502,9 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
     @Override
     public void getBalanceSuccess(BalanceBean balanceBean) {
+
+        this.balanceBean = balanceBean;
+
         double totalBalance = balanceBean.getMoney5Balance() + balanceBean.getMoney1Balance();
 
         tv_balance.setText("余额支付（剩余" + MingtaiUtil.isCoin(totalBalance) + "）");
@@ -317,6 +524,8 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         this.point = orderDetailBeans.getIntegral() + "";
         this.totalPrice = orderDetailBeans.getOrderAmount()+"";
         tv_amount.setText(totalPrice + "");
+
+        isRemainderPrice = orderDetailBeans.getOrderAmount();
         /*if (orderDetailBeans.getIntegral() == 0) {
             tv_point.setVisibility(View.GONE);
         } else {
@@ -336,15 +545,27 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     }
 
     @Override
+    public void getPointSuccess(String msg) {
+        ll_tiaobo.setVisibility(View.GONE);
+        ll_pay.setVisibility(View.VISIBLE);
+        tv_right_now_pay.setText(getString(R.string.right_now_pay));
+    }
+
+    @Override
+    public void getPointFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            /*Bundle bundle = new Bundle();
+            Bundle bundle = new Bundle();
             bundle.putInt("status", 0);
             bundle.putString("order_sn", orderid);
-            UiHelper.launcherForResultBundle(this, AllOrderActivity.class, 0x0987, bundle);
+            UiHelper.launcherForResultBundle(this, OrderDetailActivity.class, 0x0987, bundle);
             setResult(RESULT_OK);
-            finish();*/
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);

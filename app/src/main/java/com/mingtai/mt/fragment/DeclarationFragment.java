@@ -77,9 +77,9 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
             case 1:
 
                 if (isRegister) {
-                    dumpActivity(MingtaiUtil.SALEINT);
-                }else {
                     dumpActivity(MingtaiUtil.UPDATEINT);
+                }else {
+                    dumpActivity(MingtaiUtil.TIAOBOINT);
                 }
 
                 break;
@@ -87,9 +87,7 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
             case 2:
 
                 if (isRegister) {
-                    dumpActivity(MingtaiUtil.UPDATEINT);
-                }else {
-                    dumpActivity(MingtaiUtil.TIAOBOINT);
+                    dumpActivity(MingtaiUtil.SALEINT);
                 }
 
                 break;

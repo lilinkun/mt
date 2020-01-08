@@ -6,15 +6,15 @@ import com.mingtai.mt.R;
  * Created by LG on 2020/1/2.
  */
 public enum DeclarationEnum {
-    REGISTER(R.mipmap.ic_register,"会员注册"),
-    SALE(R.mipmap.ic_register,"会员消费"),
-    UPDATE(R.mipmap.ic_register,"会员升级"),
-    TIAOBO(R.mipmap.ic_register,"业绩调拨");
+    REGISTER(R.mipmap.ic_register,R.string.declaration_register),
+    UPDATE(R.mipmap.ic_register,R.string.declaration_upgrade),
+    SALE(R.mipmap.ic_register,R.string.declaration_sale),
+    TIAOBO(R.mipmap.ic_register,R.string.declaration_tiaobo);
 
     private int ImgSrc;
-    private String DeclarationStr;
+    private int DeclarationStr;
 
-    DeclarationEnum(int ImgSrc,String declarationStr){
+    DeclarationEnum(int ImgSrc,int declarationStr){
         this.ImgSrc = ImgSrc;
         this.DeclarationStr = declarationStr;
     }
@@ -27,11 +27,11 @@ public enum DeclarationEnum {
         ImgSrc = imgSrc;
     }
 
-    public String getDeclarationStr() {
+    public int getDeclarationStr() {
         return DeclarationStr;
     }
 
-    public void setDeclarationStr(String declarationStr) {
+    public void setDeclarationStr(int declarationStr) {
         DeclarationStr = declarationStr;
     }
 }

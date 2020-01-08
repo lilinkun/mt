@@ -46,20 +46,25 @@ public class DeclarationAdapter extends RecyclerView.Adapter<DeclarationAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        if (!isDeclaration){
-            position = position + 1;
-        }
-
         holder.itemView.setTag(position);
-
-        holder.tv_declaration.setText(DeclarationEnum.values()[position].getDeclarationStr());
-        holder.iv_declaration.setImageResource(DeclarationEnum.values()[position].getImgSrc());
+        if (!isDeclaration){
+            if (position == 0) {
+                holder.tv_declaration.setText(DeclarationEnum.SALE.getDeclarationStr());
+                holder.iv_declaration.setImageResource(DeclarationEnum.SALE.getImgSrc());
+            }else if (position == 1){
+                holder.tv_declaration.setText(DeclarationEnum.TIAOBO.getDeclarationStr());
+                holder.iv_declaration.setImageResource(DeclarationEnum.TIAOBO.getImgSrc());
+            }
+        }else {
+            holder.tv_declaration.setText(DeclarationEnum.values()[position].getDeclarationStr());
+            holder.iv_declaration.setImageResource(DeclarationEnum.values()[position].getImgSrc());
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return isDeclaration?DeclarationEnum.values().length:DeclarationEnum.values().length-1;
+        return isDeclaration?DeclarationEnum.values().length:DeclarationEnum.values().length-2;
     }
 
     @Override

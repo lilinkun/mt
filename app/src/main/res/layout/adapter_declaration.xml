@@ -20,7 +20,7 @@
         android:layout_marginBottom="@dimen/margin_20"
         android:textColor="@color/black_333333"
         android:layout_marginTop="@dimen/margin_10"
-        android:text="会员注册"/>
+        android:text="@string/declaration_register"/>
 
 
 </LinearLayout>

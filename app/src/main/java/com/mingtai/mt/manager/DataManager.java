@@ -9,6 +9,7 @@ import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.OrderDetailBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
@@ -36,6 +37,16 @@ public class DataManager {
 
     public Observable<ResultBean<String, Object>> register(HashMap<String,String> hashMap){
         return mRetrofitService.register(hashMap);
+    }
+
+    /**
+     * 修改支付密码
+     *
+     * @param mHashMap
+     * @return
+     */
+    public Observable<ResultBean<String, Object>> modifyPsd(HashMap<String, String> mHashMap) {
+        return mRetrofitService.modifyPsd(mHashMap);
     }
 
 
@@ -155,6 +166,34 @@ public class DataManager {
      */
     public Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(HashMap<String, String> mHashMap) {
         return mRetrofitService.getOrderDetail(mHashMap);
+    }
+
+    /**
+     * 调拨
+     */
+    public Observable<ResultBean<String, Object>> unloadPoint(HashMap<String, String> mHashMap) {
+        return mRetrofitService.unloadPoint(mHashMap);
+    }
+
+    /**
+     * 获取订单列表
+     */
+    public Observable<ResultBean<ArrayList<OrderBean>, Object>> getSelfOrderList(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getSelfOrderList(mHashMap);
+    }
+
+    /**
+     * 删除订单
+     */
+    public Observable<ResultBean<String, Object>> exitOrder(HashMap<String, String> mHashMap) {
+        return mRetrofitService.exitOrder(mHashMap);
+    }
+
+    /**
+     * 确认收货
+     */
+    public Observable<ResultBean<String, Object>> sureReceipt(HashMap<String, String> mHashMap) {
+        return mRetrofitService.sureReceipt(mHashMap);
     }
 
 }

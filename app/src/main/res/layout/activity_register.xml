@@ -34,7 +34,7 @@
             android:layout_centerInParent="true"
             android:textSize="@dimen/textsize16"
             android:textColor="@color/black"
-            android:text="注册登记"/>
+            android:text="@string/declaration_register"/>
 
     </RelativeLayout>
 

@@ -14,7 +14,7 @@
     <string name="login_forget_psw">忘记密码</string>
     <string name="login_register">立刻注册</string>
 
-    <!--会员注册-->
+    <!--会员注册,修改密码-->
     <string name="register_name">姓名(必填项)</string>
     <string name="register_need_local">服务区域编号(必填项)</string>
     <string name="register_server_local">服务区域</string>
@@ -27,6 +27,11 @@
     <string name="register_mobile">手机号码(必填项)</string>
     <string name="register_local">省/市/区(必填项)</string>
     <string name="register_address">详细地址(必填项)</string>
+    <string name="register_input_vcode">请输入验证码</string>
+    <string name="register_send_vcoed">获取验证码</string>
+    <string name="psd_limit">请输入支付密码</string>
+    <string name="psd_sure">请再次输入密码</string>
+    <string name="modify_sure">确定</string>
 
 
     <string name="business_name">店铺(必填项)</string>
@@ -68,5 +73,19 @@
     <string name="pay_wx">微信支付</string>
     <string name="right_now_pay">立即支付</string>
 
+    <!--我的-->
+    <string name="me_order">我的订单</string>
+
+    <string name="declaration_register">会员注册</string>
+    <string name="declaration_sale">会员消费</string>
+    <string name="declaration_upgrade">会员升级</string>
+    <string name="declaration_tiaobo">业绩调拨</string>
+
+
+    <!--订单-->
+    <string name="order_exit">取消订单</string>
+    <string name="query_logistics">查看物流</string>
+    <string name="go_pay">去付款</string>
+    <string name="no_order_tip">还没有相关的订单呢</string>
 
 </resources>

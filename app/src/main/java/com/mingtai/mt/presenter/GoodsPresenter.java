@@ -1,5 +1,6 @@
 package com.mingtai.mt.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
@@ -78,6 +79,7 @@ public class GoodsPresenter extends BasePresenter {
      * 获取商品
      */
     public void getGoods(String PageIndex,String PageCount,String CategoryId,String GoodsType,String UserLevel,String SessionId){
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "Goods");
         if (GoodsType.equals(MingtaiUtil.UPDATEINT+"")){
@@ -99,12 +101,18 @@ public class GoodsPresenter extends BasePresenter {
                     public void onResponse(ArrayList<GoodsBean> goodsBeans, String status, ResultBean<ArrayList<GoodsBean>, Object> page) {
                         goodsContract.getGoodsDataSuccess(goodsBeans);
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
                         goodsContract.getGoodsDataFail(msg);
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
                 }));
 
