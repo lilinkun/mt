@@ -45,52 +45,18 @@ public class ModifyPayPsdPresenter extends BasePresenter {
         }
     }
 
-    /**
-     * 发送短信验证码
-     *
-     * @param sessionId
-     */
-    public void SendSms(String sessionId) {
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("cls", "SendSms");
-        params.put("fun", "SendSafetyVerificationCode");
-        params.put("SessionId", sessionId);
-        mCompositeSubscription.add(manager.register(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<String, Object>() {
-
-                    @Override
-                    public void onResponse(String o, String status, ResultBean<String,Object> page) {
-                        modifyPayPsdContract.onSendVcodeSuccess();
-                    }
-
-                    @Override
-                    public void onErr(String msg, String status) {
-                        modifyPayPsdContract.onSendVcodeFail(msg);
-                    }
-
-                    @Override
-                    public void onNext(ResultBean o) {
-                        super.onNext(o);
-                    }
-
-                })
-        );
-    }
 
     /**
      * 修改支付密码
      *
      * @param sessionId
      */
-    public void modifyPsd(String Code, String PassWord, String ConfirmPassWord, String sessionId) {
+    public void modifyPsd(String oldPwd, String PassWord, String ConfirmPassWord, String sessionId) {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "UserBaseChangePassWord_Two");
-        params.put("Code", Code);
+        params.put("oldPwd", oldPwd);
         params.put("PassWord", PassWord);
         params.put("ConfirmPassWord", ConfirmPassWord);
         params.put("SessionId", sessionId);

@@ -162,6 +162,13 @@ public class PayPresenter extends BasePresenter {
     }
 
 
+    /**
+     * 调拨
+     * @param OrderSn
+     * @param HarmonicDate
+     * @param Integral
+     * @param SessionId
+     */
     public void unloadPoint(String OrderSn,String HarmonicDate,String Integral, String SessionId){
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "OrderInfo");

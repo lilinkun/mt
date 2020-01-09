@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 
 import butterknife.BindView;
@@ -32,6 +33,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initEventAndData() {
 
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//隐藏状态栏
 //        getSupportActionBar().hide();//隐藏标题栏
 

@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.BalanceBean;
+import com.mingtai.mt.entity.BalanceDetailBean;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.OrderDetailBean;
 import com.mingtai.mt.entity.PageBean;
@@ -100,7 +102,7 @@ public class DataManager {
     /**
      * 获取全局设置
      */
-    public Observable<ResultBean<HomeBean, Object>> getHomeData(HashMap<String, String> mHashMap) {
+    public Observable<ResultBean<HomeMobileBean, Object>> getHomeData(HashMap<String, String> mHashMap) {
         return mRetrofitService.getHomeData(mHashMap);
     }
 
@@ -195,5 +197,25 @@ public class DataManager {
     public Observable<ResultBean<String, Object>> sureReceipt(HashMap<String, String> mHashMap) {
         return mRetrofitService.sureReceipt(mHashMap);
     }
+
+
+    /**
+     * 获取购物金额
+     */
+    public Observable<ResultBean<ArrayList<BalanceDetailBean>, Object>> getAmountPrice(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getAmountPrice(mHashMap);
+    }
+
+
+    /**
+     * 登出
+     *
+     * @param mHashMap
+     * @return
+     */
+    public Observable<ResultBean<String, Object>> loginout(HashMap<String, String> mHashMap) {
+        return mRetrofitService.loginout(mHashMap);
+    }
+
 
 }

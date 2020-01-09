@@ -207,6 +207,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:layout_marginLeft="@dimen/margin_10"
+                        android:inputType="number"
                         android:textSize="@dimen/textsize12"
                         android:textColorHint="@color/line"
                         android:text="0"/>
@@ -251,6 +252,7 @@
                         android:background="@null"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:textSize="@dimen/textsize12"
+                        android:inputType="number"
                         android:textColorHint="@color/line"
                         android:text="0"/>
                 </LinearLayout>
@@ -283,10 +285,17 @@
                         android:id="@+id/tv_balance_wx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/textsize16"
+                        android:textSize="@dimen/textsize14"
                         android:textColor="@color/pay_text"
                         android:text="@string/pay_wx"
                         android:layout_marginLeft="@dimen/margin_15"/>
+
+                    <TextView
+                        android:id="@+id/tv_wx_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textsize12"
+                        android:textColor="@color/black_333333"/>
 
 
                 </LinearLayout>
@@ -352,7 +361,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginLeft="@dimen/margin_20"
-                android:layout_marginRight="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_10"
                 android:orientation="vertical">
 
                 <LinearLayout

@@ -10,6 +10,7 @@ import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.ModifyPayPsdContract;
 import com.mingtai.mt.presenter.ModifyPayPsdPresenter;
+import com.mingtai.mt.util.Eyes;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,8 +22,6 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
 
     @BindView(R.id.tv_phone)
     TextView textView;
-    @BindView(R.id.tv_send_vcode)
-    TextView tv_send_vcode;
     @BindView(R.id.ev_sure_psd)
     EditText ev_sure_psd;
     @BindView(R.id.ev_new_psd)
@@ -34,8 +33,6 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
 
     ModifyPayPsdPresenter modifyPayPsdPresenter = new ModifyPayPsdPresenter();
 
-    MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_modify_pay_psd;
@@ -44,6 +41,7 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
     @Override
     public void initEventAndData() {
 
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         modifyPayPsdPresenter.onCreate(this, this);
 
 
@@ -53,23 +51,17 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
 
     }
 
-    @OnClick({R.id.tv_send_vcode, R.id.ev_new_psd, R.id.tv_modify_commit, R.id.ll_back})
+    @OnClick({ R.id.ev_new_psd, R.id.tv_modify_commit, R.id.ll_back})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_send_vcode:
-
-                modifyPayPsdPresenter.SendSms(ProApplication.SESSIONID(this));
-
-                myCountDownTimer.start();
-                break;
 
             case R.id.tv_modify_commit:
                 if (ev_vcode.getText().toString().isEmpty()) {
-                    toast("验证码不能为空");
+                    toast("原密码不能为空");
                 } else if (ev_new_psd.getText().toString().isEmpty()) {
                     toast("新密码不能为空");
-                } else if (ev_new_psd.getText().toString().length() != 6) {
-                    toast(R.string.psd_limit);
+                } else if (ev_new_psd.getText().toString().equals(ev_vcode.getText().toString())) {
+                    toast("新老密码不能相同");
                 } else if (ev_sure_psd.getText().toString().isEmpty()) {
                     toast("确认密码不能为空");
                 } else if (!ev_new_psd.getText().toString().equals(ev_sure_psd.getText().toString())) {
@@ -89,17 +81,6 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
                 break;
         }
     }
-
-    @Override
-    public void onSendVcodeSuccess() {
-        toast("获取验证码成功");
-    }
-
-    @Override
-    public void onSendVcodeFail(String str) {
-        toast("获取验证码失败");
-    }
-
     @Override
     public void modifySuccess() {
         toast("修改成功");
@@ -108,7 +89,7 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
 
     @Override
     public void modifyFail(String str) {
-        toast("修改失败");
+        toast(str);
     }
 
     @Override
@@ -122,32 +103,5 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
         toast(msg);
     }
 
-    /**
-     * 获取验证码倒计时
-     */
-    private class MyCountDownTimer extends CountDownTimer {
 
-        public MyCountDownTimer(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
-        }
-
-        //计时过程
-        @Override
-        public void onTick(long l) {
-            //防止计时过程中重复点击
-            tv_send_vcode.setClickable(false);
-            tv_send_vcode.setText(l / 1000 + "s");
-        }
-
-        //计时完毕的方法
-        @Override
-        public void onFinish() {
-            //重新给Button设置文字
-            tv_send_vcode.setText(R.string.register_send_vcoed);
-            //设置可点击
-            tv_send_vcode.setClickable(true);
-
-            tv_send_vcode.setTextColor(getResources().getColor(R.color.register_vcode_bg));
-        }
-    }
 }

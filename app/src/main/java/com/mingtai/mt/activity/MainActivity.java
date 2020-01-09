@@ -3,6 +3,7 @@ package com.mingtai.mt.activity;
 
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -14,11 +15,14 @@ import com.mingtai.mt.fragment.DeclarationFragment;
 import com.mingtai.mt.fragment.HomeFragment;
 import com.mingtai.mt.fragment.MeFragment;
 import com.mingtai.mt.ui.CustomViewPager;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,6 +48,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void initEventAndData() {
+
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
 
         initFragment();
 
@@ -105,6 +111,36 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exitByDoubleClick();
+        }
+        return false;
+    }
+
+
+    boolean isExit = false;
+
+    private void exitByDoubleClick() {
+        Timer tExit = null;
+        if (!isExit) {
+            isExit = true;
+            toast("再按一次退出程序");
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false;//取消退出
+                }
+            }, 2000);// 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -125,4 +161,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageScrollStateChanged(int state) {
 
     }
+
+
+
 }

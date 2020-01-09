@@ -1,6 +1,7 @@
 package com.mingtai.mt.contract;
 
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.mvp.IView;
 
 /**
@@ -11,4 +12,6 @@ public interface HomeContract extends IView {
     public void getDataSuccess(HomeBean msg);
     public void getDataFail(String msg);
 
+    public void getHomeSuccess(HomeMobileBean homeMobileBean);
+    public void getHomeFail(String msg);
 }

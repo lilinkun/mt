@@ -74,8 +74,7 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
         holder.tv_order_time.setText(selfOrderBeans.get(position).getCreateDate());
 
         if (selfOrderBeans.get(position).getOrderStatus() == 1) {
-            holder.tv_exit_order.setVisibility(View.VISIBLE);
-            holder.tv_exit_order.setText("申请退款");
+            holder.tv_exit_order.setVisibility(View.GONE);
             holder.tv_go_pay.setVisibility(View.GONE);
         } else if (selfOrderBeans.get(position).getOrderStatus() == 0) {
             holder.tv_exit_order.setVisibility(View.VISIBLE);
@@ -102,8 +101,7 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
             holder.tv_go_pay.setVisibility(View.VISIBLE);
             holder.tv_go_pay.setText("确认收货");
             holder.tv_query_logistics.setVisibility(View.VISIBLE);
-            holder.tv_exit_order.setVisibility(View.VISIBLE);
-            holder.tv_exit_order.setText("申请退款");
+            holder.tv_exit_order.setVisibility(View.GONE);
         } else if (selfOrderBeans.get(position).getOrderStatus() == 4) {
             holder.tv_go_pay.setVisibility(View.GONE);
             holder.tv_exit_order.setVisibility(View.GONE);

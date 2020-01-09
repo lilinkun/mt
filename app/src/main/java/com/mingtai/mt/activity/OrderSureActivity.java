@@ -20,6 +20,7 @@ import com.mingtai.mt.presenter.OrderListPresenter;
 import com.mingtai.mt.presenter.OrderSurePresenter;
 import com.mingtai.mt.ui.CommendRecyclerView;
 import com.mingtai.mt.util.ActivityUtil;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -80,6 +81,7 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
     @Override
     public void initEventAndData() {
 
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         orderListPresenter.onCreate(this,this);
 
         ActivityUtil.addHomeActivity(this);
@@ -168,12 +170,19 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityUtil.removeHomeActivity(this);
+        ActivityUtil.removeActivity(this);
+    }
+
+    @Override
     public void getTlementSuccess(String msg) {
         Bundle bundle = new Bundle();
         bundle.putString(MingtaiUtil.ORDERSN,msg);
         bundle.putInt(MingtaiUtil.GOODSTYPE,customPriceBean.getGoodsType());
         UiHelper.launcherBundle(this,PayActivity.class,bundle);
-        ActivityUtil.removeHomeActivity(this);
+        ActivityUtil.finishHomeAll();
     }
 
     @Override

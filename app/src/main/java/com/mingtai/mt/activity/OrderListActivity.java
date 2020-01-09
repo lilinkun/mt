@@ -26,6 +26,7 @@ import com.mingtai.mt.interf.IPayOrderClickListener;
 import com.mingtai.mt.presenter.OrderListPresenter;
 import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.ButtonUtils;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -71,6 +72,7 @@ public class OrderListActivity extends BaseActivity implements IPayOrderClickLis
     @Override
     public void initEventAndData() {
 
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         orderListPresenter.onCreate(this, this);
         ActivityUtil.addActivity(this);
 
@@ -178,6 +180,13 @@ public class OrderListActivity extends BaseActivity implements IPayOrderClickLis
                 dialog.dismiss();
             }
         }).show();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityUtil.removeActivity(this);
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.mingtai.mt.activity.SaleActivity;
 import com.mingtai.mt.adapter.DeclarationAdapter;
 import com.mingtai.mt.base.BaseFragment;
 import com.mingtai.mt.base.ProApplication;
+import com.mingtai.mt.ui.SimpleDividerItemDecoration;
 import com.mingtai.mt.ui.SpaceItemDecoration;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
@@ -44,7 +45,7 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
         int spacing = 1; // 50px
 
         boolean includeEdge = false;
-        rv_declaration.addItemDecoration(new SpaceItemDecoration(spanCount, spacing, 0));
+        rv_declaration.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
         rv_declaration.setLayoutManager(gridLayoutManager);
         rv_declaration.setAdapter(declarationAdapter);

@@ -1,11 +1,13 @@
 package com.mingtai.mt.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View;
 
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.HomeContract;
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
@@ -71,24 +73,29 @@ public class HomePresenter extends BasePresenter {
     }
 
     public void getHomeData(String SessionId){
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "获取数据中...", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "Home");
-        params.put("fun", "Guest");
+        params.put("fun", "Mobile");
         params.put("SessionId", SessionId);
         mCompositeSubscription.add(manager.getHomeData(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<HomeBean, Object>() {
+                .subscribe(new HttpResultCallBack<HomeMobileBean, Object>() {
                     @Override
-                    public void onResponse(HomeBean goodsListBeans, String status, ResultBean<HomeBean, Object> page) {
-                        homeContract.getDataSuccess(goodsListBeans);
-
+                    public void onResponse(HomeMobileBean goodsListBeans, String status, ResultBean<HomeMobileBean, Object> page) {
+                        homeContract.getHomeSuccess(goodsListBeans);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
-                        homeContract.getDataFail(msg);
-
+                        homeContract.getHomeFail(msg);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
                 }));
     }

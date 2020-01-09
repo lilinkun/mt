@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="#e9000000">
+    android:gravity="center_horizontal">
 
 
     <LinearLayout
@@ -23,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="支付密码"
+            android:text="支付"
             android:textColor="#898181"
             android:textSize="20sp" />
         <ImageView
@@ -49,9 +48,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_background"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_20"
                 android:layout_marginTop="20dp"
+                android:inputType="textPassword"
                 android:paddingLeft="@dimen/padding_10"
                 android:paddingTop="@dimen/padding_10"
                 android:paddingBottom="@dimen/padding_10"
@@ -75,11 +75,14 @@
 
     <TextView
         android:id="@+id/tv_pay"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:background="@color/setting_red_color"
+        android:background="@drawable/text_shape_commit"
         android:gravity="center"
         android:padding="@dimen/padding_10"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_20"
         android:textSize="@dimen/textsize16"
         android:textColor="@color/white"
         android:text="支付"/>

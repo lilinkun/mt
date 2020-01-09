@@ -32,6 +32,7 @@ import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.LocalBean;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.presenter.RegisterPresenter;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -108,6 +109,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
     @Override
     public void initEventAndData() {
+
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
 
         registerPresenter.onCreate(this,this);
 

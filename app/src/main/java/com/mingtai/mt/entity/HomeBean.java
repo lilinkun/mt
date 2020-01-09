@@ -16,6 +16,7 @@ public class HomeBean {
     private boolean IsPDType;
     private int IsShippingFree;
     private int ShippingPrice;
+    private String imgUrl;
 
     public String getUpgradeUrl() {
         return UpgradeUrl;
@@ -103,5 +104,13 @@ public class HomeBean {
 
     public void setShippingPrice(int shippingPrice) {
         ShippingPrice = shippingPrice;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

@@ -51,6 +51,7 @@ public class ProApplication extends Application {
         return "mt" + DeviceData.getUniqueId(mContext);
     }
 
+    public static String BANNERIMG = "";
 
     public static synchronized ProApplication context() {
         return (ProApplication) mContext;

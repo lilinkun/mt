@@ -29,7 +29,6 @@ public interface PayContract extends IView {
      * 剩余余额
      */
     public void getBalanceSuccess(BalanceBean balanceBean);
-
     public void getBalanceFail(String msg);
 
 

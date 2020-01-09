@@ -300,4 +300,12 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         }
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityUtil.removeHomeActivity(this);
+        ActivityUtil.removeActivity(this);
+    }
+
 }

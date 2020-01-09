@@ -26,6 +26,7 @@ import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.presenter.SalePresenter;
 import com.mingtai.mt.util.ActivityUtil;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -99,6 +100,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     @Override
     public void initEventAndData() {
 
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         salePresenter.onCreate(this,this);
         /*if (ProApplication.mAccountBean.getIsSingleCenter() > 0) {
             salePresenter.getStoreAddress(ProApplication.mAccountBean.getStoreNo(),ProApplication.SESSIONID(this));

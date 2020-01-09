@@ -57,7 +57,7 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:paddingLeft="@dimen/margin_10"
-                android:textSize="@dimen/textsize16"
+                android:textSize="@dimen/textsize14"
                 android:textColor="@color/black_333333"
                 android:text="手机号"/>
 
@@ -88,39 +88,21 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:paddingLeft="@dimen/margin_10"
-                android:textSize="@dimen/textsize16"
+                android:textSize="@dimen/textsize14"
                 android:textColor="@color/black_333333"
-                android:text="验证码"/>
+                android:text="原密码"/>
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3">
                 <EditText
                     android:id="@+id/ev_vcode"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/tv_send_vcode"
-                    android:layout_centerVertical="true"
                     android:layout_weight="3"
                     android:paddingLeft="@dimen/padding_10"
-                    android:hint="@string/register_input_vcode"
+                    android:inputType="textPassword"
+                    android:textSize="@dimen/textsize14"
+                    android:hint="@string/input_old_psd"
                     android:background="@null"/>
 
-                <TextView
-                    android:id="@+id/tv_send_vcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:textSize="@dimen/textsize14"
-                    android:gravity="center"
-                    android:textColor="@color/register_vcode_bg"
-                    android:paddingLeft="@dimen/padding_10"
-                    android:paddingRight="@dimen/padding_10"
-                    android:text="@string/register_send_vcoed"/>
-
-            </RelativeLayout>
         </LinearLayout>
 
 
@@ -139,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/margin_10"
-                android:textSize="@dimen/textsize16"
+                android:textSize="@dimen/textsize14"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:textColor="@color/pop_text_bg"
                 android:text="新密码"/>
@@ -150,7 +132,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:paddingLeft="@dimen/padding_10"
-                android:inputType="numberPassword"
+                android:textSize="@dimen/textsize14"
+                android:inputType="textPassword"
                 android:hint="@string/psd_limit"
                 android:background="@null"/>
         </LinearLayout>
@@ -172,7 +155,7 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:paddingLeft="@dimen/margin_10"
-                android:textSize="@dimen/textsize16"
+                android:textSize="@dimen/textsize14"
                 android:textColor="@color/pop_text_bg"
                 android:text="确认密码"/>
 
@@ -182,7 +165,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:paddingLeft="@dimen/padding_10"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
+                android:textSize="@dimen/textsize14"
                 android:hint="@string/psd_sure"
                 android:background="@null"/>
         </LinearLayout>

@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="@color/sale_title"
+        >
+
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black_333333"
+            android:textSize="@dimen/textsize18"
+            android:text="首页"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black_333333"/>
+
+    </RelativeLayout>
+
+    <!--<com.xw.banner.Banner
+        android:id="@+id/bannerView"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        app:indicator_width="10dp"
+        app:indicator_height="10dp"
+        app:indicator_margin="5dp"
+        app:indicator_drawable_selected="@drawable/ic_home_circle_banner_click"
+        app:indicator_drawable_unselected="@drawable/ic_home_circle_banner_unclick"
+        />-->
+
+    <com.youth.banner.Banner
+        android:id="@+id/bannerView"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        app:indicator_width="10dp"
+        app:indicator_height="10dp"
+        app:indicator_margin="5dp"
+        app:image_scale_type="center_inside"
+        app:indicator_drawable_selected="@drawable/ic_home_circle_banner_click"
+        app:indicator_drawable_unselected="@drawable/ic_home_circle_banner_unclick"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/padding_5"
         />
 
 </LinearLayout>

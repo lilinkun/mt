@@ -85,20 +85,20 @@ public class PayResultActivity extends BaseActivity implements PayResultContract
             case R.id.tv_back_home:
 
 
-//                setResult(RESULT_OK);
-//                finish();
-//                ActivityUtil.finishHomeAll();
+                ActivityUtil.finishAll();
 
+                setResult(RESULT_OK);
+                finish();
 
 //                Intent intent = new Intent(PayResultActivity.this, MainFragmentActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 //                startActivity(intent);
-//                break;
+                break;
 
             case R.id.ll_back:
                 setResult(RESULT_OK);
                 finish();
-                ActivityUtil.finishHomeAll();
+//                ActivityUtil.finishHomeAll();
 
                 break;
         }

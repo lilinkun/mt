@@ -201,13 +201,10 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 
         if (status == 1) {
             tv_pay_message.setText("买家已付款，等待发货");
-            tv_exit_order.setText("申请退款");
-            tv_exit_order.setVisibility(View.VISIBLE);
-            tv_pay_order.setVisibility(View.GONE);
-                iv_order_status.setImageResource(R.mipmap.ic_order_status_pay);
+            rl_bottom.setVisibility(View.GONE);
+            iv_order_status.setImageResource(R.mipmap.ic_order_status_pay);
         } else if (status == 2) {
-            tv_exit_order.setText("申请退款");
-            tv_exit_order.setVisibility(View.VISIBLE);
+            tv_exit_order.setVisibility(View.GONE);
             tv_pay_order.setText("确认收货");
             tv_pay_message.setText("您的商品正在运输中");
             tv_query_logistics.setVisibility(View.VISIBLE);

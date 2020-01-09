@@ -1,9 +1,11 @@
 package com.mingtai.mt.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by LG on 2020/1/6.
  */
-public class BalanceBean {
+public class BalanceBean implements Serializable {
     private int UserId;
     private String UserName;
     private double Money1;

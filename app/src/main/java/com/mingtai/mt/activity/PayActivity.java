@@ -3,10 +3,13 @@ package com.mingtai.mt.activity;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,6 +88,8 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     TextView tv_add_tiaobo_item;
     @BindView(R.id.tv_right_now_pay)
     TextView tv_right_now_pay;
+    @BindView(R.id.tv_wx_price)
+    TextView tv_wx_price;
     @BindView(R.id.et_discount_pay)
     EditText et_discount_pay;
     @BindView(R.id.et_netcoin_pay)
@@ -157,50 +162,56 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
         if (goodsType == MingtaiUtil.TIAOBOINT){
             ll_tiaobo.setVisibility(View.VISIBLE);
-            ll_pay.setVisibility(View.GONE);
-            tv_right_now_pay.setText("下一步");
         }else {
             ll_tiaobo.setVisibility(View.GONE);
             ll_pay.setVisibility(View.VISIBLE);
         }
 
-        et_discount_pay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+    }
+
+    private void setEditListener(final EditText editListener,final double value1,final double value2){
+        editListener.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if (et_discount_pay.getText().toString().trim().length() > 0){
-                        if (Double.valueOf(et_discount_pay.getText().toString()) > isRemainderPrice ||
-                                Double.valueOf(et_discount_pay.getText().toString()) > balanceBean.getMoney5Balance()){
-                            et_discount_pay.setText("0");
-                            toast("输入的金额有误，请重新输入");
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() > 0){
+                    if (Double.valueOf(s.toString()) > value1 &&
+                            Double.valueOf(s.toString()) < value2){
+                        toast("输入的金额有误，最多能输入"+value1);
+                        editListener.setText(value1+"");
+                    }else if (Double.valueOf(s.toString()) < value1 &&
+                            Double.valueOf(s.toString()) > value2){
+                        toast("输入的金额有误，最多能输入"+ value2);
+                        editListener.setText(value2+"");
+                    }else if (Double.valueOf(s.toString()) > value1 &&
+                            Double.valueOf(s.toString()) > value2){
+
+                        if (value1 > value2) {
+
+                            toast("输入的金额有误，最多能输入" + value2);
+                            editListener.setText(value2 + "");
                         }else {
-                            isRemainderPrice = isRemainderPrice - Double.valueOf(et_discount_pay.getText().toString());
+                            toast("输入的金额有误，最多能输入" + value1);
+                            editListener.setText(value1 + "");
+                        }
+                    }else {
+                        if (check_wx.isChecked()){
+                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value1 - Double.valueOf(editListener.getText().toString())) + ")");
                         }
                     }
                 }
             }
-        });
 
-
-        et_netcoin_pay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if (et_netcoin_pay.getText().toString().trim().length() > 0){
-                        if (Double.valueOf(et_netcoin_pay.getText().toString()) > isRemainderPrice ||
-                                Double.valueOf(et_netcoin_pay.getText().toString()) > balanceBean.getMoney1Balance()){
-                            toast("输入的金额有误，请重新输入");
-                            et_netcoin_pay.setText("0");
-                        }else {
-                            isRemainderPrice = isRemainderPrice - Double.valueOf(et_netcoin_pay.getText().toString());
-                        }
-                    }
-                }
+            public void afterTextChanged(Editable s) {
+
             }
         });
-
-
-
     }
 
     @SuppressLint("ResourceType")
@@ -211,6 +222,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
                 if (check_wx.isChecked()) {
                     check_wx.setChecked(false);
+                    tv_wx_price.setText("");
                 }else {
                     check_wx.setChecked(true);
                 }
@@ -230,114 +242,27 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
                 final SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN, MODE_PRIVATE);
 
-                if (tv_right_now_pay.getText().toString().equals("下一步")){
-                    if (tv_surplus_point.getText().toString().equals("0")) {
-                        String dateStr = "";
-                        String pointStr = "";
-                        for (int i = 0;i <tiaoboBeans.size();i++) {
-                            if (i == 0){
-                                dateStr =  tiaoboBeans.get(i).getTime();
-                                pointStr = tiaoboBeans.get(i).getValue()+"";
-                            }else {
-                                dateStr = dateStr + "," +tiaoboBeans.get(i).getTime();
-                                pointStr = pointStr + "," +tiaoboBeans.get(i).getValue();
-                            }
-                        }
-                        payPresenter.unloadPoint(orderid, dateStr,pointStr,ProApplication.SESSIONID(this));
-                    }else {
-                        toast("你输入的调拨值不正确");
-                    }
-                }else {
 
-                    if (tv_balance_not_enough != null && !tv_balance_not_enough.isShown()) {
-
-                        View view1 = LayoutInflater.from(this).inflate(R.layout.layout_popup_psd, null);
-
-                        popupWindow = new PopupWindow(this);
-
-                        popupWindow.setContentView(view1);
-                        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-                        popupWindow.setOutsideTouchable(true);
-                        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-                        popupWindow.setFocusable(true);
-                        TextView tv_forgetPwd = view1.findViewById(R.id.tv_forgetPwd);
-                        ImageView tvCancel = view1.findViewById(R.id.tvCancel);
-                        final EditText et_psd = view1.findViewById(R.id.et_psd);
-                        TextView tv_pay = view1.findViewById(R.id.tv_pay);
-
-                        et_psd.setFocusable(true);
-                        et_psd.setFocusableInTouchMode(true);
-                        et_psd.requestFocus();
-
-                        tvCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                popupWindow.dismiss();
-                            }
-                        });
-
-                        tv_pay.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (MingtaiUtil.editIsNotNull(et_psd)) {
-                                    payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", "0", orderDetailBeans.getIntegral() + "",
-                                            et_psd.getText().toString(), et_netcoin_pay.getText().toString(), "", et_discount_pay.getText().toString(),
-                                            ProApplication.SESSIONID(PayActivity.this));
-                                }else {
-                                    toast("密码不能为空");
+                    if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
+                        if (tv_surplus_point.getText().toString().equals("0")) {
+                            String dateStr = "";
+                            String pointStr = "";
+                            for (int i = 0; i < tiaoboBeans.size(); i++) {
+                                if (i == 0) {
+                                    dateStr = tiaoboBeans.get(i).getTime();
+                                    pointStr = tiaoboBeans.get(i).getValue() + "";
+                                } else {
+                                    dateStr = dateStr + "," + tiaoboBeans.get(i).getTime();
+                                    pointStr = pointStr + "," + tiaoboBeans.get(i).getValue();
                                 }
                             }
-                        });
-
-
-                        tv_forgetPwd.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                UiHelper.launcher(PayActivity.this, ModifyPayActivity.class);
-                            }
-                        });
-
-                        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-
-                            }
-                        });
-
-                        if (et_discount_pay.getText().toString().trim().length() == 0){
-                            et_discount_pay.setText("0");
+                            payPresenter.unloadPoint(orderid, dateStr, pointStr, ProApplication.SESSIONID(this));
+                        } else {
+                            toast("你输入的调拨值不正确");
                         }
-                        if (et_netcoin_pay.getText().toString().trim().length() == 0){
-                            et_netcoin_pay.setText("0");
-                        }
-
-                        if (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()) > orderDetailBeans.getOrderAmount()){
-                            toast("输入的金额有误，请重新输入");
-                            et_discount_pay.setText("0");
-                            et_netcoin_pay.setText("0");
-                            return;
-                        }
-
-                        double isRemainPrice = orderDetailBeans.getOrderAmount() - (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()));
-
-                        if (check_wx.isChecked() || check_self.isChecked()) {
-
-                            if (isRemainPrice == 0 && check_self.isChecked()) {
-                                popupWindow.showAsDropDown(ll_back);
-                            } else if (isRemainPrice > 0 && check_self.isChecked() && check_wx.isChecked()) {
-                                popupWindow.showAsDropDown(ll_back);
-                            } else if (isRemainPrice > 0 && check_wx.isChecked()) {
-                                toast("微信支付待开发");
-                            } else  if (isRemainPrice > 0 && !check_wx.isChecked()){
-                                toast("您输入的余额不足以支付，请一起选择微信支付");
-                            }
-                        }else {
-                            toast("请选择支付方式");
-                        }
+                    }else {
+                        pay();
                     }
-
-                }
                 break;
 
             case R.id.ll_back:
@@ -403,7 +328,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
                                         EditText tv_date = view1.findViewById(R.id.tv_date);
                                         EditText et_point = view1.findViewById(R.id.et_point);
-                                        TextView tv_reduce = view1.findViewById(R.id.tv_reduce);
+                                        ImageView tv_reduce = view1.findViewById(R.id.tv_reduce);
 
 
                                         TiaoboBean tiaoboBean = new TiaoboBean();
@@ -513,6 +438,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
         tv_discount_balance.setText("(剩余" + balanceBean.getMoney5Balance() + ")");
         tv_netcoin_balance.setText("(剩余" + balanceBean.getMoney1Balance() + ")");
+
     }
 
     @Override
@@ -539,6 +465,8 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             tv_surplus_point.setText(point);
             ll_tiaobo.setVisibility(View.VISIBLE);
         }
+        setEditListener(et_discount_pay,isRemainderPrice,balanceBean.getMoney5Balance());
+        setEditListener(et_netcoin_pay,isRemainderPrice,balanceBean.getMoney1Balance());
     }
 
     @Override
@@ -548,9 +476,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
     @Override
     public void getPointSuccess(String msg) {
-        ll_tiaobo.setVisibility(View.GONE);
-        ll_pay.setVisibility(View.VISIBLE);
-        tv_right_now_pay.setText(getString(R.string.right_now_pay));
+        pay();
     }
 
     @Override
@@ -599,4 +525,113 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         }
     }
 
+    public void pay(){
+        if (tv_balance_not_enough != null && !tv_balance_not_enough.isShown()) {
+
+            View view1 = LayoutInflater.from(this).inflate(R.layout.layout_popup_psd, null);
+
+            /*popupWindow = new PopupWindow(this);
+
+            popupWindow.setContentView(view1);
+            popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            popupWindow.setFocusable(true);*/
+
+
+//            View view2 = LayoutInflater.from(this).inflate(R.layout.dialog_pay, null);
+            payDialog =new Dialog(PayActivity.this);
+            payDialog.setContentView(view1);
+            payDialog.show();
+
+            TextView tv_forgetPwd = view1.findViewById(R.id.tv_forgetPwd);
+            ImageView tvCancel = view1.findViewById(R.id.tvCancel);
+            final EditText et_psd = view1.findViewById(R.id.et_psd);
+            TextView tv_pay = view1.findViewById(R.id.tv_pay);
+
+            et_psd.setFocusable(true);
+            et_psd.setFocusableInTouchMode(true);
+            et_psd.requestFocus();
+
+            tvCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    payDialog.dismiss();
+                }
+            });
+
+            tv_pay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (MingtaiUtil.editIsNotNull(et_psd)) {
+                        String isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+                        payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
+                                et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind+"", et_discount_pay.getText().toString(),
+                                ProApplication.SESSIONID(PayActivity.this));
+                    }else {
+                        toast("密码不能为空");
+                    }
+                }
+            });
+
+
+            tv_forgetPwd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UiHelper.launcher(PayActivity.this, ModifyPayActivity.class);
+                }
+            });
+
+            payDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+
+                }
+            });
+
+            if (et_discount_pay.getText().toString().trim().length() == 0){
+                et_discount_pay.setText("0");
+            }
+            if (et_netcoin_pay.getText().toString().trim().length() == 0){
+                et_netcoin_pay.setText("0");
+            }
+
+            if (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()) > orderDetailBeans.getOrderAmount()){
+                toast("输入的金额有误，请重新输入");
+                et_discount_pay.setText("0");
+                et_netcoin_pay.setText("0");
+                return;
+            }
+
+            double isRemainPrice = orderDetailBeans.getOrderAmount() - (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()));
+
+            if (check_wx.isChecked() || check_self.isChecked()) {
+
+                if (isRemainPrice == 0 && check_self.isChecked()) {
+//                    popupWindow.showAsDropDown(ll_back);
+                    payDialog.show();
+                } else if (isRemainPrice > 0 && check_self.isChecked() && check_wx.isChecked()) {
+//                    popupWindow.showAsDropDown(ll_back);
+                    payDialog.show();
+                } else if (isRemainPrice > 0 && check_wx.isChecked()) {
+                    toast("微信支付待开发");
+                } else  if (isRemainPrice > 0 && !check_wx.isChecked()){
+                    toast("您输入的余额不足以支付，请一起选择微信支付");
+                }
+            }else {
+                toast("请选择支付方式");
+            }
+
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ActivityUtil.removeActivity(this);
+
+    }
 }
