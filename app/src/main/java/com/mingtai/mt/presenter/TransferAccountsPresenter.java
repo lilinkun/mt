@@ -4,7 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
-import com.mingtai.mt.contract.GetCashContract;
+import com.mingtai.mt.contract.TransferAccountsContract;
+import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
@@ -19,19 +20,19 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by LG on 2020/1/10.
  */
-public class GetCashPresenter extends BasePresenter {
+public class TransferAccountsPresenter extends BasePresenter {
 
+    private Context context;
     private DataManager manager;
-    private CompositeSubscription mCompositeSubscription;
-    private Context mContext;
-    private GetCashContract getCashContract;
+    private CompositeSubscription compositeSubscription;
+    private TransferAccountsContract transferAccountsContract;
 
     @Override
     public void onCreate(Context context, IView view) {
-        this.mContext = context;
-        manager = new DataManager(context);
-        mCompositeSubscription = new CompositeSubscription();
-        getCashContract = (GetCashContract) view;
+        this.context = context;
+        this.manager = new DataManager(context);
+        compositeSubscription = new CompositeSubscription();
+        transferAccountsContract = (TransferAccountsContract) view;
     }
 
     @Override
@@ -41,29 +42,31 @@ public class GetCashPresenter extends BasePresenter {
 
     @Override
     public void onStop() {
-        if (mCompositeSubscription.isUnsubscribed()) {
-            mCompositeSubscription.unsubscribe();
+        if (compositeSubscription.hasSubscriptions()){
+            compositeSubscription.unsubscribe();
         }
     }
 
-    public void getCash(String TransactionAamount, String Brokerage, String PassWordTwo,String CurrencyTypeId, String SessionId) {
-        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "提现中...", true);
+    public void getTransferAccounts(String BounsPrice,String PassWordTwo,String AcceptUserName,String type,String SessionId){
+        final ProgressDialog progressDialog = ProgressDialog.show(context,"请稍等...","获取数据中...",true);
+
         HashMap<String, String> params = new HashMap<>();
-        params.put("cls", "WithdrawCash");
-        params.put("fun", "WithdrawCash_Add");
-        params.put("TransactionAamount", TransactionAamount);
-        params.put("Brokerage", Brokerage);
+        params.put("cls", "BankCurrency");
+        params.put("fun", "CurrencyGive");
+        params.put("BounsPrice", BounsPrice);
         params.put("PassWordTwo", PassWordTwo);
-        params.put("CurrencyTypeId", CurrencyTypeId);
+        params.put("AcceptUserName", AcceptUserName);
+        params.put("type", type);
         params.put("SessionId", SessionId);
-        mCompositeSubscription.add(manager.register(params)
+
+        compositeSubscription.add(manager.register(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpResultCallBack<String, Object>() {
 
                     @Override
-                    public void onResponse(String grouponDetailBean, String status, ResultBean<String, Object> page) {
-                        getCashContract.getCashSuccess();
+                    public void onResponse(String goodsBean, String status, ResultBean<String,Object> page) {
+                        transferAccountsContract.getTransferAccountsSuccess(goodsBean);
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
@@ -71,7 +74,7 @@ public class GetCashPresenter extends BasePresenter {
 
                     @Override
                     public void onErr(String msg, String status) {
-                        getCashContract.getCashFail(msg);
+                        transferAccountsContract.getTransferAccountsFail(msg);
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }

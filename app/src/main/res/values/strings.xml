@@ -94,7 +94,7 @@
     <!--个人信息-->
     <string name="personal_over">完成</string>
     <string name="personal_head_face">头像</string>
-    <string name="personal_nickname">昵称</string>
+    <string name="personal_nickname">姓名</string>
     <string name="personal_phone">手机号</string>
     <string name="take_photo">拍摄</string>
     <string name="system_photo">从相册选择</string>
@@ -117,5 +117,9 @@
 
     <!--绑定银行卡-->
     <string name="input_bank_card">请输入正确身份证号码</string>
+
+    <string name="input_transfer_receiver_no">请填写受让方编号</string>
+    <string name="input_transfer_price">请填写转账金额</string>
+    <string name="input_transfer_psd">请填写支付密码</string>
 
 </resources>

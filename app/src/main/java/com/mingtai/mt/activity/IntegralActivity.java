@@ -62,6 +62,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
     private BalanceBean balanceBean;
     private String type;
     private SmsDialog smsDialog;
+    private int cointype = 0;
 
     private Handler handler = new Handler() {
         @Override
@@ -143,14 +144,16 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
                 break;
 
             case R.id.tv_withdrawal:
-
+                cointype = 1;
                 smsDialog = new SmsDialog(this,MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler);
                 smsDialog.show();
 
                 break;
 
             case R.id.tv_transfer_accounts:
-
+                cointype = 2;
+                smsDialog = new SmsDialog(this,MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler);
+                smsDialog.show();
 
                 break;
 
@@ -209,12 +212,19 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
 
     @Override
     public void safetyVerificationCodeSuccess(String msg) {
-        integralPresenter.getBankCard(ProApplication.SESSIONID(this));
-        smsDialog.dismiss();
+        if (cointype == 1) {
+            integralPresenter.getBankCard(ProApplication.SESSIONID(this));
+            smsDialog.dismiss();
+        }else if (cointype == 2){
+            Bundle bundle = new Bundle();
+            bundle.putString(MingtaiUtil.COIN, balanceBean.getMoney5Balance() + "");
+            UiHelper.launcherForResultBundle(this, TransferAccountsActivity.class, 0x223, bundle);
+        }
     }
 
     @Override
     public void safetyVerificationCodeFail(String msg) {
+        toast(msg);
     }
 
     @Override
@@ -253,7 +263,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
 
     @Override
     public void getBankFail(String msg) {
-
+        toast(msg);
     }
 
 

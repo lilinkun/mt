@@ -129,6 +129,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/pop_text_bg"
                     android:textSize="30sp"
+                    android:paddingLeft="@dimen/padding_10"
                     android:inputType="number"
                     android:background="@null"/>
 

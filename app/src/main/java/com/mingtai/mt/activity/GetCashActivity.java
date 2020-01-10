@@ -49,8 +49,8 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
         getCashPresenter.onCreate(this, this);
 
         userBankBean = (UserBankBean) getIntent().getBundleExtra(MingtaiUtil.TYPEID).getSerializable(MingtaiUtil.USERBANKBEAN);
-        String wlmCoin = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.COIN);
-        tv_wlm_coin.setText(wlmCoin);
+        String Coin = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.COIN);
+        tv_wlm_coin.setText(Coin);
         String bankStr = userBankBean.getBankNo().substring(userBankBean.getBankNo().length() - 4, userBankBean.getBankNo().length());
         tv_bank_name.setText(userBankBean.getBankNameDesc() + "(" + bankStr + ")");
     }
@@ -98,7 +98,7 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
                     @Override
                     public void onClick(View v) {
                         if (MingtaiUtil.editIsNotNull(et_psd)) {
-                            getCashPresenter.getCash(coinAmount + "", Double.valueOf(0) + "", et_psd.getText().toString() + "", ProApplication.SESSIONID(GetCashActivity.this));
+                            getCashPresenter.getCash(coinAmount + "", Double.valueOf(0) + "", et_psd.getText().toString() + "",5+"", ProApplication.SESSIONID(GetCashActivity.this));
                         }else {
                             toast("密码不能为空");
                         }

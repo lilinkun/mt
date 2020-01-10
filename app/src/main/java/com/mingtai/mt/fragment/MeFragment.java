@@ -55,7 +55,7 @@ public class MeFragment extends BaseFragment implements MeContract {
         mePresenter.getBalance(ProApplication.SESSIONID(getActivity()));
     }
 
-    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_wait_receiver,R.id.ll_wait_deliver, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
+    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_wait_receiver,R.id.ll_wait_deliver,R.id.ll_customer_service, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_my_all_order:
@@ -99,6 +99,8 @@ public class MeFragment extends BaseFragment implements MeContract {
 
                 break;
 
+            case R.id.ll_customer_service:
+
             case R.id.ll_me_setting:
 
                 UiHelper.launcherForResult(this, PersonalInfoActivity.class, result_person);
@@ -112,6 +114,7 @@ public class MeFragment extends BaseFragment implements MeContract {
                 UiHelper.launcherBundle(getActivity(), ChooseAddressActivity.class, bundle7);
 
                 break;
+
         }
     }
 

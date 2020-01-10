@@ -66,6 +66,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.BindCardActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GetCashActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.TransferAccountsActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
