@@ -2,6 +2,7 @@ package com.mingtai.mt.http;
 
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.AddressBean;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
 import com.mingtai.mt.entity.BankBean;
@@ -127,10 +128,29 @@ public interface RetrofitService {
     @POST("Api/")
     Observable<ResultBean<ArrayList<BalanceDetailBean>, Object>> getAmountPrice(@FieldMap Map<String, String> params);
 
-
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<String, Object>> loginout(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<GoodsBean, Object>> getGoodDetailInfo(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean> getDeleteAddress(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<String, Object>> isDefault(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<ArrayList<AddressBean>, Object>> getConsigneeAddress(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<Object,Object>> getSaveAddress(@FieldMap Map<String, String> params);
 
 
 }

@@ -55,7 +55,7 @@ public class HomeFragment extends BaseFragment implements HomeContract {
     @Override
     public void getDataSuccess(HomeBean msg) {
         ProApplication.mHomeBean = msg;
-        ProApplication.BANNERIMG = msg.getImgUrl();
+        ProApplication.BANNERIMG = msg.getImgUrl() + "imgdb/";
     }
 
     @Override

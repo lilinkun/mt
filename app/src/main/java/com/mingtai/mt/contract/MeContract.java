@@ -16,4 +16,7 @@ public interface MeContract extends IView {
 
     public void getSendVcodeSuccess(String s);
     public void getSendVcodeFail(String msg);
+
+    public void verificationPsdSuccess(String msg);
+    public void verificationPsdFail(String msg);
 }

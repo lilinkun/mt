@@ -142,10 +142,15 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/ic_vip_1"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/textsize16"
+                        android:textSize="@dimen/textsize14"
                         android:layout_marginTop="@dimen/margin_10"
                         android:textColor="@color/grey_color2"
                         android:text="@string/discount_coin"/>
@@ -163,10 +168,15 @@
                     android:orientation="vertical">
 
 
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/ic_vip_4"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/textsize16"
+                        android:textSize="@dimen/textsize14"
                         android:textColor="@color/grey_color2"
                         android:layout_marginTop="@dimen/margin_10"
                         android:text="@string/net_coin"/>
@@ -186,5 +196,7 @@
     <include
         layout="@layout/layout_me_order"/>
 
+    <include
+        layout="@layout/layout_me_info"/>
 
 </LinearLayout>

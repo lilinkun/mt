@@ -122,7 +122,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         this.categoryBeans.addAll(categoryBeans);
         pagerSlidingTabStrip.setTitles(this.categoryBeans, 0, handler);
 
-        goodsPresenter.getGoods("1","20","",goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
+        goodsPresenter.getGoods("1","50","",goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
 
     }
 

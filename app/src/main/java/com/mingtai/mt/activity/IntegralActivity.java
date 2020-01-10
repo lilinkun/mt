@@ -23,6 +23,7 @@ import com.mingtai.mt.contract.IntegralContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
 import com.mingtai.mt.presenter.IntegralPresenter;
+import com.mingtai.mt.ui.SmsDialog;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
@@ -47,18 +48,10 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
     LinearLayout ic_balance_status;
     @BindView(R.id.iv_head_left)
     ImageView iv_head_left;
-    @BindView(R.id.tv_wait_receiver)
-    TextView tv_wait_receiver;
-    @BindView(R.id.line_wait_receiver)
-    View line_wait_receiver;
-    @BindView(R.id.line_list)
-    View line_list;
-    @BindView(R.id.tv_list)
-    TextView tv_list;
-    @BindView(R.id.rl_wait_receiver)
-    RelativeLayout rl_wait_receiver;
-    @BindView(R.id.rl_list)
-    RelativeLayout rl_list;
+    @BindView(R.id.tv_withdrawal)
+    TextView tv_withdrawal;
+    @BindView(R.id.ll_cash)
+    LinearLayout ll_cash;
 
     private IntegralPresenter integralPresenter = new IntegralPresenter();
     private int mListStyle = 0;
@@ -68,11 +61,19 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
     private int lastVisibleItem = 0;
     private BalanceBean balanceBean;
     private String type;
+    private SmsDialog smsDialog;
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
+            if (msg.what == 0x112){
+                String vcode = msg.getData().getString("VCode");
+                toast(vcode);
+                integralPresenter.getSafetyVerificationCode(vcode,ProApplication.SESSIONID(IntegralActivity.this));
+
+            }
         }
     };
 
@@ -92,13 +93,6 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
         balanceBean = (BalanceBean) getIntent().getBundleExtra(MingtaiUtil.TYPEID).getSerializable(MingtaiUtil.BALANCEBEAN);
 
         init();
-
-//        CustomPagerAdapter pageAdapter = new CustomPagerAdapter(this,strings);
-//        pageAdapter.setTitles(strings);
-//        vp_style.setAdapter(pageAdapter);
-//        tab_strip.setupWithViewPager(vp_style);
-//        tab_strip.setSelectedTabIndicatorColor(getResources().getColor(R.color.red));
-
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -133,7 +127,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
         });
     }
 
-    @OnClick({R.id.ll_back, R.id.rl_wait_receiver, R.id.rl_list})
+    @OnClick({R.id.ll_back,R.id.tv_withdrawal,R.id.tv_transfer_accounts})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_back:
@@ -146,26 +140,18 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
 
                 break;
 
+            case R.id.tv_withdrawal:
 
-            case R.id.rl_wait_receiver:
-                type = "4";
-                integralAdapter = null;
-                line_wait_receiver.setVisibility(View.VISIBLE);
-                tv_list.setTextColor(getResources().getColor(R.color.grey_color2));
-                line_list.setVisibility(View.GONE);
-                tv_wait_receiver.setTextColor(getResources().getColor(R.color.black_333333));
-                integralPresenter.getPriceData(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT, type, ProApplication.SESSIONID(IntegralActivity.this));
+                smsDialog = new SmsDialog(this,MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler);
+                smsDialog.show();
+
                 break;
 
-            case R.id.rl_list:
-                type = "5";
-                integralAdapter = null;
-                line_wait_receiver.setVisibility(View.GONE);
-                tv_list.setTextColor(getResources().getColor(R.color.black_333333));
-                line_list.setVisibility(View.VISIBLE);
-                tv_wait_receiver.setTextColor(getResources().getColor(R.color.grey_color2));
-                integralPresenter.getPriceData(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT, type, ProApplication.SESSIONID(IntegralActivity.this));
+            case R.id.tv_transfer_accounts:
+
+
                 break;
+
 
         }
     }
@@ -197,11 +183,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
             if (mListStyle == 0) {
                 integralAdapter = new IntegralAdapter(this, amountPriceBean, 0);
             } else {
-                if (type.equals("4")) {
-                    integralAdapter = new IntegralAdapter(this, amountPriceBean, 2);
-                } else {
-                    integralAdapter = new IntegralAdapter(this, amountPriceBean, 1);
-                }
+                integralAdapter = new IntegralAdapter(this, amountPriceBean, 1);
             }
             rv_style.setAdapter(integralAdapter);
 //            sizeInt = amountPriceBean.getAmount_list().size();
@@ -221,6 +203,16 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
                 pointListBeans.clear();
             }
         }
+    }
+
+    @Override
+    public void safetyVerificationCodeSuccess(String msg) {
+
+    }
+
+    @Override
+    public void safetyVerificationCodeFail(String msg) {
+
     }
 
 
@@ -253,16 +245,14 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
 
     public void init() {
         if (mListStyle == 0) {
-            type = "2";
+            type = "1";
             integralPresenter.getPriceData(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT, type, ProApplication.SESSIONID(this));
             tv_balance_name.setText(getString(R.string.net_coin));
             ic_balance_status.setBackgroundResource(R.mipmap.ic_integral_bg);
             iv_head_left.setImageResource(R.mipmap.ic_back_white);
             tv_balance_name.setTextColor(getResources().getColor(R.color.white));
             tv_balance_amount.setTextColor(getResources().getColor(R.color.white));
-            tv_balance_amount.setText(balanceBean.getMoney2Balance() + "");
-            rl_wait_receiver.setVisibility(View.INVISIBLE);
-            rl_list.setVisibility(View.INVISIBLE);
+            tv_balance_amount.setText(balanceBean.getMoney1Balance() + "");
         } else if (mListStyle == 1) {
             type = "5";
             integralPresenter.getPriceData(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT, type, ProApplication.SESSIONID(this));
@@ -272,6 +262,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
             tv_balance_name.setTextColor(getResources().getColor(R.color.black_333333));
             tv_balance_amount.setTextColor(getResources().getColor(R.color.black_333333));
             tv_balance_amount.setText(balanceBean.getMoney5Balance() + "");
+            ll_cash.setVisibility(View.VISIBLE);
         }
     }
 }

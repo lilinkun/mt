@@ -122,14 +122,15 @@ public class WaitPayFragment extends BasePagerFragment implements SelfOrderContr
     @Override
     public void exitOrderSuccess(String deleteBean) {
 
-        for (int i = 0; i < selfOrderBeans.size(); i++) {
+        /*for (int i = 0; i < selfOrderBeans.size(); i++) {
             if (selfOrderBeans.get(i).getOrderSn().equals(orderId)) {
                 selfOrderBeans.remove(i);
                 if (selfOrderAdapter != null) {
                     selfOrderAdapter.setData(selfOrderBeans);
                 }
             }
-        }
+        }*/
+        selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_PAID+"", ProApplication.SESSIONID(getActivity()));
     }
 
     @Override

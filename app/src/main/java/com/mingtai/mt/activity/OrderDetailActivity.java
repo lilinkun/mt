@@ -30,7 +30,7 @@ import butterknife.OnClick;
 /**
  * Created by LG on 2020/1/8.
  */
-public class OrderDetailActivity extends BaseActivity implements AllOrderContract {
+public class OrderDetailActivity extends BaseActivity implements AllOrderContract, OrderChildAdapter.OnItemClickListener {
 
     @BindView(R.id.order_sn)
     TextView order_sn;
@@ -160,6 +160,9 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
         this.orderDetailBeans = orderDetailBeans;
         OrderChildAdapter orderChildAdapter = new OrderChildAdapter(this, orderDetailBeans.getOrderDetail());
         recyclerView.setAdapter(orderChildAdapter);
+
+        orderChildAdapter.setItemClickListener(this);
+
         order_date.setText(orderDetailBeans.getCreateDate());
 
         status = orderDetailBeans.getOrderStatus();
@@ -262,7 +265,7 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
                         new AlertDialog.Builder(OrderDetailActivity.this).setTitle("温馨提示").setMessage("您确定要取消订单？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                orderDetailPresenter.exitOrder(orderDetailBeans.getOrderSn(), ProApplication.SESSIONID(OrderDetailActivity.this));
+                                orderDetailPresenter.exitOrder(orderDetailBeans.getOrderId(), ProApplication.SESSIONID(OrderDetailActivity.this));
                             }
                         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
@@ -314,12 +317,17 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 
     @Override
     public void exitOrderSuccess(String collectDeleteBean) {
-
+        if (!tv_pay_order.isClickable()) {
+            tv_pay_order.setClickable(true);
+        }
+        toast("取消订单成功");
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
     public void exitOrderFail(String msg) {
-
+        toast(msg);
     }
 
     @Override
@@ -330,5 +338,14 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
     @Override
     public void sureReceiptFail(String msg) {
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+        String goodsid = orderDetailBeans.getOrderDetail().get(position).getGoodsId();
+        Bundle bundle = new Bundle();
+        bundle.putString("GOODSID", goodsid);
+        UiHelper.launcherBundle(this,GoodsDetailActivity.class,bundle);
     }
 }

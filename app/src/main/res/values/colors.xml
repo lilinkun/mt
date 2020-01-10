@@ -67,4 +67,7 @@
     <color name="comm_bg">#eaeaea</color>
     <!-- 薄荷色 -->
     <color name="whitesmoke">#f5f5f5</color>
+    <color name="menu_item_bg">#F1F1F2</color>
+    <color name="red_price">#E4393C</color>
+    <color name="address_bg">#a4a4a4</color>
 </resources>

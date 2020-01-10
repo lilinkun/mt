@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.activity.OrderDetailActivity;
@@ -172,8 +173,8 @@ public class AllOrderFragment extends BasePagerFragment implements SelfOrderCont
     }
 
     @Override
-    public void exitOrderFail(String smg) {
-
+    public void exitOrderFail(String msg) {
+        UToast.show(getActivity(),msg);
     }
 
     @Override
@@ -182,8 +183,8 @@ public class AllOrderFragment extends BasePagerFragment implements SelfOrderCont
     }
 
     @Override
-    public void cancelOrderFail(String smg) {
-
+    public void cancelOrderFail(String msg) {
+        UToast.show(getActivity(),msg);
     }
 
     @Override

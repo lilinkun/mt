@@ -2,6 +2,7 @@ package com.mingtai.mt.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.activity.GoodsDetailActivity;
+import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.entity.ChooseItemBean;
 import com.mingtai.mt.entity.GoodsBean;
+import com.mingtai.mt.util.UiHelper;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -79,7 +84,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
             }
         }
 
-//        Picasso.with(context).load(ProApplication.HEADIMG + orderListBeans.get(position).getGoodsImg()).error(R.mipmap.ic_adapter_error).into(holder.goodsImage);
+        Picasso.with(context).load(ProApplication.BANNERIMG + goodsBeans.get(position).getGoodsImg()).error(R.color.line).into(holder.goodsImage);
 
         holder.increaseGoodsNum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,11 +141,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         holder.ll_goods_adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(holder.singleCheckBox.isChecked()){
+                /*if(holder.singleCheckBox.isChecked()){
                     holder.singleCheckBox.setChecked(false);
                 }else {
                     holder.singleCheckBox.setChecked(true);
-                }
+                }*/
+
+                String goodsid = goodsBeans.get(position).getGoodsId();
+                Bundle bundle = new Bundle();
+                bundle.putString("GOODSID", goodsid);
+                UiHelper.launcherBundle(context, GoodsDetailActivity.class,bundle);
+
             }
         });
 

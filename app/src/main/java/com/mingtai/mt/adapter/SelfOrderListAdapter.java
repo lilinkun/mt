@@ -10,8 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.entity.SelfOrderInfoBean;
 import com.mingtai.mt.ui.CustomRoundAngleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -61,9 +63,9 @@ public class SelfOrderListAdapter extends RecyclerView.Adapter<SelfOrderListAdap
 
         if (selfOrderInfoBeans.get(position).getAttrTwo() != null && !selfOrderInfoBeans.get(position).getAttrTwo().isEmpty()) {
             holder.tv_goods_spec2.setText(" " + selfOrderInfoBeans.get(position).getAttrTwo());
-        }
-        Picasso.with(context).load(ProApplication.HEADIMG + selfOrderInfoBeans.get(position).getGoodsImg()).error(R.mipmap.ic_adapter_error).into(holder.iv_goods_pic);
-        */
+        }*/
+        Picasso.with(context).load(ProApplication.BANNERIMG + selfOrderInfoBeans.get(position).getGoodsImg()).error(R.color.line).into(holder.iv_goods_pic);
+
     }
 
     @Override

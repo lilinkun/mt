@@ -58,6 +58,12 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PersonalInfoActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.GoodsDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ChooseAddressActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AddAddressActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

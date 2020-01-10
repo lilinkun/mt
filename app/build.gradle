@@ -69,4 +69,5 @@ dependencies {
 
     implementation 'pub.devrel:easypermissions:1.0.1'
 
+    implementation project(":banner")
 }

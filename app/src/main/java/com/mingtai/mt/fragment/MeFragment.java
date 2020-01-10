@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.activity.ChooseAddressActivity;
 import com.mingtai.mt.activity.IntegralActivity;
 import com.mingtai.mt.activity.OrderListActivity;
 import com.mingtai.mt.activity.PersonalInfoActivity;
@@ -54,7 +55,7 @@ public class MeFragment extends BaseFragment implements MeContract {
         mePresenter.getBalance(ProApplication.SESSIONID(getActivity()));
     }
 
-    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_wait_receiver,R.id.ll_wait_deliver, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting})
+    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_wait_receiver,R.id.ll_wait_deliver, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_my_all_order:
@@ -87,10 +88,6 @@ public class MeFragment extends BaseFragment implements MeContract {
                 bundle4.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
                 UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle4);
 
-                if (MingtaiUtil.VCODE.equals("")){
-                    mePresenter.SendSms(ProApplication.SESSIONID(getActivity()));
-                }
-
                 break;
 
             case R.id.ll_coin:
@@ -104,9 +101,15 @@ public class MeFragment extends BaseFragment implements MeContract {
 
             case R.id.ll_me_setting:
 
-
                 UiHelper.launcherForResult(this, PersonalInfoActivity.class, result_person);
 
+                break;
+
+            case R.id.ll_address:
+
+                Bundle bundle7 = new Bundle();
+                bundle7.putString("type", "me");
+                UiHelper.launcherBundle(getActivity(), ChooseAddressActivity.class, bundle7);
 
                 break;
         }
@@ -137,6 +140,16 @@ public class MeFragment extends BaseFragment implements MeContract {
 
     @Override
     public void getSendVcodeFail(String msg) {
+
+    }
+
+    @Override
+    public void verificationPsdSuccess(String msg) {
+
+    }
+
+    @Override
+    public void verificationPsdFail(String msg) {
 
     }
 }

@@ -75,7 +75,7 @@ public class MePresenter extends BasePresenter {
     }
 
     /**
-     * 发送短信验证码
+     * 验证密码是否有效
      *
      * @param sessionId
      */
@@ -83,7 +83,7 @@ public class MePresenter extends BasePresenter {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "SendSms");
-        params.put("fun", "SendSafetyVerificationCode");
+        params.put("fun", "IsVerifySms");
         params.put("SessionId", sessionId);
         mCompositeSubscription.add(manager.register(params)
                 .subscribeOn(Schedulers.io())
@@ -93,11 +93,49 @@ public class MePresenter extends BasePresenter {
                     @Override
                     public void onResponse(String o, String status, ResultBean<String ,Object> page) {
                         meContract.getSendVcodeSuccess(o);
+
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
                         meContract.getSendVcodeFail(msg);
+                    }
+
+                    @Override
+                    public void onNext(ResultBean o) {
+                        super.onNext(o);
+                    }
+
+                })
+        );
+    }
+
+    /**
+     *
+     * @param sessionId
+     */
+    public void verificationPsd(String PassWordTwo,String sessionId) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "VerifyPassWord");
+        params.put("PassWordTwo", PassWordTwo);
+        params.put("SessionId", sessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String,Object>() {
+
+                    @Override
+                    public void onResponse(String o, String status, ResultBean<String ,Object> page) {
+                        meContract.verificationPsdSuccess(o);
+
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        meContract.verificationPsdFail(msg);
                     }
 
                     @Override

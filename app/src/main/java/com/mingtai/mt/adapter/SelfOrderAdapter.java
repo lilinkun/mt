@@ -16,6 +16,7 @@ import com.mingtai.mt.R;
 import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.SelfOrderInfoBean;
 import com.mingtai.mt.util.ButtonUtils;
+import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
 import java.math.BigDecimal;
@@ -73,43 +74,27 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
 
         holder.tv_order_time.setText(selfOrderBeans.get(position).getCreateDate());
 
-        if (selfOrderBeans.get(position).getOrderStatus() == 1) {
+        if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_PAID) {
             holder.tv_exit_order.setVisibility(View.GONE);
             holder.tv_go_pay.setVisibility(View.GONE);
-        } else if (selfOrderBeans.get(position).getOrderStatus() == 0) {
+        } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_NOPAY) {
             holder.tv_exit_order.setVisibility(View.VISIBLE);
             holder.tv_go_pay.setVisibility(View.VISIBLE);
 
-            /*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date(System.currentTimeMillis());
-            Date str = new Date();
-            try {
-                str = simpleDateFormat.parse(selfOrderBeans.get(position).getEffectivePaymentDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
 
-            long newTime = date.getTime();
-            long oldTime = str.getTime();
-            if (newTime > oldTime){
-                holder.tv_exit_order.setVisibility(View.GONE);
-                holder.tv_go_pay.setVisibility(View.GONE);
-                holder.tv_ship_pay.setText("已失效");
-            }*/
-
-        } else if (selfOrderBeans.get(position).getOrderStatus() == 2) {
+        } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_SHIPPED) {
             holder.tv_go_pay.setVisibility(View.VISIBLE);
             holder.tv_go_pay.setText("确认收货");
             holder.tv_query_logistics.setVisibility(View.VISIBLE);
             holder.tv_exit_order.setVisibility(View.GONE);
-        } else if (selfOrderBeans.get(position).getOrderStatus() == 4) {
+        } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_SUCCESSFUL_TRADE) {
             holder.tv_go_pay.setVisibility(View.GONE);
             holder.tv_exit_order.setVisibility(View.GONE);
             holder.tv_query_logistics.setVisibility(View.VISIBLE);
-        } else if (selfOrderBeans.get(position).getOrderStatus() == 5) {
+        } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_FAIL) {
             holder.tv_exit_order.setVisibility(View.GONE);
             holder.tv_go_pay.setVisibility(View.GONE);
-        } else if  (selfOrderBeans.get(position).getOrderStatus() == 6) {
+        } else if  (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_EXIT) {
             holder.tv_exit_order.setVisibility(View.GONE);
             holder.tv_go_pay.setVisibility(View.GONE);
         }
@@ -119,24 +104,12 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
             public void onClick(View v) {
                 if (!ButtonUtils.isFastDoubleClick()) {
 
-                    if (selfOrderBeans.get(position).getOrderStatus() == 0) {
+                    if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_NOPAY) {
 
                         new AlertDialog.Builder(context).setMessage("确认取消此订单").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                onItemClick.exit_order(selfOrderBeans.get(position).getOrderSn());
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
-                    }else {
-                        new AlertDialog.Builder(context).setMessage("您确定要申请退款？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                onItemClick.cancelOrder(selfOrderBeans.get(position).getOrderSn());
+                                onItemClick.exit_order(selfOrderBeans.get(position).getOrderId());
                             }
                         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
@@ -153,11 +126,11 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
             @Override
             public void onClick(View v) {
                 if (!ButtonUtils.isFastDoubleClick()) {
-                    if (selfOrderBeans.get(position).getOrderStatus() == 0) {
+                    if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_NOPAY) {
                         onItemClick.go_pay(selfOrderBeans.get(position));
-                    } else if (selfOrderBeans.get(position).getOrderStatus() == 2) {
+                    } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_SHIPPED) {
                         onItemClick.sureReceipt(selfOrderBeans.get(position).getOrderSn());
-                    } else if (selfOrderBeans.get(position).getOrderStatus() == 1) {
+                    } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_PAID) {
 //                        onItemClick.getQrcode(selfOrderBeans.get(position).getErm());
                     }
                 }

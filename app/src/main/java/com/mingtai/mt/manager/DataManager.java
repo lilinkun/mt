@@ -3,6 +3,7 @@ package com.mingtai.mt.manager;
 import android.content.Context;
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.AddressBean;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
 import com.mingtai.mt.entity.BankBean;
@@ -13,8 +14,6 @@ import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.OrderDetailBean;
-import com.mingtai.mt.entity.PageBean;
-import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
@@ -217,5 +216,42 @@ public class DataManager {
         return mRetrofitService.loginout(mHashMap);
     }
 
+    /**
+     * 获取商品详情
+     */
+    public Observable<ResultBean<GoodsBean, Object>> getGoodDetailInfo(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getGoodDetailInfo(mHashMap);
+    }
+
+
+    /**
+     * 增加收货地址
+     */
+    public Observable<ResultBean> getDeleteAddress(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getDeleteAddress(mHashMap);
+    }
+
+
+    /**
+     * 　设置默认地址
+     */
+    public Observable<ResultBean<String, Object>> isDefault(HashMap<String, String> mHashMap) {
+        return mRetrofitService.isDefault(mHashMap);
+    }
+
+    /**
+     * 获取收货地址
+     */
+    public Observable<ResultBean<ArrayList<AddressBean>, Object>> getConsigneeAddress(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getConsigneeAddress(mHashMap);
+    }
+
+
+    /**
+     * 增加收货地址
+     */
+    public Observable<ResultBean<Object,Object>> getSaveAddress(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getSaveAddress(mHashMap);
+    }
 
 }

@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.entity.SelfOrderInfoBean;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -48,7 +50,8 @@ public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.Vi
         holder.goodsPrice.setText("¥ " + childListBeans.get(position).getPrice());
 
         holder.goodsnum.setText("X" + childListBeans.get(position).getGoodsNumber());
-//        Picasso.with(mContext).load(ProApplication.HEADIMG + childListBeans.get(position).getGoodsImg()).error(R.mipmap.ic_adapter_error).into(holder.childImg);
+
+        Picasso.with(mContext).load(ProApplication.BANNERIMG + childListBeans.get(position).getGoodsImg()).error(R.color.line).into(holder.childImg);
     }
 
     @Override

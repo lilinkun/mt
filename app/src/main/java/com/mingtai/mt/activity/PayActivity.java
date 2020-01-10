@@ -460,6 +460,14 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             tv_point.setText("+" + point + "积分");
         }*/
 
+        if (orderDetailBeans.getMoney1() > 0 || orderDetailBeans.getMoney5() > 0){
+            et_netcoin_pay.setText(orderDetailBeans.getMoney1() + "");
+            et_discount_pay.setText(orderDetailBeans.getMoney5() + "");
+
+            et_netcoin_pay.setFocusable(false);
+            et_discount_pay.setFocusable(false);
+        }
+
         if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
             tv_have_point.setText(point);
             tv_surplus_point.setText(point);
@@ -566,9 +574,9 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                 public void onClick(View v) {
                     if (MingtaiUtil.editIsNotNull(et_psd)) {
                         String isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
-                        payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
-                                et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind+"", et_discount_pay.getText().toString(),
-                                ProApplication.SESSIONID(PayActivity.this));
+                            payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
+                                    et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
+                                    ProApplication.SESSIONID(PayActivity.this));
                     }else {
                         toast("密码不能为空");
                     }

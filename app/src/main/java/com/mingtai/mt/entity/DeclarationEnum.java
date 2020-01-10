@@ -6,10 +6,10 @@ import com.mingtai.mt.R;
  * Created by LG on 2020/1/2.
  */
 public enum DeclarationEnum {
-    REGISTER(R.mipmap.ic_register,R.string.declaration_register),
-    UPDATE(R.mipmap.ic_register,R.string.declaration_upgrade),
-    SALE(R.mipmap.ic_register,R.string.declaration_sale),
-    TIAOBO(R.mipmap.ic_register,R.string.declaration_tiaobo);
+    REGISTER(R.mipmap.ic_declaration_register,R.string.declaration_register),
+    UPDATE(R.mipmap.ic_declaration_update,R.string.declaration_upgrade),
+    SALE(R.mipmap.ic_declaration_sale,R.string.declaration_sale),
+    TIAOBO(R.mipmap.ic_declaration_tiaobo,R.string.declaration_tiaobo);
 
     private int ImgSrc;
     private int DeclarationStr;

@@ -19,4 +19,11 @@ public interface IntegralContract extends IView {
 
     public void getDataSuccess(ArrayList<BalanceDetailBean> amountPriceBean);
     public void getDataFail(String msg);
+
+    /**
+     * 发送安全验证
+     * @param msg
+     */
+    public void safetyVerificationCodeSuccess(String msg);
+    public void safetyVerificationCodeFail(String msg);
 }

@@ -81,7 +81,7 @@ public class OrderDetailPresenter extends BasePresenter {
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "OrderInfo");
         params.put("fun", "OrderInfoVIPCancel");
-        params.put("OrderSn", OrderId);
+        params.put("OrderId", OrderId);
         params.put("SessionId", SessionId);
         mCompositeSubscription.add(manager.exitOrder(params)
                 .subscribeOn(Schedulers.io())

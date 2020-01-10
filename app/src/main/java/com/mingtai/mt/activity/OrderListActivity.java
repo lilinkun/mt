@@ -1,6 +1,7 @@
 package com.mingtai.mt.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -202,5 +203,17 @@ public class OrderListActivity extends BaseActivity implements IPayOrderClickLis
     @Override
     public void sureReceiptFail(String msg) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0x0987) {
+                allOrderFragment.setData();
+                waitPayFragment.setData();
+                waitReceiveFragment.setData();
+                completedOrderFragment.setData();
+            }
+        }
     }
 }

@@ -102,6 +102,17 @@
     <string name="setting_exit_login">退出登录</string>
     <string name="about_app">关于唯乐美</string>
     <string name="setting_delete_cache">清除缓存</string>
+    <string name="me_center_info">个人中心</string>
+    <string name="me_bind_card">银行卡管理</string>
+    <string name="me_address">地址管理</string>
+
+
+    <!--地址管理-->
+    <string name="goods_add_address">添加地址</string>
+    <string name="add_goods_address">添加收货地址</string>
+    <string name="nickname_save">保存</string>
+    <string name="register_input_phone">请输入手机号码</string>
+    <string name="prompt_phone_number_invalid">输入的手机号码无效，请输入正确的手机号码！</string>
 
 
 </resources>

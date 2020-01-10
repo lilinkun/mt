@@ -29,6 +29,29 @@ public class MingtaiUtil {
     public static final int SALEINT = 4;
     public static final int TIAOBOINT = 8;
 
+
+    //未付款 = 0
+    public static final int ORDER_NOPAY = 0;
+    //已付款 = 1
+    public static final int ORDER_PAID = 1;
+    //已发货 = 2
+    public static final int ORDER_SHIPPED = 2;
+    //交易成功 = 3
+    public static final int ORDER_SUCCESSFUL_TRADE  = 3;
+    //交易失败 = 4
+    public static final int ORDER_FAIL = 4;
+    //退单 = 5
+    public static final int ORDER_EXIT = 5;
+    //冻结 = 6
+    public static final int ORDER_FROZEN = 6;
+    //部份发货 = 7
+    public static final int ORDER_PARTIAL_SHIPMENT = 7;
+    //订单取消=8
+    public static final int ORDER_CANCEL = 8;
+
+
+
+
     public static final String VCODE = "";
 
 
@@ -55,6 +78,15 @@ public class MingtaiUtil {
         numberFormat.setGroupingUsed(false);
         String price = numberFormat.format(coin);
         return price;
+    }
+
+    public static StringBuilder phoneAddress(String phone) {
+        StringBuilder sb = new StringBuilder(phone);
+        //取中间四位
+        if (sb.length() > 7) {
+            sb.replace(3, 7, "****");
+        }
+        return sb;
     }
 
 }
