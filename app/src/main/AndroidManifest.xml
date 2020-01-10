@@ -64,6 +64,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.AddAddressActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.BindCardActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

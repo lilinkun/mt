@@ -115,4 +115,7 @@
     <string name="prompt_phone_number_invalid">输入的手机号码无效，请输入正确的手机号码！</string>
 
 
+    <!--绑定银行卡-->
+    <string name="input_bank_card">请输入正确身份证号码</string>
+
 </resources>

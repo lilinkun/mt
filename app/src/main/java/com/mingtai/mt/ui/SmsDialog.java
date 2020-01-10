@@ -24,7 +24,7 @@ public class SmsDialog extends Dialog {
     private Button button;
     private Handler handler;
     private TextView tv_mobile;
-    private TextView tv_code;
+    private TextView tv_send;
     private String mobile;
     MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
 
@@ -43,6 +43,7 @@ public class SmsDialog extends Dialog {
         editText = (EditText) findViewById(R.id.et_sms);
         button = (Button) findViewById(R.id.btn_sure);
         tv_mobile = (TextView) findViewById(R.id.tv_mobile);
+        tv_send = (TextView) findViewById(R.id.tv_send);
 
         tv_mobile.setText(mobile);
 
@@ -59,6 +60,13 @@ public class SmsDialog extends Dialog {
                 }else {
                     UToast.show(context,"请输入验证码");
                 }
+            }
+        });
+
+        tv_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handler.sendEmptyMessage(0x1234);
             }
         });
 
@@ -81,19 +89,19 @@ public class SmsDialog extends Dialog {
         @Override
         public void onTick(long l) {
             //防止计时过程中重复点击
-            tv_code.setClickable(false);
-            tv_code.setText(l / 1000 + "s");
+            tv_send.setClickable(false);
+            tv_send.setText(l / 1000 + "s");
         }
 
         //计时完毕的方法
         @Override
         public void onFinish() {
             //重新给Button设置文字
-            tv_code.setText(R.string.register_send_vcoed);
+            tv_send.setText(R.string.register_send_vcoed);
             //设置可点击
-            tv_code.setClickable(true);
+            tv_send.setClickable(true);
 
-            tv_code.setTextColor(context.getResources().getColor(R.color.white));
+            tv_send.setTextColor(context.getResources().getColor(R.color.white));
         }
     }
 

@@ -24,9 +24,9 @@
         android:id="@+id/tv_pay_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/setting_title_color"
         android:layout_marginTop="@dimen/margin_10"
-        android:textSize="@dimen/textsize18"/>
+        android:textColor="@color/setting_title_color"
+        android:textSize="@dimen/textsize18" />
 
     <EditText
         android:id="@+id/et_pay_psd"

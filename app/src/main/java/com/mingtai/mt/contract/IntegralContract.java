@@ -2,6 +2,7 @@ package com.mingtai.mt.contract;
 
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
+import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.mvp.IView;
 
 import java.util.ArrayList;
@@ -26,4 +27,12 @@ public interface IntegralContract extends IView {
      */
     public void safetyVerificationCodeSuccess(String msg);
     public void safetyVerificationCodeFail(String msg);
+
+
+    public void onSendVcodeSuccess(String msg);
+    public void onSendVcodeFail(String msg);
+
+
+    public void getBankSuccess(UserBankBean userBankBean);
+    public void getBankFail(String msg);
 }

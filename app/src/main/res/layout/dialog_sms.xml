@@ -30,12 +30,12 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black_333333"
             android:textSize="@dimen/textsize15"
-            android:text="的手机验证码（有效时间60秒)"/>
+            android:text="的手机验证码"/>
 
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -44,14 +44,15 @@
 
     <EditText
         android:id="@+id/et_sms"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
         android:layout_marginLeft="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_20"
         android:paddingTop="@dimen/padding_10"
         android:paddingBottom="@dimen/padding_10"
         android:paddingLeft="@dimen/margin_20"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tv_send"
         android:background="@drawable/pay_dialog"
         android:textColorHint="@color/list_divider"
         android:textSize="@dimen/textsize16"
@@ -59,16 +60,17 @@
 
         <TextView
             android:id="@+id/tv_send"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:textColor="@color/white"
             android:padding="@dimen/padding_5"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/shape_bind_card"
             android:text="发送验证码"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_sure"

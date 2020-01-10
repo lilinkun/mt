@@ -12,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
@@ -22,6 +21,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.IntegralContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
+import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.presenter.IntegralPresenter;
 import com.mingtai.mt.ui.SmsDialog;
 import com.mingtai.mt.util.Eyes;
@@ -70,9 +70,11 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
 
             if (msg.what == 0x112){
                 String vcode = msg.getData().getString("VCode");
-                toast(vcode);
                 integralPresenter.getSafetyVerificationCode(vcode,ProApplication.SESSIONID(IntegralActivity.this));
-
+            }
+            if (msg.what == 0x1234){
+                integralPresenter.SendSms(ProApplication.SESSIONID(IntegralActivity.this));
+                smsDialog.setStart();
             }
         }
     };
@@ -207,11 +209,50 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
 
     @Override
     public void safetyVerificationCodeSuccess(String msg) {
-
+        integralPresenter.getBankCard(ProApplication.SESSIONID(this));
+        smsDialog.dismiss();
     }
 
     @Override
     public void safetyVerificationCodeFail(String msg) {
+    }
+
+    @Override
+    public void onSendVcodeSuccess(String msg) {
+        toast("发送成功");
+
+    }
+
+    @Override
+    public void onSendVcodeFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
+    public void getBankSuccess(UserBankBean userBankBean) {
+        if (userBankBean.getBankUserName() == null || userBankBean.getBankNo() == null) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this).setMessage("使用提现功能需添加一张支持提现储蓄卡");
+            alertDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).setPositiveButton("添加储蓄卡", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    UiHelper.launcher(IntegralActivity.this, BindCardActivity.class);
+                }
+            }).show();
+        }else {
+            Bundle bundle = new Bundle();
+            bundle.putString(MingtaiUtil.COIN, balanceBean.getMoney5Balance() + "");
+            bundle.putSerializable(MingtaiUtil.USERBANKBEAN, userBankBean);
+            UiHelper.launcherForResultBundle(this, GetCashActivity.class, 0x222, bundle);
+        }
+    }
+
+    @Override
+    public void getBankFail(String msg) {
 
     }
 

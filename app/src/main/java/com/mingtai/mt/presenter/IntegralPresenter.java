@@ -8,6 +8,7 @@ import com.mingtai.mt.contract.IntegralContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
 import com.mingtai.mt.entity.ResultBean;
+import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
@@ -137,6 +138,67 @@ public class IntegralPresenter extends BasePresenter {
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
+                    }
+                }));
+    }
+
+    /**
+     * 发送短信验证码
+     *
+     * @param sessionId
+     */
+    public void SendSms(String sessionId) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "SendSms");
+        params.put("fun", "SendSafetyVerificationCode");
+        params.put("SessionId", sessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String,Object>() {
+
+                    @Override
+                    public void onResponse(String o, String status, ResultBean<String ,Object> page) {
+                        integralContract.onSendVcodeSuccess(o);
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        integralContract.onSendVcodeFail(msg);
+                    }
+
+                    @Override
+                    public void onNext(ResultBean o) {
+                        super.onNext(o);
+                    }
+
+                })
+        );
+    }
+
+    /**
+     * 获取银行卡信息
+     *
+     * @param SessionId
+     */
+    public void getBankCard(String SessionId) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "UserBaseBankGet");
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.getBankBean(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<UserBankBean, Object>() {
+                    @Override
+                    public void onResponse(UserBankBean balanceDetailBeans, String status, ResultBean<UserBankBean,Object> page) {
+                        integralContract.getBankSuccess(balanceDetailBeans);
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        integralContract.getBankFail(msg);
                     }
                 }));
     }

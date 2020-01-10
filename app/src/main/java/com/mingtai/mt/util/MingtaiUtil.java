@@ -24,6 +24,8 @@ public class MingtaiUtil {
     public static final String PRICE = "PRICE";
     public static final String BALANCEBEAN = "BALANCEBEAN";
     public static final String DISCOUNT = "Discount";
+    public static final String COIN = "coin";
+    public static final String USERBANKBEAN = "UserBankBean";
 
     public static final int UPDATEINT = 2;
     public static final int SALEINT = 4;

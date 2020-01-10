@@ -17,6 +17,7 @@ import com.mingtai.mt.entity.OrderDetailBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
+import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.http.RetrofitHelper;
 import com.mingtai.mt.http.RetrofitService;
 
@@ -252,6 +253,14 @@ public class DataManager {
      */
     public Observable<ResultBean<Object,Object>> getSaveAddress(HashMap<String, String> mHashMap) {
         return mRetrofitService.getSaveAddress(mHashMap);
+    }
+
+
+    /**
+     * 获取银行卡信息
+     */
+    public Observable<ResultBean<UserBankBean, Object>> getBankBean(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getBankBean(mHashMap);
     }
 
 }
