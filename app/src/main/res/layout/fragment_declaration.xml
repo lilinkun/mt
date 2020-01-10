@@ -6,21 +6,26 @@
     android:orientation="vertical">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_50"
-            android:background="@color/green"
-            android:gravity="center"
-            android:textSize="@dimen/textsize16"
-            android:textColor="@color/white"
-            android:text="报单类型"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_50"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textSize="@dimen/textsize16"
+        android:textColor="@color/black_333333"
+        android:text="报单类型"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black_333333"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:src="@mipmap/ic_declaration"
-            android:scaleType="fitXY"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@mipmap/ic_declaration"
+        android:scaleType="fitXY"/>
 
 
     <android.support.v7.widget.RecyclerView
@@ -31,117 +36,93 @@
 
 
 
-   <!-- <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
+    <!-- <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@color/white"
+             android:orientation="horizontal">
+             <LinearLayout
+                 android:id="@+id/ll_register"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:orientation="vertical">
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_horizontal"
+                     android:layout_marginTop="@dimen/margin_20"
+                     android:src="@mipmap/ic_register"/>
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_marginBottom="@dimen/margin_20"
+                     android:textColor="@color/black"
+                     android:layout_marginTop="@dimen/margin_10"
+                     android:text="会员注册"/>
+             </LinearLayout>
+             <LinearLayout
+                 android:id="@+id/ll_sale"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:orientation="vertical">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_marginTop="@dimen/margin_20"
+                     android:layout_marginBottom="@dimen/margin_20"
+                     android:textColor="@color/black"
+                     android:text="会员消费"/>
+             </LinearLayout>
+         </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_20"
-                    android:src="@mipmap/ic_register"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/margin_20"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:text="会员注册"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_sale"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_20"
-                    android:layout_marginBottom="@dimen/margin_20"
-                    android:textColor="@color/black"
-                    android:text="会员消费"/>
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-    
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/line"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/ll_update"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginBottom="@dimen/margin_20"
-                android:textColor="@color/black"
-                android:text="会员升级"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_tiaobo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginBottom="@dimen/margin_20"
-                android:textColor="@color/black"
-                android:text="业绩调拨"/>
-
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/line"/>
-
-    </LinearLayout>-->
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="0.5dp"
+         android:background="@color/line"/>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/white"
+         android:orientation="horizontal">
+         <LinearLayout
+             android:id="@+id/ll_update"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:orientation="vertical">
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_marginTop="@dimen/margin_20"
+                 android:layout_marginBottom="@dimen/margin_20"
+                 android:textColor="@color/black"
+                 android:text="会员升级"/>
+         </LinearLayout>
+         <LinearLayout
+             android:id="@+id/ll_tiaobo"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:orientation="vertical">
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_marginTop="@dimen/margin_20"
+                 android:layout_marginBottom="@dimen/margin_20"
+                 android:textColor="@color/black"
+                 android:text="业绩调拨"/>
+         </LinearLayout>
+         <View
+             android:layout_width="match_parent"
+             android:layout_height="0.5dp"
+             android:background="@color/line"/>
+     </LinearLayout>-->
 
 
 </LinearLayout>

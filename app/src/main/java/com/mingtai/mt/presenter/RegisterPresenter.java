@@ -1,5 +1,4 @@
 package com.mingtai.mt.presenter;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 

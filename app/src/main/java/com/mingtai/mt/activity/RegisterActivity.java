@@ -1,7 +1,6 @@
 package com.mingtai.mt.activity;
 
 
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,13 +29,11 @@ import com.mingtai.mt.contract.RegisterContract;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.LocalBean;
-import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.presenter.RegisterPresenter;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
-import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
