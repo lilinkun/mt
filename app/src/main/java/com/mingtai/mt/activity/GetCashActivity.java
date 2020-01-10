@@ -36,6 +36,7 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
     GetCashPresenter getCashPresenter = new GetCashPresenter();
     private UserBankBean userBankBean;
     private PopupWindow popupWindow;
+    private Dialog payDialog;
 
     @Override
     public int getLayoutId() {
@@ -75,7 +76,7 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
                 final int coinAmount = Integer.valueOf(et_wlm_coin.getText().toString());
 
                 View view1 = LayoutInflater.from(this).inflate(R.layout.layout_popup_psd, null);
-                final Dialog payDialog =new Dialog(GetCashActivity.this);
+                payDialog =new Dialog(GetCashActivity.this);
                 payDialog.setContentView(view1);
                 payDialog.show();
                 TextView tv_forgetPwd = view1.findViewById(R.id.tv_forgetPwd);
@@ -98,7 +99,7 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
                     @Override
                     public void onClick(View v) {
                         if (MingtaiUtil.editIsNotNull(et_psd)) {
-                            getCashPresenter.getCash(coinAmount + "", Double.valueOf(0) + "", et_psd.getText().toString() + "",5+"", ProApplication.SESSIONID(GetCashActivity.this));
+                            getCashPresenter.getCash(coinAmount + "", coinAmount * 0.2 + "", et_psd.getText().toString() + "",5+"", ProApplication.SESSIONID(GetCashActivity.this));
                         }else {
                             toast("密码不能为空");
                         }
@@ -125,8 +126,8 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
 
     @Override
     public void getCashSuccess() {
-        if (popupWindow != null && popupWindow.isShowing()) {
-            popupWindow.dismiss();
+        if (payDialog != null && payDialog.isShowing()) {
+            payDialog.dismiss();
         }
         setResult(RESULT_OK);
         finish();
