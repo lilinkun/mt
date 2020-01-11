@@ -35,4 +35,8 @@ public interface IntegralContract extends IView {
 
     public void getBankSuccess(UserBankBean userBankBean);
     public void getBankFail(String msg);
+
+
+    public void getSendVcodeSuccess(String s);
+    public void getSendVcodeFail(String msg);
 }

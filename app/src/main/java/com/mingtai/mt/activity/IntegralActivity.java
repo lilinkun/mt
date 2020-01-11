@@ -144,16 +144,17 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
                 break;
 
             case R.id.tv_withdrawal:
+
                 cointype = 1;
-                smsDialog = new SmsDialog(this,MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler);
-                smsDialog.show();
+
+                integralPresenter.SendSms("2",ProApplication.SESSIONID(this));
 
                 break;
 
             case R.id.tv_transfer_accounts:
                 cointype = 2;
-                smsDialog = new SmsDialog(this,MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler);
-                smsDialog.show();
+
+                integralPresenter.SendSms("2",ProApplication.SESSIONID(this));
 
                 break;
 
@@ -264,6 +265,24 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
     @Override
     public void getBankFail(String msg) {
         toast(msg);
+    }
+
+    @Override
+    public void getSendVcodeSuccess(String s) {
+        if (cointype == 1) {
+            integralPresenter.getBankCard(ProApplication.SESSIONID(this));
+            smsDialog.dismiss();
+        }else if (cointype == 2){
+            Bundle bundle = new Bundle();
+            bundle.putString(MingtaiUtil.COIN, balanceBean.getMoney5Balance() + "");
+            UiHelper.launcherForResultBundle(this, TransferAccountsActivity.class, 0x223, bundle);
+        }
+    }
+
+    @Override
+    public void getSendVcodeFail(String msg) {
+        smsDialog = new SmsDialog(this,MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler,2);
+        smsDialog.show();
     }
 
 

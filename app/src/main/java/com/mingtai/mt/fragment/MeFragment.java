@@ -1,6 +1,8 @@
 package com.mingtai.mt.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import com.mingtai.mt.contract.MeContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.presenter.IntegralPresenter;
 import com.mingtai.mt.presenter.MePresenter;
+import com.mingtai.mt.ui.SmsDialog;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UToast;
 import com.mingtai.mt.util.UiHelper;
@@ -39,6 +42,20 @@ public class MeFragment extends BaseFragment implements MeContract {
     private MePresenter mePresenter = new MePresenter();
     private BalanceBean balanceBean;
     private int result_person = 0x2212;
+    private SmsDialog smsDialog;
+    private int type = 0;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0x222){
+                String vcode = msg.getData().getString("VCode");
+                mePresenter.verificationPsd(vcode,ProApplication.SESSIONID(getActivity()));
+            }
+        }
+    };
+
 
     @Override
     public int getlayoutId() {
@@ -82,20 +99,27 @@ public class MeFragment extends BaseFragment implements MeContract {
 
             case R.id.ll_integral:
 
+                type = 0;
 
-                Bundle bundle4 = new Bundle();
+                mePresenter.SendSms("1",ProApplication.SESSIONID(getActivity()));
+
+                /*Bundle bundle4 = new Bundle();
                 bundle4.putInt("style", 0);
                 bundle4.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
-                UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle4);
+                UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle4);*/
 
                 break;
 
             case R.id.ll_coin:
 
-                Bundle bundle5 = new Bundle();
+                type = 1;
+
+                mePresenter.SendSms("1",ProApplication.SESSIONID(getActivity()));
+
+                /*Bundle bundle5 = new Bundle();
                 bundle5.putInt("style", 1);
                 bundle5.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
-                UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle5);
+                UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle5);*/
 
                 break;
 
@@ -138,21 +162,36 @@ public class MeFragment extends BaseFragment implements MeContract {
 
     @Override
     public void getSendVcodeSuccess(String s) {
-
+        dump();
     }
 
     @Override
     public void getSendVcodeFail(String msg) {
 
+        smsDialog = new SmsDialog(getActivity(),MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler,1);
+        smsDialog.show();
+
     }
 
     @Override
     public void verificationPsdSuccess(String msg) {
+        if (smsDialog != null){
+            smsDialog.dismiss();
+        }
 
+        dump();
     }
 
     @Override
     public void verificationPsdFail(String msg) {
+        UToast.show(getActivity(),msg);
+    }
 
+    public void dump(){
+
+        Bundle bundle5 = new Bundle();
+        bundle5.putInt("style", type);
+        bundle5.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
+        UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle5);
     }
 }

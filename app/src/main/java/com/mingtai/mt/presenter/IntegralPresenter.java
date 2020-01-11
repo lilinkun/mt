@@ -203,4 +203,41 @@ public class IntegralPresenter extends BasePresenter {
                 }));
     }
 
+    /**
+     * 验证密码是否有效
+     *
+     * @param sessionId
+     */
+    public void SendSms(String type,String sessionId) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "SendSms");
+        params.put("fun", "IsVerifySms");
+        params.put("type", type);
+        params.put("SessionId", sessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String,Object>() {
+
+                    @Override
+                    public void onResponse(String o, String status, ResultBean<String ,Object> page) {
+                        integralContract.getSendVcodeSuccess(o);
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        integralContract.getSendVcodeFail(msg);
+                    }
+
+                    @Override
+                    public void onNext(ResultBean o) {
+                        super.onNext(o);
+                    }
+
+                })
+        );
+    }
+
 }

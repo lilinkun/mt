@@ -79,11 +79,12 @@ public class MePresenter extends BasePresenter {
      *
      * @param sessionId
      */
-    public void SendSms(String sessionId) {
+    public void SendSms(String type,String sessionId) {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "SendSms");
         params.put("fun", "IsVerifySms");
+        params.put("type", type);
         params.put("SessionId", sessionId);
         mCompositeSubscription.add(manager.register(params)
                 .subscribeOn(Schedulers.io())

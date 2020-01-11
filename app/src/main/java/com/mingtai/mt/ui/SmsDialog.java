@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.util.UToast;
+
+import okhttp3.internal.Util;
 
 /**
  * Created by LG on 2020/1/10.
@@ -25,14 +29,18 @@ public class SmsDialog extends Dialog {
     private Handler handler;
     private TextView tv_mobile;
     private TextView tv_send;
+    private TextView tv_psd;
+    private LinearLayout ll_mobile;
     private String mobile;
+    private int type;
     MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
 
-    public SmsDialog(Context context,String msg,Handler handler) {
+    public SmsDialog(Context context,String msg,Handler handler,int type) {
         super(context);
         this.context = context;
         this.handler = handler;
         this.mobile = msg;
+        this.type = type;
     }
 
     @Override
@@ -44,22 +52,44 @@ public class SmsDialog extends Dialog {
         button = (Button) findViewById(R.id.btn_sure);
         tv_mobile = (TextView) findViewById(R.id.tv_mobile);
         tv_send = (TextView) findViewById(R.id.tv_send);
+        ll_mobile = (LinearLayout) findViewById(R.id.ll_mobile);
+        tv_psd = (TextView) findViewById(R.id.tv_psd);
+
+        if (type == 1){
+            tv_send.setVisibility(View.GONE);
+            ll_mobile.setVisibility(View.GONE);
+            editText.setHint("请输入支付密码");
+            tv_psd.setVisibility(View.VISIBLE);
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+
 
         tv_mobile.setText(mobile);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editText.getText().toString().trim().length()>0) {
-                    Message message = new Message();
-                    message.what = 0x112;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("VCode",editText.getText().toString());
-                    message.setData(bundle);
-                    handler.sendMessage(message);
-                }else {
-                    UToast.show(context,"请输入验证码");
-                }
+
+                    if (editText.getText().toString().trim().length()>0) {
+                        Message message = new Message();
+                        if (type == 1){
+                            message.what = 0x222;
+                        }else {
+                            message.what = 0x112;
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putString("VCode",editText.getText().toString());
+                        message.setData(bundle);
+                        handler.sendMessage(message);
+                    }else {
+                        if (type==1){
+                            UToast.show(context,"请输入密码");
+                        }else {
+                            UToast.show(context, "请输入验证码");
+                        }
+                    }
+
+
             }
         });
 
