@@ -14,6 +14,20 @@ public interface PersonalInfoContract extends IView {
     public void getInfoSuccess(PersonalInfoBean loginBean);
 
     public void LoginOutSuccess(String msg);
-
     public void LoginOutFail(String msg);
+
+
+    public void getSendVcodeSuccess(String s);
+    public void getSendVcodeFail(String msg);
+
+
+    public void onSendVcodeSuccess(String msg);
+    public void onSendVcodeFail(String msg);
+
+    /**
+     * 发送安全验证
+     * @param msg
+     */
+    public void safetyVerificationCodeSuccess(String msg);
+    public void safetyVerificationCodeFail(String msg);
 }

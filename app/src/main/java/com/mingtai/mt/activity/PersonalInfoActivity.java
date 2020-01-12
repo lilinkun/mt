@@ -25,8 +25,10 @@ import com.mingtai.mt.entity.CheckBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.presenter.PersonalInfoPresenter;
 import com.mingtai.mt.ui.DownloadingDialog;
+import com.mingtai.mt.ui.SmsDialog;
 import com.mingtai.mt.util.DataCleanManager;
 import com.mingtai.mt.util.Eyes;
+import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 import com.mingtai.mt.util.UpdateManager;
 
@@ -85,6 +87,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
     //    private DownloadBean downloadBean;
     private CheckBean bean;
     private double code = 0;
+    private SmsDialog smsDialog;
 
 
     private Handler handler = new Handler() {
@@ -98,6 +101,12 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
 //
 //                    personalInfoPresenter.uploadImage(imageUploadResultBean.getUrl().get(0), ProApplication.SESSIONID(PersonalInfoActivity.this));
                 }
+            }else if (msg.what == 0x1234){
+                personalInfoPresenter.SendSms(ProApplication.SESSIONID(PersonalInfoActivity.this));
+                smsDialog.setStart();
+            }else if(msg.what == 0x112){
+                String vcode = msg.getData().getString("VCode");
+                personalInfoPresenter.getSafetyVerificationCode(vcode,ProApplication.SESSIONID(PersonalInfoActivity.this));
             }
         }
     };
@@ -172,7 +181,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
 
             case R.id.rl_change_psd:
 
-                UiHelper.launcher(this, ModifyPayActivity.class);
+                personalInfoPresenter.SendSms("1",ProApplication.SESSIONID(this));
 
                 break;
 
@@ -330,6 +339,38 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
     public void LoginOutFail(String msg) {
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         sharedPreferences.edit().clear().commit();
+    }
+
+    @Override
+    public void getSendVcodeSuccess(String s) {
+        UiHelper.launcher(this, ModifyPayActivity.class);
+    }
+
+    @Override
+    public void getSendVcodeFail(String msg) {
+
+        smsDialog = new SmsDialog(this, MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler,3);
+        smsDialog.show();
+    }
+
+    @Override
+    public void onSendVcodeSuccess(String msg) {
+
+    }
+
+    @Override
+    public void onSendVcodeFail(String msg) {
+
+    }
+
+    @Override
+    public void safetyVerificationCodeSuccess(String msg) {
+        UiHelper.launcher(this, ModifyPayActivity.class);
+    }
+
+    @Override
+    public void safetyVerificationCodeFail(String msg) {
+        toast(msg);
     }
 
     /**

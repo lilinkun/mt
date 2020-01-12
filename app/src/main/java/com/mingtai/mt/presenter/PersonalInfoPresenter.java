@@ -83,6 +83,106 @@ public class PersonalInfoPresenter extends BasePresenter {
         );
     }
 
+    /**
+     * 验证密码是否有效
+     *
+     * @param sessionId
+     */
+    public void SendSms(String type,String sessionId) {
 
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "SendSms");
+        params.put("fun", "IsVerifySms");
+        params.put("type", type);
+        params.put("SessionId", sessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String,Object>() {
+
+                    @Override
+                    public void onResponse(String o, String status, ResultBean<String ,Object> page) {
+                        personalInfoContract.getSendVcodeSuccess(o);
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        personalInfoContract.getSendVcodeFail(msg);
+                    }
+
+                    @Override
+                    public void onNext(ResultBean o) {
+                        super.onNext(o);
+                    }
+
+                })
+        );
+    }
+
+    /**
+     * 发送短信验证码
+     *
+     * @param sessionId
+     */
+    public void SendSms(String sessionId) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "SendSms");
+        params.put("fun", "SendSafetyVerificationCode");
+        params.put("SessionId", sessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String,Object>() {
+
+                    @Override
+                    public void onResponse(String o, String status, ResultBean<String ,Object> page) {
+                        personalInfoContract.onSendVcodeSuccess(o);
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        personalInfoContract.onSendVcodeFail(msg);
+                    }
+
+                    @Override
+                    public void onNext(ResultBean o) {
+                        super.onNext(o);
+                    }
+
+                })
+        );
+    }
+
+    public void getSafetyVerificationCode(String code,String SessionId) {
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "验证中...", true);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "SendSms");
+        params.put("fun", "SafetyVerificationCode");
+        params.put("code",code);
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String, Object>() {
+                    @Override
+                    public void onResponse(String str, String status, ResultBean<String, Object> page) {
+                        personalInfoContract.safetyVerificationCodeSuccess(str);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        personalInfoContract.safetyVerificationCodeFail(msg);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+                }));
+    }
 
 }
