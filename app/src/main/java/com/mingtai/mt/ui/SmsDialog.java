@@ -55,7 +55,7 @@ public class SmsDialog extends Dialog {
         ll_mobile = (LinearLayout) findViewById(R.id.ll_mobile);
         tv_psd = (TextView) findViewById(R.id.tv_psd);
 
-        if (type == 1){
+        if (type == 1 || type == 2){
             tv_send.setVisibility(View.GONE);
             ll_mobile.setVisibility(View.GONE);
             editText.setHint("请输入支付密码");
@@ -72,7 +72,7 @@ public class SmsDialog extends Dialog {
 
                     if (editText.getText().toString().trim().length()>0) {
                         Message message = new Message();
-                        if (type == 1){
+                        if (type == 1 || type == 2){
                             message.what = 0x222;
                         }else {
                             message.what = 0x112;
@@ -82,7 +82,7 @@ public class SmsDialog extends Dialog {
                         message.setData(bundle);
                         handler.sendMessage(message);
                     }else {
-                        if (type==1){
+                        if (type == 1 || type == 2){
                             UToast.show(context,"请输入密码");
                         }else {
                             UToast.show(context, "请输入验证码");

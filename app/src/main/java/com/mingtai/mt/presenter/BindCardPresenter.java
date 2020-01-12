@@ -98,16 +98,14 @@ public class BindCardPresenter extends BasePresenter {
         );
     }
 
-    public void upBankInfo(String BankName, String BankDetails, String BankUserName, String BankNo, String Code, String UserCode, String SessionId) {
+    public void upBankInfo(String BankName, String BankDetails, String BankNo, String Mobile,  String SessionId) {
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "UserBaseBankUpdate");
         params.put("BankName", BankName);
         params.put("BankDetails", BankDetails);
-        params.put("BankUserName", BankUserName);
         params.put("BankNo", BankNo);
-        params.put("Code", Code);
-        params.put("UserCode", UserCode);
+        params.put("Mobile", Mobile);
         params.put("SessionId", SessionId);
 
         mCompositeSubscription.add(manager.register(params)

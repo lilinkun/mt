@@ -5,19 +5,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.activity.BindCardActivity;
 import com.mingtai.mt.activity.ChooseAddressActivity;
 import com.mingtai.mt.activity.IntegralActivity;
 import com.mingtai.mt.activity.OrderListActivity;
 import com.mingtai.mt.activity.PersonalInfoActivity;
 import com.mingtai.mt.base.BaseFragment;
 import com.mingtai.mt.base.ProApplication;
-import com.mingtai.mt.contract.IntegralContract;
 import com.mingtai.mt.contract.MeContract;
 import com.mingtai.mt.entity.BalanceBean;
-import com.mingtai.mt.presenter.IntegralPresenter;
 import com.mingtai.mt.presenter.MePresenter;
 import com.mingtai.mt.ui.SmsDialog;
 import com.mingtai.mt.util.MingtaiUtil;
@@ -72,7 +70,7 @@ public class MeFragment extends BaseFragment implements MeContract {
         mePresenter.getBalance(ProApplication.SESSIONID(getActivity()));
     }
 
-    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_wait_receiver,R.id.ll_wait_deliver,R.id.ll_customer_service, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
+    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_bind_card,R.id.ll_wait_receiver,R.id.ll_wait_deliver,R.id.ll_customer_service, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_my_all_order:
@@ -139,6 +137,13 @@ public class MeFragment extends BaseFragment implements MeContract {
 
                 break;
 
+            case R.id.ll_bind_card:
+
+                type = 3;
+                mePresenter.SendSms("2",ProApplication.SESSIONID(getActivity()));
+
+                break;
+
         }
     }
 
@@ -168,7 +173,7 @@ public class MeFragment extends BaseFragment implements MeContract {
     @Override
     public void getSendVcodeFail(String msg) {
 
-        smsDialog = new SmsDialog(getActivity(),MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler,1);
+        smsDialog = new SmsDialog(getActivity(),MingtaiUtil.phoneAddress(ProApplication.mAccountBean.getMobile()).toString(),handler,type);
         smsDialog.show();
 
     }
@@ -189,9 +194,14 @@ public class MeFragment extends BaseFragment implements MeContract {
 
     public void dump(){
 
-        Bundle bundle5 = new Bundle();
-        bundle5.putInt("style", type);
-        bundle5.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
-        UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle5);
+        if (type == 3){
+
+            UiHelper.launcher(getActivity(), BindCardActivity.class);
+        }else {
+            Bundle bundle5 = new Bundle();
+            bundle5.putInt("style", type);
+            bundle5.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
+            UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle5);
+        }
     }
 }

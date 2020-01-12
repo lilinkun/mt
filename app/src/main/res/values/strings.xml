@@ -99,6 +99,7 @@
     <string name="take_photo">拍摄</string>
     <string name="system_photo">从相册选择</string>
     <string name="pay_psd">支付密码</string>
+    <string name="login_psd">登录密码</string>
     <string name="setting_exit_login">退出登录</string>
     <string name="about_app">关于唯乐美</string>
     <string name="setting_delete_cache">清除缓存</string>

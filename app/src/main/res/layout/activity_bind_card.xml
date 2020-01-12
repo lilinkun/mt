@@ -52,7 +52,7 @@
             android:orientation="vertical">
 
 
-            <LinearLayout
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:orientation="horizontal"
@@ -79,7 +79,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/line_bg"/>
+                android:background="@color/line_bg"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,8 +94,8 @@
                     android:text="手机号码"/>
 
 
-                <TextView
-                    android:id="@+id/tv_bank_phone"
+                <EditText
+                    android:id="@+id/et_bank_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_20"
@@ -110,7 +110,7 @@
                 android:layout_height="1dp"
                 android:background="@color/line_bg"/>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:orientation="horizontal"
@@ -155,9 +155,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/line_bg"/>
+                android:background="@color/line_bg"/>-->
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:orientation="horizontal"
@@ -185,7 +185,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/line_bg"/>
+                android:background="@color/line_bg"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -275,7 +275,7 @@
 
 
                 <EditText
-                    android:id="@+id/tv_first_bank"
+                    android:id="@+id/et_first_bank"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_20"
