@@ -113,7 +113,7 @@ public class IntegralPresenter extends BasePresenter {
 
 
     public void getSafetyVerificationCode(String code,String SessionId) {
-        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "", true);
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "验证中...", true);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "SendSms");

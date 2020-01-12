@@ -19,4 +19,15 @@ public interface MeContract extends IView {
 
     public void verificationPsdSuccess(String msg);
     public void verificationPsdFail(String msg);
+
+
+    public void onSendVcodeSuccess(String msg);
+    public void onSendVcodeFail(String msg);
+
+    /**
+     * 发送安全验证
+     * @param msg
+     */
+    public void safetyVerificationCodeSuccess(String msg);
+    public void safetyVerificationCodeFail(String msg);
 }

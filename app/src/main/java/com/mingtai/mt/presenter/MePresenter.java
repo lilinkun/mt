@@ -1,11 +1,11 @@
 package com.mingtai.mt.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.MeContract;
 import com.mingtai.mt.entity.BalanceBean;
-import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
@@ -72,6 +72,41 @@ public class MePresenter extends BasePresenter {
 //                        }
                     }
                 }));
+    }
+
+    /**
+     * 发送短信验证码
+     *
+     * @param sessionId
+     */
+    public void SendSms(String sessionId) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "SendSms");
+        params.put("fun", "SendSafetyVerificationCode");
+        params.put("SessionId", sessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String,Object>() {
+
+                    @Override
+                    public void onResponse(String o, String status, ResultBean<String ,Object> page) {
+                        meContract.onSendVcodeSuccess(o);
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        meContract.onSendVcodeFail(msg);
+                    }
+
+                    @Override
+                    public void onNext(ResultBean o) {
+                        super.onNext(o);
+                    }
+
+                })
+        );
     }
 
     /**
@@ -146,6 +181,37 @@ public class MePresenter extends BasePresenter {
 
                 })
         );
+    }
+
+
+    public void getSafetyVerificationCode(String code,String SessionId) {
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "验证中...", true);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "SendSms");
+        params.put("fun", "SafetyVerificationCode");
+        params.put("code",code);
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.register(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<String, Object>() {
+                    @Override
+                    public void onResponse(String str, String status, ResultBean<String, Object> page) {
+                        meContract.safetyVerificationCodeSuccess(str);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        meContract.safetyVerificationCodeFail(msg);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+                }));
     }
 
 

@@ -50,6 +50,12 @@ public class MeFragment extends BaseFragment implements MeContract {
             if (msg.what == 0x222){
                 String vcode = msg.getData().getString("VCode");
                 mePresenter.verificationPsd(vcode,ProApplication.SESSIONID(getActivity()));
+            }else if (msg.what == 0x1234){
+                mePresenter.SendSms(ProApplication.SESSIONID(getActivity()));
+                smsDialog.setStart();
+            }else if(msg.what == 0x112){
+                String vcode = msg.getData().getString("VCode");
+                mePresenter.getSafetyVerificationCode(vcode,ProApplication.SESSIONID(getActivity()));
             }
         }
     };
@@ -189,6 +195,27 @@ public class MeFragment extends BaseFragment implements MeContract {
 
     @Override
     public void verificationPsdFail(String msg) {
+        UToast.show(getActivity(),msg);
+    }
+
+    @Override
+    public void onSendVcodeSuccess(String msg) {
+
+    }
+
+    @Override
+    public void onSendVcodeFail(String msg) {
+        UToast.show(getActivity(),msg);
+    }
+
+    @Override
+    public void safetyVerificationCodeSuccess(String msg) {
+        UiHelper.launcher(getActivity(), BindCardActivity.class);
+        smsDialog.dismiss();
+    }
+
+    @Override
+    public void safetyVerificationCodeFail(String msg) {
         UToast.show(getActivity(),msg);
     }
 

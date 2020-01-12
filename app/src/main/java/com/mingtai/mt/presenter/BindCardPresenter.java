@@ -115,7 +115,7 @@ public class BindCardPresenter extends BasePresenter {
 
                     @Override
                     public void onResponse(String s, String status, ResultBean<String, Object> page) {
-                        bindCardContract.upBankInfoSuccess(s);
+                        bindCardContract.upBankInfoSuccess(page.getDesc());
                     }
 
                     @Override

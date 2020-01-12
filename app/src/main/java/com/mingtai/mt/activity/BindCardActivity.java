@@ -55,6 +55,8 @@ public class BindCardActivity extends BaseActivity implements BindCardContract {
 
     ArrayList<BankBean> bankBeans = null;
     BankBean bankBean = null;
+    UserBankBean userBankBean;
+    int bankname = 0;
     private BindCardPresenter bindCardPresenter = new BindCardPresenter();
     private PopupWindow popupWindow;
     private boolean isTrue = false;
@@ -134,8 +136,14 @@ public class BindCardActivity extends BaseActivity implements BindCardContract {
                     return;
                 }
 
+                if (bankBean == null) {
+                    bankname = userBankBean.getBankName();
+                }else {
+                    bankname = bankBean.getId();
+                }
 
-                bindCardPresenter.upBankInfo(bankBean.getId() + "", et_first_bank.getText().toString(),
+
+                bindCardPresenter.upBankInfo(bankname + "", et_first_bank.getText().toString(),
                         et_bank_card_num.getText().toString(), et_bank_phone.getText().toString(),  ProApplication.SESSIONID(this));
 
                 break;
@@ -172,7 +180,8 @@ public class BindCardActivity extends BaseActivity implements BindCardContract {
 
     @Override
     public void upBankInfoSuccess(String info) {
-        toast("绑定成功");
+        toast(info);
+        ProApplication.mAccountBean.setMobile(et_bank_phone.getText().toString());
         finish();
     }
 
@@ -193,6 +202,7 @@ public class BindCardActivity extends BaseActivity implements BindCardContract {
 
     @Override
     public void getBankSuccess(UserBankBean userBankBean) {
+        this.userBankBean = userBankBean;
 //        et_bank_name.setText(userBankBean.getUserName());
         et_bank_card_num.setText(userBankBean.getBankNo()+"");
         tv_bank_name.setText(userBankBean.getBankNameDesc());
