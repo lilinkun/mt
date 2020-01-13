@@ -49,7 +49,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void initEventAndData() {
 
-        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
+//        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
+
+        Eyes.translucentStatusBar(this);
 
         initFragment();
 

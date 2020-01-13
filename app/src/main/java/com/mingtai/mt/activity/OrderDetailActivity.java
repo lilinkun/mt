@@ -19,6 +19,7 @@ import com.mingtai.mt.contract.AllOrderContract;
 import com.mingtai.mt.entity.OrderDetailBean;
 import com.mingtai.mt.presenter.OrderDetailPresenter;
 import com.mingtai.mt.util.ButtonUtils;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -113,6 +114,9 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 
     @Override
     public void initEventAndData() {
+
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
+
         orderDetailPresenter.onCreate(this,this);
 
         orderSn = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("order_sn");

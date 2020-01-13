@@ -85,4 +85,37 @@ public class LoginPresenter extends BasePresenter {
                 }));
 
     }
+
+
+
+    public void getSettingParameter(String SessionId){
+
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "获取数据中...", true);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "Home");
+        params.put("fun", "SettingParameter");
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.getHomeSettingData(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<HomeBean, Object>() {
+                    @Override
+                    public void onResponse(HomeBean goodsListBeans, String status, ResultBean<HomeBean, Object> page) {
+                        loginContract.getDataSuccess(goodsListBeans);
+
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        loginContract.getDataFail(msg);
+
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+                }));
+    }
 }

@@ -18,6 +18,7 @@ import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.entity.UserBankBean;
+import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.http.RetrofitHelper;
 import com.mingtai.mt.http.RetrofitService;
 
@@ -158,7 +159,7 @@ public class DataManager {
     /**
      * 支付订单信息
      */
-    public Observable<ResultBean<String, Object>> sureGoodsOrder(HashMap<String, String> mHashMap) {
+    public Observable<ResultBean<WxInfo, Object>> sureGoodsOrder(HashMap<String, String> mHashMap) {
         return mRetrofitService.sureGoodsOrder(mHashMap);
     }
 

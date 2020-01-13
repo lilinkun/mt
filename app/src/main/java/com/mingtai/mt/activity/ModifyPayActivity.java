@@ -1,5 +1,6 @@
 package com.mingtai.mt.activity;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.ModifyPayPsdContract;
 import com.mingtai.mt.presenter.ModifyPayPsdPresenter;
 import com.mingtai.mt.util.Eyes;
+import com.mingtai.mt.util.MingtaiUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,6 +34,7 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
     TextView tv_detail;
 
     ModifyPayPsdPresenter modifyPayPsdPresenter = new ModifyPayPsdPresenter();
+    int type = 0;
 
     @Override
     public int getLayoutId() {
@@ -44,8 +47,13 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
         Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         modifyPayPsdPresenter.onCreate(this, this);
 
+        type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("type",0);
 
-        tv_detail.setText("修改支付密码");
+        if (type == 1) {
+            tv_detail.setText("修改支付密码");
+        }else if (type ==2){
+            tv_detail.setText("修改登录密码");
+        }
 
         textView.setText(ProApplication.mAccountBean.getMobile());
 
@@ -68,7 +76,7 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
                     toast("两次密码不同，请确认");
                 } else {
 
-                    modifyPayPsdPresenter.modifyPsd(ev_vcode.getText().toString(), ev_new_psd.getText().toString(), ev_sure_psd.getText().toString(), ProApplication.SESSIONID(this));
+                    modifyPayPsdPresenter.modifyPsd(ev_vcode.getText().toString(), ev_new_psd.getText().toString(), ev_sure_psd.getText().toString(),type, ProApplication.SESSIONID(this));
 
                 }
 
@@ -83,6 +91,11 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
     }
     @Override
     public void modifySuccess() {
+        if (type == 2) {
+            SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN, MODE_PRIVATE);
+            sharedPreferences.edit().putString("psd",ev_new_psd.getText().toString()).commit();
+        }
+
         toast("修改成功");
         finish();
     }

@@ -19,6 +19,7 @@ import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.entity.UserBankBean;
+import com.mingtai.mt.entity.WxInfo;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -102,7 +103,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
-    Observable<ResultBean<String, Object>> sureGoodsOrder(@FieldMap Map<String, String> params);
+    Observable<ResultBean<WxInfo, Object>> sureGoodsOrder(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("Api/")

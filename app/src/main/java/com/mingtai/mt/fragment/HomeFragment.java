@@ -45,7 +45,6 @@ public class HomeFragment extends BaseFragment implements HomeContract {
     public void initEventAndData() {
 
         homePresenter.onCreate(getActivity(),this);
-        homePresenter.getSettingParameter(ProApplication.SESSIONID(getActivity()));
 
         homePresenter.getHomeData(ProApplication.SESSIONID(getActivity()));
 
@@ -53,17 +52,6 @@ public class HomeFragment extends BaseFragment implements HomeContract {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         rv_home.setLayoutManager(linearLayoutManager);
-    }
-
-    @Override
-    public void getDataSuccess(HomeBean msg) {
-        ProApplication.mHomeBean = msg;
-        ProApplication.BANNERIMG = msg.getImgUrl() + "imgdb/";
-    }
-
-    @Override
-    public void getDataFail(String msg) {
-        UToast.show(getActivity(),msg);
     }
 
     @Override

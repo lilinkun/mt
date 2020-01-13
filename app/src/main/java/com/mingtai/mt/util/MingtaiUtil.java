@@ -1,7 +1,14 @@
 package com.mingtai.mt.util;
 
+import android.content.Context;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.text.NumberFormat;
 
@@ -31,6 +38,7 @@ public class MingtaiUtil {
     public static final int SALEINT = 4;
     public static final int TIAOBOINT = 8;
 
+    public static final String APP_ID = "wx11a116ef840f67f9";
 
     //未付款 = 0
     public static final int ORDER_NOPAY = 0;
@@ -89,6 +97,33 @@ public class MingtaiUtil {
             sb.replace(3, 7, "****");
         }
         return sb;
+    }
+
+    public static void wxPay(String appid, String partnerId, String prepayId, String nonceStr, String timeStamp, String sign, Context context) {
+        Toast.makeText(context, "获取订单中...", Toast.LENGTH_SHORT).show();
+        IWXAPI api = WXAPIFactory.createWXAPI(context, null);
+        api.registerApp(appid);
+        try {
+//            org.json.JSONObject json = new org.json.JSONObject(result);
+//            if (null != json && !json.has("retcode")) {
+            PayReq req = new PayReq();
+            req.appId = appid;
+            req.partnerId = partnerId;
+            req.prepayId = prepayId;
+            req.nonceStr = nonceStr;
+            req.timeStamp = timeStamp;
+            req.packageValue = "Sign=WXPay";
+            req.sign = sign;
+            req.extData = "app data";
+            api.sendReq(req);
+//            } else {
+//                Log.d("PAY_GET", "返回错误" + json.getString("retmsg"));
+//                Toast.makeText(this, "返回错误" + json.getString("retmsg"), Toast.LENGTH_SHORT).show();
+//            }
+        } catch (Exception e) {
+            Log.e("PAY_GET", "异常：" + e.getMessage());
+            Toast.makeText(context, "异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

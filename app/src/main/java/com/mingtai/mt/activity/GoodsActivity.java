@@ -23,6 +23,7 @@ import com.mingtai.mt.presenter.GoodsPresenter;
 import com.mingtai.mt.ui.PagerSlidingTabStrip;
 import com.mingtai.mt.ui.SpaceItemDecoration;
 import com.mingtai.mt.util.ActivityUtil;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -90,6 +91,8 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
     @Override
     public void initEventAndData() {
+
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
 
         goodsPresenter.onCreate(this,this);
         goodsPresenter.getCategory(ProApplication.SESSIONID(this));

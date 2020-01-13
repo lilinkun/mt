@@ -136,6 +136,7 @@
             android:background="@null"
             android:hint="@string/input_transfer_receiver_no"
             android:textColor="@color/black_333333"
+            android:textColorHint="@color/list_divider"
             android:layout_weight="3"/>
 
     </LinearLayout>
@@ -162,6 +163,7 @@
             android:inputType="number"
             android:textSize="@dimen/textsize14"
             android:hint="@string/input_transfer_price"
+            android:textColorHint="@color/list_divider"
             android:layout_weight="3"/>
 
     </LinearLayout>
@@ -187,6 +189,7 @@
             android:textSize="@dimen/textsize14"
             android:textColor="@color/black_333333"
             android:inputType="textPassword"
+            android:textColorHint="@color/list_divider"
             android:hint="@string/input_transfer_psd"
             android:layout_weight="3"/>
 

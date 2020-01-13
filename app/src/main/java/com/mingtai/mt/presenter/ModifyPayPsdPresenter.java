@@ -51,11 +51,15 @@ public class ModifyPayPsdPresenter extends BasePresenter {
      *
      * @param sessionId
      */
-    public void modifyPsd(String oldPwd, String PassWord, String ConfirmPassWord, String sessionId) {
+    public void modifyPsd(String oldPwd, String PassWord, String ConfirmPassWord,int type, String sessionId) {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
-        params.put("fun", "UserBaseChangePassWord_Two");
+        if (type == 1) {
+            params.put("fun", "UserBaseChangePassWord_Two");
+        }else {
+            params.put("fun","UserBaseChangePassWord");
+        }
         params.put("oldPwd", oldPwd);
         params.put("PassWord", PassWord);
         params.put("ConfirmPassWord", ConfirmPassWord);

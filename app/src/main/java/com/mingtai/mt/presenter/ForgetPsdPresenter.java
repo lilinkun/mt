@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.ForgetPsdContract;
 import com.mingtai.mt.contract.IntegralContract;
+import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
@@ -47,11 +48,13 @@ public class ForgetPsdPresenter extends BasePresenter {
      *
      * @param sessionId
      */
-    public void SendSms(String sessionId) {
+    public void SendSms(String UserName,String Mobile,String sessionId) {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "SendSms");
-        params.put("fun", "SendSafetyVerificationCode");
+        params.put("fun", "ForgotPassword");
+        params.put("UserName",UserName);
+        params.put("Mobile",Mobile);
         params.put("SessionId", sessionId);
         mCompositeSubscription.add(manager.register(params)
                 .subscribeOn(Schedulers.io())
@@ -93,19 +96,19 @@ public class ForgetPsdPresenter extends BasePresenter {
         params.put("UserCode", UserCode);
         params.put("Mobile", Mobile);
         params.put("SessionId", sessionId);
-        mCompositeSubscription.add(manager.register(params)
+        mCompositeSubscription.add(manager.login(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<String,Object>() {
+                .subscribe(new HttpResultCallBack<AccountBean,Object>() {
 
                     @Override
-                    public void onResponse(String o, String status, ResultBean<String ,Object> page) {
-                        forgetPsdContract.onSendVcodeSuccess(o);
+                    public void onResponse(AccountBean accountBean, String status, ResultBean<AccountBean, Object> o) {
+                        forgetPsdContract.setDataSuccess(accountBean);
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
-                        forgetPsdContract.onSendVcodeFail(msg);
+                        forgetPsdContract.setDataFail(msg);
                     }
 
                     @Override

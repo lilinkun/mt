@@ -9,9 +9,12 @@ import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.ForgetPsdContract;
+import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.presenter.ForgetPsdPresenter;
 import com.mingtai.mt.ui.SmsDialog;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
+import com.mingtai.mt.util.UiHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,6 +47,8 @@ public class ForgetPsdActivity extends BaseActivity implements ForgetPsdContract
 
     @Override
     public void initEventAndData() {
+        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
+
         forgetPsdPresenter.onCreate(this,this);
     }
 
@@ -53,7 +58,10 @@ public class ForgetPsdActivity extends BaseActivity implements ForgetPsdContract
             case R.id.tv_send:
                 if (!MingtaiUtil.editIsNotNull(ev_forget_mobile)){
                     toast(R.string.hint_input_mobile);
+                }else if (!MingtaiUtil.editIsNotNull(et_servicer_id)){
+                    onToast(R.string.input_service_id);
                 }else {
+                    forgetPsdPresenter.SendSms(et_servicer_id.getText().toString(),ev_forget_mobile.getText().toString(),ProApplication.SESSIONID(this));
                     myCountDownTimer.start();
                 }
                 break;
@@ -88,6 +96,20 @@ public class ForgetPsdActivity extends BaseActivity implements ForgetPsdContract
 
     @Override
     public void onSendVcodeFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
+    public void setDataSuccess(AccountBean msg) {
+        ProApplication.mAccountBean = msg;
+
+        UiHelper.launcher(this,MainActivity.class);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void setDataFail(String msg) {
         toast(msg);
     }
 

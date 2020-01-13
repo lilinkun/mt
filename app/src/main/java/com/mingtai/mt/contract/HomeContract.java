@@ -9,8 +9,6 @@ import com.mingtai.mt.mvp.IView;
  */
 public interface HomeContract extends IView {
 
-    public void getDataSuccess(HomeBean msg);
-    public void getDataFail(String msg);
 
     public void getHomeSuccess(HomeMobileBean homeMobileBean);
     public void getHomeFail(String msg);

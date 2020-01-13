@@ -79,9 +79,9 @@ public class PayPresenter extends BasePresenter {
         mCompositeSubscription.add(manager.sureGoodsOrder(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<String, Object>() {
+                .subscribe(new HttpResultCallBack<WxInfo, Object>() {
                     @Override
-                    public void onResponse(String s, String status, ResultBean<String, Object> page) {
+                    public void onResponse(WxInfo s, String status, ResultBean<WxInfo, Object> page) {
                         payContract.sureOrderSuccess(s);
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();

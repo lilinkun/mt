@@ -35,7 +35,6 @@ public class SplashActivity extends BaseActivity {
 
         Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//隐藏状态栏
-//        getSupportActionBar().hide();//隐藏标题栏
 
         myCountDownTimer.start();
 

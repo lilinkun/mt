@@ -1,6 +1,7 @@
 package com.mingtai.mt.contract;
 
 import com.mingtai.mt.entity.AccountBean;
+import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.mvp.IView;
 
 /**
@@ -10,4 +11,8 @@ import com.mingtai.mt.mvp.IView;
 public interface LoginContract extends IView {
     public void setDataSuccess(AccountBean msg);
     public void setDataFail(String msg);
+
+
+    public void getDataSuccess(HomeBean msg);
+    public void getDataFail(String msg);
 }

@@ -84,7 +84,7 @@ public class CustomBannerView {
         banner.setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object path, ImageView imageView) {
-                Picasso.with(context).load(ProApplication.BANNERIMG + path).error(R.color.line).into(imageView);
+                Picasso.with(context).load(ProApplication.BANNERIMG + ((FlashBean)path).getFlashPic()).error(R.color.line).into(imageView);
             }
         });
         //设置图片集合
@@ -102,6 +102,44 @@ public class CustomBannerView {
 
     }
 
+    /**
+     * @param flashBeans
+     * @param banner
+     * @param context
+     * @param isImageLoader 是否使用自带的imageloader
+     */
+    public static void startB(final ArrayList<String> list, Banner banner, final Context context, boolean isImageLoader) {
+        ArrayList<String> strings = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            strings.add("111111" + i);
+        }
+
+
+        //设置banner样式(显示圆形指示器)
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置指示器位置（指示器居中）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        //设置图片加载器
+        banner.setImageLoader(new ImageLoader() {
+            @Override
+            public void displayImage(Context context, Object path, ImageView imageView) {
+                Picasso.with(context).load(ProApplication.BANNERIMG + path).error(R.color.line).into(imageView);
+            }
+        });
+        //设置图片集合
+        banner.setImages(list);
+        //设置banner动画效果
+//        banner.setBannerAnimation(Transformer.DepthPage);
+        //设置标题集合（当banner样式有显示title时）
+//        banner.setBannerTitles(titles);
+        //设置自动轮播，默认为true
+//        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(5000);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+
+    }
 
 
 }

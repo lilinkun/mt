@@ -70,4 +70,5 @@
     <color name="menu_item_bg">#F1F1F2</color>
     <color name="red_price">#E4393C</color>
     <color name="address_bg">#a4a4a4</color>
+    <color name="transparent">#00000000</color>
 </resources>

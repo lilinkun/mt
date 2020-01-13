@@ -103,7 +103,7 @@ public class MeFragment extends BaseFragment implements MeContract {
 
             case R.id.ll_integral:
 
-                type = 0;
+                type = 1;
 
                 mePresenter.SendSms("1",ProApplication.SESSIONID(getActivity()));
 
@@ -116,7 +116,7 @@ public class MeFragment extends BaseFragment implements MeContract {
 
             case R.id.ll_coin:
 
-                type = 1;
+                type = 2;
 
                 mePresenter.SendSms("1",ProApplication.SESSIONID(getActivity()));
 

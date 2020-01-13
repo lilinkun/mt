@@ -294,7 +294,8 @@
                         android:id="@+id/tv_wx_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/textsize12"
+                        android:textSize="@dimen/textsize14"
+                        android:layout_marginLeft="@dimen/margin_15"
                         android:textColor="@color/black_333333"/>
 
 

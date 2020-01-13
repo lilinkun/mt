@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
@@ -34,10 +35,14 @@ import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.interf.IWxResultListener;
 import com.mingtai.mt.presenter.PayPresenter;
 import com.mingtai.mt.ui.PasswordView;
+import com.mingtai.mt.ui.XcyDatePicker;
 import com.mingtai.mt.util.ActivityUtil;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
+import com.mingtai.mt.wxapi.WXPayEntryActivity;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,6 +123,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     int addInt = 0;
     int goodsType = 0;
     double isRemainderPrice = 0;
+    String isRemind;
 
     @Override
     public int getLayoutId() {
@@ -127,13 +133,15 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     @Override
     public void initEventAndData() {
 
-//        Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
+        Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
         payPresenter.onCreate(this, this);
         ActivityUtil.addActivity(this);
 
-//        iwxapi = WXAPIFactory.createWXAPI(this, WlmUtil.APP_ID, true);
-//        iwxapi.registerApp(WlmUtil.APP_ID);
+        iwxapi = WXAPIFactory.createWXAPI(this, MingtaiUtil.APP_ID, true);
+        iwxapi.registerApp(MingtaiUtil.APP_ID);
+        WXPayEntryActivity.setPayListener(this);
+
 
 //        WXEntryActivity.wxType(WlmUtil.WXTYPE_LOGIN);
 //        WXPayEntryActivity.setPayListener(this);
@@ -279,12 +287,25 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
             case R.id.tv_add_tiaobo_item:
 
-                Calendar calendar = Calendar.getInstance();
+                final PopupWindow popupWindow = new PopupWindow(this);
+//                View rootView = LayoutInflater.from(PayActivity.this).inflate(R.layout.pop_date,null);
 
-                new DatePickerDialog(this,2, new DatePickerDialog.OnDateSetListener(){
+                final XcyDatePicker xcyDatePicker = new XcyDatePicker(PayActivity.this);
 
+                LinearLayout ll_sure = xcyDatePicker.findViewById(R.id.ll_sure);
+                popupWindow.setContentView(xcyDatePicker);
+                popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                popupWindow.setFocusable(true);
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.showAsDropDown(ll_pay_order);
+
+                ll_sure.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onDateSet(DatePicker view,final int year,final int month, int dayOfMonth) {
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+
                         View view1 = LayoutInflater.from(PayActivity.this).inflate(R.layout.dialog_date,null);
 //                        TextView tv_title = view1.findViewById(R.id.tv_title);
 //                        tv_title.setText(year+"年" + (month+1) + "月" + dayOfMonth + "日调拨分值");
@@ -332,14 +353,14 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
 
                                         TiaoboBean tiaoboBean = new TiaoboBean();
-                                        if (month < 9){
-                                            tiaoboBean.setTime(year + "-0"+(month+1));
-                                            tv_date.setText(year+"/0"+(month+1));
+                                        if (xcyDatePicker.getDisplayMonth() < 10){
+                                            tiaoboBean.setTime(xcyDatePicker.getDisplayYear() + "-0"+xcyDatePicker.getDisplayMonth());
+                                            tv_date.setText(xcyDatePicker.getDisplayYear()+"/0"+xcyDatePicker.getDisplayMonth());
                                         }else {
-                                            tiaoboBean.setTime(year + "-"+(month+1));
-                                            tv_date.setText(year+"/"+(month+1));
+                                            tiaoboBean.setTime(xcyDatePicker.getDisplayYear() + "-"+xcyDatePicker.getDisplayMonth());
+                                            tv_date.setText(xcyDatePicker.getDisplayYear()+"/"+xcyDatePicker.getDisplayMonth());
                                         }
-                                            tiaoboBean.setValue(editInt);
+                                        tiaoboBean.setValue(editInt);
 
                                         tiaoboBeans.add(tiaoboBean);
 
@@ -376,10 +397,23 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                         });
 
                         dialog.show();
+
+                    }
+                });
+
+
+
+               /* Calendar calendar = Calendar.getInstance();
+
+                new DatePickerDialog(this,2, new DatePickerDialog.OnDateSetListener(){
+
+                    @Override
+                    public void onDateSet(DatePicker view,final int year,final int month, int dayOfMonth) {
+
                     }
                 }, calendar.get(Calendar.YEAR)
                         ,calendar.get(Calendar.MONTH)
-                        ,calendar.get(Calendar.DAY_OF_MONTH)).show();
+                        ,calendar.get(Calendar.DAY_OF_MONTH)).show();*/
 
                 break;
 
@@ -388,7 +422,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
     @Override
     public void sureWxOrderSuccess(WxInfo wxInfo) {
-//        WlmUtil.wxPay(wxInfo.getAppId(), wxInfo.getPartnerid(), wxInfo.getPrepayid(), wxInfo.getNonceStr(), wxInfo.getTimeStamp(), wxInfo.getPaySign(), this);
+        MingtaiUtil.wxPay(wxInfo.getAppId(), wxInfo.getPartnerid(), wxInfo.getPrepayid(), wxInfo.getNonceStr(), wxInfo.getTimeStamp(), wxInfo.getPaySign(), this);
 //        SharedPreferences sharedPreferences = getSharedPreferences(WlmUtil.LOGIN, MODE_PRIVATE);
 //        grouponOrderPresenter.getGoodsOrderInfo(ordersn,sharedPreferences.getString(WlmUtil.OPENID,""),totalPrice+"","11",ProApplication.SESSIONID(this));
     }
@@ -400,7 +434,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
 
     @Override
-    public void sureOrderSuccess(String wxInfo) {
+    public void sureOrderSuccess(WxInfo wxInfo) {
 
 //        payDialog.dismiss();
 
@@ -408,19 +442,25 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             popupWindow.dismiss();
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putString(MingtaiUtil.PRICE, totalPrice);
-        bundle.putString(MingtaiUtil.ORDERSN, orderid);
-        bundle.putString(MingtaiUtil.GOODSTYPE, orderDetailBeans.getOrderType() + "");
-        UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
 
-        finish();
+        if (check_wx.isChecked() && Double.valueOf(isRemind) > 0){
+            MingtaiUtil.wxPay(wxInfo.getAppId(), wxInfo.getPartnerid(), wxInfo.getPrepayid(), wxInfo.getNonceStr(), wxInfo.getTimeStamp(), wxInfo.getPaySign(), this);
+        }else {
 
+            Bundle bundle = new Bundle();
+            bundle.putString(MingtaiUtil.PRICE, totalPrice);
+            bundle.putString(MingtaiUtil.ORDERSN, orderid);
+            bundle.putString(MingtaiUtil.GOODSTYPE, orderDetailBeans.getOrderType() + "");
+            UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
+
+            finish();
+        }
     }
 
     @Override
     public void sureOrderFail(String msg) {
         toast(msg);
+
 
         /*if (passwordView != null){
             passwordView.
@@ -463,6 +503,22 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         if (orderDetailBeans.getMoney1() > 0 || orderDetailBeans.getMoney5() > 0){
             et_netcoin_pay.setText(orderDetailBeans.getMoney1() + "");
             et_discount_pay.setText(orderDetailBeans.getMoney5() + "");
+
+            if (orderDetailBeans.getMoney1() > 0){
+                tv_netcoin_balance.setText("(已付" + orderDetailBeans.getMoney1() + ")");
+            }
+
+            if (orderDetailBeans.getMoney5() > 0){
+                tv_discount_balance.setText("(已付" + orderDetailBeans.getMoney5() + ")");
+            }check_self.setChecked(true);
+            check_self.setFocusable(false);
+            ll_self.setFocusable(false);
+            ll_self.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+            if (orderDetailBeans.getMoney1() + orderDetailBeans.getMoney5() < orderDetailBeans.getOrderAmount()){
+                check_wx.setChecked(true);
+                tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - orderDetailBeans.getMoney1() - orderDetailBeans.getMoney5()) + ")");
+
+            }
 
             et_netcoin_pay.setFocusable(false);
             et_discount_pay.setFocusable(false);
@@ -538,17 +594,6 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
             View view1 = LayoutInflater.from(this).inflate(R.layout.layout_popup_psd, null);
 
-            /*popupWindow = new PopupWindow(this);
-
-            popupWindow.setContentView(view1);
-            popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-            popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-            popupWindow.setOutsideTouchable(true);
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
-            popupWindow.setFocusable(true);*/
-
-
-//            View view2 = LayoutInflater.from(this).inflate(R.layout.dialog_pay, null);
             payDialog =new Dialog(PayActivity.this);
             payDialog.setContentView(view1);
             payDialog.show();
@@ -573,7 +618,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                 @Override
                 public void onClick(View v) {
                     if (MingtaiUtil.editIsNotNull(et_psd)) {
-                        String isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+                        isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
                             payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
                                     et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
                                     ProApplication.SESSIONID(PayActivity.this));

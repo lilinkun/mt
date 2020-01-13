@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -87,6 +88,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
     //    private DownloadBean downloadBean;
     private CheckBean bean;
     private double code = 0;
+    private int type = 0;
     private SmsDialog smsDialog;
 
 
@@ -155,7 +157,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
         tv_new_edition.setText("V" + code);
     }
 
-    @OnClick({ R.id.rl_nickname_info,  R.id.rl_clear, R.id.tv_loginout, R.id.rl_change_psd, R.id.rl_update,R.id.ll_back})
+    @OnClick({ R.id.rl_nickname_info,  R.id.rl_clear, R.id.tv_loginout, R.id.rl_change_psd, R.id.rl_update,R.id.ll_back,R.id.rl_change_login_psd})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -181,7 +183,9 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
 
             case R.id.rl_change_psd:
 
-                personalInfoPresenter.SendSms("1",ProApplication.SESSIONID(this));
+                type = 1;
+
+                personalInfoPresenter.SendSms("2",ProApplication.SESSIONID(this));
 
                 break;
 
@@ -242,6 +246,13 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
                             }
                         });*/
 
+
+                break;
+
+            case R.id.rl_change_login_psd:
+
+                type = 2;
+                personalInfoPresenter.SendSms("2",ProApplication.SESSIONID(this));
 
                 break;
         }
@@ -343,7 +354,9 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
 
     @Override
     public void getSendVcodeSuccess(String s) {
-        UiHelper.launcher(this, ModifyPayActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        UiHelper.launcherBundle(this, ModifyPayActivity.class,bundle);
     }
 
     @Override

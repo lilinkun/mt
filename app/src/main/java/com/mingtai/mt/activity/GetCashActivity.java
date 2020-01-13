@@ -99,7 +99,7 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
                     @Override
                     public void onClick(View v) {
                         if (MingtaiUtil.editIsNotNull(et_psd)) {
-                            getCashPresenter.getCash(coinAmount + "", coinAmount * 0.2 + "", et_psd.getText().toString() + "",5+"", ProApplication.SESSIONID(GetCashActivity.this));
+                            getCashPresenter.getCash(coinAmount + "", coinAmount * userBankBean.getRate() + "", et_psd.getText().toString() + "",5+"", ProApplication.SESSIONID(GetCashActivity.this));
                         }else {
                             toast("密码不能为空");
                         }

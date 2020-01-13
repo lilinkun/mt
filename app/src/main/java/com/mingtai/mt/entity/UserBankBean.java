@@ -13,6 +13,7 @@ public class UserBankBean implements Serializable {
     private String BankNo;
     private String BankUserName;
     private String UserCode;
+    private double Rate;
 
     public String getUserName() {
         return UserName;
@@ -68,5 +69,13 @@ public class UserBankBean implements Serializable {
 
     public void setUserCode(String userCode) {
         UserCode = userCode;
+    }
+
+    public double getRate() {
+        return Rate;
+    }
+
+    public void setRate(double rate) {
+        Rate = rate;
     }
 }

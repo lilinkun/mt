@@ -184,7 +184,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
         rv_style.setVisibility(View.VISIBLE);
         if (integralAdapter == null) {
             pointListBeans = amountPriceBean;
-            if (mListStyle == 0) {
+            if (mListStyle == 1) {
                 integralAdapter = new IntegralAdapter(this, amountPriceBean, 0);
             } else {
                 integralAdapter = new IntegralAdapter(this, amountPriceBean, 1);
@@ -312,7 +312,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
     }
 
     public void init() {
-        if (mListStyle == 0) {
+        if (mListStyle == 1) {
             type = "1";
             integralPresenter.getPriceData(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT, type, ProApplication.SESSIONID(this));
             tv_balance_name.setText(getString(R.string.net_coin));
@@ -321,7 +321,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
             tv_balance_name.setTextColor(getResources().getColor(R.color.white));
             tv_balance_amount.setTextColor(getResources().getColor(R.color.white));
             tv_balance_amount.setText(balanceBean.getMoney1Balance() + "");
-        } else if (mListStyle == 1) {
+        } else if (mListStyle == 2) {
             type = "5";
             integralPresenter.getPriceData(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT, type, ProApplication.SESSIONID(this));
             tv_balance_name.setText(getString(R.string.discount_coin));
