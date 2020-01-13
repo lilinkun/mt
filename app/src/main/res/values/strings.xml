@@ -31,6 +31,7 @@
     <string name="register_send_vcoed">获取验证码</string>
     <string name="psd_limit">请输入支付密码</string>
     <string name="input_old_psd">请输入原密码</string>
+    <string name="input_new_psd">请输入新密码</string>
     <string name="psd_sure">请再次输入密码</string>
     <string name="modify_sure">确定</string>
 
