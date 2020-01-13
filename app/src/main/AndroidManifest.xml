@@ -70,6 +70,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.TransferAccountsActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WebviewActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

@@ -25,15 +25,20 @@
                 android:src="@mipmap/ic_back" />
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_home_webview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:padding="@dimen/padding_10"
-            android:text="确认订单"
             android:textColor="@color/pop_text_bg"
             android:textSize="@dimen/textsize18" />
 
     </RelativeLayout>
 
+    <WebView
+        android:id="@+id/wv_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 </LinearLayout>

@@ -1,9 +1,11 @@
 package com.mingtai.mt.fragment;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.activity.WebviewActivity;
 import com.mingtai.mt.adapter.HomeAdapter;
 import com.mingtai.mt.base.BaseFragment;
 import com.mingtai.mt.base.ProApplication;
@@ -14,6 +16,7 @@ import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.presenter.HomePresenter;
 import com.mingtai.mt.ui.CustomBannerView;
 import com.mingtai.mt.util.UToast;
+import com.mingtai.mt.util.UiHelper;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -64,12 +67,22 @@ public class HomeFragment extends BaseFragment implements HomeContract {
     }
 
     @Override
-    public void getHomeSuccess(HomeMobileBean homeMobileBean) {
+    public void getHomeSuccess(final HomeMobileBean homeMobileBean) {
         articleBeans = homeMobileBean.getNews();
 
         HomeAdapter homeAdapter = new HomeAdapter(getActivity(),articleBeans);
         rv_home.setAdapter(homeAdapter);
-
+        homeAdapter.setItemClickListener(new HomeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (articleBeans.get(position).getLink() != null && articleBeans.get(position).getLink().trim().length() > 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("CategoryName", articleBeans.get(position).getCategoryName());
+                    bundle.putString("URL", articleBeans.get(position).getLink());
+                    UiHelper.launcherBundle(getActivity(), WebviewActivity.class, bundle);
+                }
+            }
+        });
 
         CustomBannerView.startBanner(homeMobileBean.getFlash(), banner, getActivity(), true);
     }
