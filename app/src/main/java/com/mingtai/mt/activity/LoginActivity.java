@@ -77,8 +77,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
         break;
 
       case R.id.tv_login_send_psw:
-        toast("sasfd");
-//                UiHelper.launcher(this,MainActivity.class);
+                UiHelper.launcher(this,ForgetPsdActivity.class);
         break;
     }
   }

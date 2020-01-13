@@ -197,7 +197,7 @@
             android:paddingLeft="@dimen/padding_10"
             android:inputType="textPassword"
             android:textSize="@dimen/textsize14"
-            android:hint="@string/input_old_psd"
+            android:hint="@string/psd_sure"
             android:background="@null"/>
 
     </LinearLayout>
@@ -240,7 +240,7 @@
                 android:background="@drawable/pay_dialog"
                 android:textColorHint="@color/list_divider"
                 android:textSize="@dimen/textsize14"
-                android:hint="请输入验证码"/>
+                android:hint="@string/register_input_vcode"/>
 
             <TextView
                 android:id="@+id/tv_send"

@@ -72,6 +72,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.WebviewActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ForgetPsdActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
