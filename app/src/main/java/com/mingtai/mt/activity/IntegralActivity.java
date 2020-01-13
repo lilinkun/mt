@@ -95,8 +95,6 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
         mListStyle = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("style");
 //        balanceBean = (BalanceBean) getIntent().getBundleExtra(MingtaiUtil.TYPEID).getSerializable(MingtaiUtil.BALANCEBEAN);
 
-        init();
-
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
