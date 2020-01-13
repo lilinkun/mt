@@ -93,7 +93,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
         integralPresenter.onCreate(this, this);
 
         mListStyle = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("style");
-        balanceBean = (BalanceBean) getIntent().getBundleExtra(MingtaiUtil.TYPEID).getSerializable(MingtaiUtil.BALANCEBEAN);
+//        balanceBean = (BalanceBean) getIntent().getBundleExtra(MingtaiUtil.TYPEID).getSerializable(MingtaiUtil.BALANCEBEAN);
 
         init();
 

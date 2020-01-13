@@ -73,7 +73,7 @@ public class MeFragment extends BaseFragment implements MeContract {
         tv_username.setText(ProApplication.mAccountBean.getUserName());
 
         mePresenter.onCreate(getActivity(),this);
-        mePresenter.getBalance(ProApplication.SESSIONID(getActivity()));
+//        mePresenter.getBalance(ProApplication.SESSIONID(getActivity()));
     }
 
     @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_bind_card,R.id.ll_wait_receiver,R.id.ll_wait_deliver,R.id.ll_customer_service, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
@@ -227,7 +227,7 @@ public class MeFragment extends BaseFragment implements MeContract {
         }else {
             Bundle bundle5 = new Bundle();
             bundle5.putInt("style", type);
-            bundle5.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
+//            bundle5.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
             UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle5);
         }
     }
