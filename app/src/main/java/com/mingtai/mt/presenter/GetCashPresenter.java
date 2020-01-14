@@ -56,14 +56,14 @@ public class GetCashPresenter extends BasePresenter {
         params.put("PassWordTwo", PassWordTwo);
         params.put("CurrencyTypeId", CurrencyTypeId);
         params.put("SessionId", SessionId);
-        mCompositeSubscription.add(manager.register(params)
+        mCompositeSubscription.add(manager.getSaveAddress(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<String, Object>() {
+                .subscribe(new HttpResultCallBack<Object, Object>() {
 
                     @Override
-                    public void onResponse(String grouponDetailBean, String status, ResultBean<String, Object> page) {
-                        getCashContract.getCashSuccess();
+                    public void onResponse(Object grouponDetailBean, String status, ResultBean<Object, Object> page) {
+                        getCashContract.getCashSuccess(page.getDesc());
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }

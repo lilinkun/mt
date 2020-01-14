@@ -7,6 +7,7 @@ import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.GoodsContract;
 import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.GoodsBean;
+import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
@@ -96,10 +97,10 @@ public class GoodsPresenter extends BasePresenter {
         mCompositeSubscription.add(manager.getGoods(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<ArrayList<GoodsBean>, Object>() {
+                .subscribe(new HttpResultCallBack<ArrayList<GoodsBean>, PageBean>() {
                     @Override
-                    public void onResponse(ArrayList<GoodsBean> goodsBeans, String status, ResultBean<ArrayList<GoodsBean>, Object> page) {
-                        goodsContract.getGoodsDataSuccess(goodsBeans);
+                    public void onResponse(ArrayList<GoodsBean> goodsBeans, String status, ResultBean<ArrayList<GoodsBean>, PageBean> page) {
+                        goodsContract.getGoodsDataSuccess(goodsBeans,page.getPage());
 
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();

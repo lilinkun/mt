@@ -14,6 +14,7 @@ import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
@@ -138,7 +139,7 @@ public class DataManager {
     /**
      * 获取商品分类
      */
-    public Observable<ResultBean<ArrayList<GoodsBean>, Object>> getGoods(HashMap<String, String> mHashMap) {
+    public Observable<ResultBean<ArrayList<GoodsBean>, PageBean>> getGoods(HashMap<String, String> mHashMap) {
         return mRetrofitService.getGoods(mHashMap);
     }
 
@@ -203,7 +204,7 @@ public class DataManager {
     /**
      * 获取购物金额
      */
-    public Observable<ResultBean<ArrayList<BalanceDetailBean>, Object>> getAmountPrice(HashMap<String, String> mHashMap) {
+    public Observable<ResultBean<ArrayList<BalanceDetailBean>, PageBean>> getAmountPrice(HashMap<String, String> mHashMap) {
         return mRetrofitService.getAmountPrice(mHashMap);
     }
 

@@ -198,6 +198,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         void onItemClick(int position);
     }
 
+    public void setData(ArrayList<GoodsBean> goodsBeans){
+        this.goodsBeans = goodsBeans;
+        notifyDataSetChanged();
+    }
+
 
     /**
      * 改变数量的接口

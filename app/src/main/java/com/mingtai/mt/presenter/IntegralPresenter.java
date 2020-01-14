@@ -7,6 +7,7 @@ import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.IntegralContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
+import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
@@ -62,10 +63,10 @@ public class IntegralPresenter extends BasePresenter {
         mCompositeSubscription.add(manager.getAmountPrice(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<ArrayList<BalanceDetailBean>, Object>() {
+                .subscribe(new HttpResultCallBack<ArrayList<BalanceDetailBean>, PageBean>() {
                     @Override
-                    public void onResponse(ArrayList<BalanceDetailBean> balanceDetailBeans, String status, ResultBean<ArrayList<BalanceDetailBean> ,Object> page) {
-                        integralContract.getDataSuccess(balanceDetailBeans);
+                    public void onResponse(ArrayList<BalanceDetailBean> balanceDetailBeans, String status, ResultBean<ArrayList<BalanceDetailBean> ,PageBean> page) {
+                        integralContract.getDataSuccess(balanceDetailBeans,page.getPage());
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
@@ -160,7 +161,7 @@ public class IntegralPresenter extends BasePresenter {
 
                     @Override
                     public void onResponse(String o, String status, ResultBean<String ,Object> page) {
-                        integralContract.onSendVcodeSuccess(o);
+                        integralContract.onSendVcodeSuccess(page.getDesc());
                     }
 
                     @Override

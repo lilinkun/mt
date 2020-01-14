@@ -91,7 +91,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
-    Observable<ResultBean<ArrayList<GoodsBean>, Object>> getGoods(@FieldMap Map<String, String> params);
+    Observable<ResultBean<ArrayList<GoodsBean>, PageBean>> getGoods(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("Api/")
@@ -128,7 +128,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
-    Observable<ResultBean<ArrayList<BalanceDetailBean>, Object>> getAmountPrice(@FieldMap Map<String, String> params);
+    Observable<ResultBean<ArrayList<BalanceDetailBean>, PageBean>> getAmountPrice(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("Api/")

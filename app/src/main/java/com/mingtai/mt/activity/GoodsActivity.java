@@ -1,8 +1,10 @@
 package com.mingtai.mt.activity;
 
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.ChooseItemBean;
 import com.mingtai.mt.entity.CustomPriceBean;
 import com.mingtai.mt.entity.GoodsBean;
+import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
 import com.mingtai.mt.presenter.GoodsPresenter;
 import com.mingtai.mt.ui.PagerSlidingTabStrip;
@@ -53,6 +56,8 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
     TextView tv_total_ShippingFree;
     @BindView(R.id.tv_point)
     TextView tv_point;
+    @BindView(R.id.sr_goods)
+    SwipeRefreshLayout sr_goods;
 
     private GoodsPresenter goodsPresenter = new GoodsPresenter();
     private int position = 0;
@@ -68,6 +73,10 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
     private int ShippingFree;
     private int ShippingFreePrice;
     private int total_ShippingFree = 0;
+    private GoodsAdapter goodsAdapter;
+    private int PAGE_INDEX = 1;
+    private int lastVisibleItem = 0;
+    private PageBean pageBean;
 
     private Handler handler = new Handler(){
         @Override
@@ -77,7 +86,9 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
                     position = msg.getData().getInt("position");
 
-                    goodsPresenter.getGoods("1","20",categoryBeans.get(position).getCategoryID(),goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
+                    PAGE_INDEX = 1;
+
+                    goodsPresenter.getGoods(PAGE_INDEX+"",MingtaiUtil.PAGE_COUNT+"",categoryBeans.get(position).getCategoryID(),goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
 
                     break;
             }
@@ -108,11 +119,46 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         deliveryMethod = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("deliveryMethod");
         addressBean = (StoreInfoAddressBean)getIntent().getBundleExtra(MingtaiUtil.TYPEID).getSerializable("StoreInfoAddressBean");
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
+
+        sr_goods.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                PAGE_INDEX = 1;
+                goodsPresenter.getGoods(PAGE_INDEX+"",MingtaiUtil.PAGE_COUNT+"",categoryBeans.get(position).getCategoryID(),goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
+            }
+        });
 
         rv_goods.setLayoutManager(linearLayoutManager);
         rv_goods.addItemDecoration(new SpaceItemDecoration(0, 20, 0));
+
+        rv_goods.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (goodsAdapter != null) {
+                        if (lastVisibleItem + 1 == goodsAdapter.getItemCount()) {
+
+                            if (PAGE_INDEX * Integer.valueOf(MingtaiUtil.PAGE_COUNT) > goodsBeans.size()) {
+//                                toast("已到末尾");
+                            } else {
+                                PAGE_INDEX++;
+                                goodsPresenter.getGoods(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT,"",goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
     }
 
     @Override
@@ -125,7 +171,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         this.categoryBeans.addAll(categoryBeans);
         pagerSlidingTabStrip.setTitles(this.categoryBeans, 0, handler);
 
-        goodsPresenter.getGoods("1","50","",goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
+        goodsPresenter.getGoods(PAGE_INDEX + "", MingtaiUtil.PAGE_COUNT,"",goodsType+"",userlevel+"",ProApplication.SESSIONID(GoodsActivity.this));
 
     }
 
@@ -135,12 +181,26 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
     }
 
     @Override
-    public void getGoodsDataSuccess(ArrayList<GoodsBean> goodsBeans) {
-        this.goodsBeans = goodsBeans;
+    public void getGoodsDataSuccess(ArrayList<GoodsBean> goodsBeans, PageBean pageBean) {
         rv_goods.setVisibility(View.VISIBLE);
-        GoodsAdapter goodsAdapter = new GoodsAdapter(this,goodsBeans,chooseItemBeans);
-        goodsAdapter.setCheckInterface(this);
-        rv_goods.setAdapter(goodsAdapter);
+        this.pageBean = pageBean;
+        if (goodsAdapter == null) {
+            this.goodsBeans = goodsBeans;
+            goodsAdapter = new GoodsAdapter(this, goodsBeans, chooseItemBeans);
+            goodsAdapter.setCheckInterface(this);
+            rv_goods.setAdapter(goodsAdapter);
+        }else {
+            if (pageBean.getPageIndex() == 1){
+                this.goodsBeans = goodsBeans;
+            }else {
+                this.goodsBeans.addAll(goodsBeans);
+            }
+            goodsAdapter.setData(goodsBeans);
+        }
+
+        if (sr_goods != null && sr_goods.isRefreshing()){
+            sr_goods.setRefreshing(false);
+        }
     }
 
     @Override
@@ -149,6 +209,10 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
             rv_goods.setVisibility(View.GONE);
         }else {
             toast(msg);
+        }
+
+        if (sr_goods != null && sr_goods.isRefreshing()){
+            sr_goods.setRefreshing(false);
         }
     }
 

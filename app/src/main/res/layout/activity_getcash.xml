@@ -98,14 +98,30 @@
                 android:background="@color/line_bg"/>
 
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:text="提现唯乐币"
+                android:text="提现折扣币"
                 android:textColor="@color/pop_text_bg"
                 android:textSize="@dimen/textsize14"
                 android:layout_marginTop="@dimen/margin_14"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(提现手续费20%)"
+                    android:textColor="@color/setting_title_color"
+                    android:textSize="@dimen/textsize12"
+                    android:layout_marginTop="@dimen/margin_14"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -153,7 +169,7 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:textColor="@color/pop_text_bg"
                     android:textSize="@dimen/textsize14"
-                    android:text="当前唯乐币"/>
+                    android:text="当前折扣币"/>
 
                 <TextView
                     android:id="@+id/tv_wlm_coin"

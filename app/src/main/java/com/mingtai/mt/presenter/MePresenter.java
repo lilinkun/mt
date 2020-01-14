@@ -147,7 +147,7 @@ public class MePresenter extends BasePresenter {
     }
 
     /**
-     *
+     *  验证密码
      * @param sessionId
      */
     public void verificationPsd(String PassWordTwo,String sessionId) {
@@ -172,11 +172,6 @@ public class MePresenter extends BasePresenter {
                     @Override
                     public void onErr(String msg, String status) {
                         meContract.verificationPsdFail(msg);
-                    }
-
-                    @Override
-                    public void onNext(ResultBean o) {
-                        super.onNext(o);
                     }
 
                 })

@@ -2,6 +2,7 @@ package com.mingtai.mt.contract;
 
 import com.mingtai.mt.entity.CategoryBean;
 import com.mingtai.mt.entity.GoodsBean;
+import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.mvp.IView;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public interface GoodsContract extends IView {
     public void getCategoryDataSuccess(ArrayList<CategoryBean> categoryBeans);
     public void getCategoryDataFail(String msg);
 
-    public void getGoodsDataSuccess(ArrayList<GoodsBean> categoryBeans);
+    public void getGoodsDataSuccess(ArrayList<GoodsBean> categoryBeans, PageBean pageBean);
     public void getGoodsDataFail(String msg);
 
 }

@@ -31,6 +31,7 @@ public class IntegralAdapter extends RecyclerView.Adapter<IntegralAdapter.ViewHo
 
     public void setData(ArrayList<BalanceDetailBean> integralBeans) {
         this.balanceDetailBeans = integralBeans;
+        notifyDataSetChanged();
     }
 
     @Override
