@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="49dp"
-        android:background="@color/sale_title"
+        android:background="@color/white"
         >
 
         <LinearLayout
@@ -21,7 +21,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginLeft="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_10"
                 android:src="@mipmap/ic_back" />
         </LinearLayout>
 
@@ -234,7 +235,7 @@
                 android:paddingLeft="@dimen/padding_10"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tv_send"
-                android:background="@drawable/pay_dialog"
+                android:background="@null"
                 android:textColorHint="@color/list_divider"
                 android:textSize="@dimen/textsize14"
                 android:hint="@string/register_input_vcode"/>

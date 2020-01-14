@@ -52,7 +52,7 @@ public class ForgetPsdActivity extends BaseActivity implements ForgetPsdContract
         forgetPsdPresenter.onCreate(this,this);
     }
 
-    @OnClick({R.id.tv_send,R.id.btn_sure})
+    @OnClick({R.id.tv_send,R.id.btn_sure,R.id.ll_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_send:
@@ -86,6 +86,13 @@ public class ForgetPsdActivity extends BaseActivity implements ForgetPsdContract
                         ev_sure_new_psd.getText().toString(),et_id_card.getText().toString(),ev_forget_mobile.getText().toString(), ProApplication.SESSIONID(this));
 
                 break;
+
+            case R.id.ll_back:
+
+                finish();
+
+                break;
+
         }
     }
 

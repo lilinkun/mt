@@ -105,7 +105,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
   }
 
-  @OnClick({R.id.btn_login,R.id.tv_login_send_psw})
+  @OnClick({R.id.btn_login,R.id.ll_login_send_psw})
   public void onClick(View view){
     switch (view.getId()){
       case R.id.btn_login:
@@ -130,7 +130,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
         break;
 
-      case R.id.tv_login_send_psw:
+      case R.id.ll_login_send_psw:
            UiHelper.launcherForResult(this,ForgetPsdActivity.class,0x1213);
         break;
     }

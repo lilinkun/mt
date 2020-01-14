@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_80"
+        android:layout_marginTop="@dimen/margin_60"
         android:layout_marginLeft="@dimen/margin_30"
         android:layout_marginRight="@dimen/margin_30">
 
@@ -91,7 +91,6 @@
             android:layout_height="0.5dp"
             android:background="@color/line"/>
 
-
         <CheckBox
             android:id="@+id/cb_remember_psd"
             android:layout_width="wrap_content"
@@ -109,15 +108,16 @@
             android:textColor="@color/white"
             android:background="@drawable/login_button"
             android:textSize="@dimen/textsize18"
-            android:layout_marginTop="@dimen/margin_30"/>
+            android:layout_marginTop="@dimen/margin_20"/>
 
         <LinearLayout
+            android:id="@+id/ll_login_send_psw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_15">
+            android:padding="@dimen/margin_15">
 
             <TextView
                 android:id="@+id/tv_login_register"
@@ -128,7 +128,6 @@
                 android:textColor="@color/register_vcode_bg"/>
 
             <TextView
-                android:id="@+id/tv_login_send_psw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
