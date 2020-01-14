@@ -17,6 +17,15 @@ public class HomeBean {
     private int IsShippingFree;
     private int ShippingPrice;
     private String imgUrl;
+    private String Appid;
+
+    public String getAppid() {
+        return Appid;
+    }
+
+    public void setAppid(String appid) {
+        Appid = appid;
+    }
 
     public String getUpgradeUrl() {
         return UpgradeUrl;

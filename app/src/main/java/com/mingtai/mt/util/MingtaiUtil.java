@@ -38,7 +38,8 @@ public class MingtaiUtil {
     public static final int SALEINT = 4;
     public static final int TIAOBOINT = 8;
 
-    public static final String APP_ID = "wx11a116ef840f67f9";
+    public static String APP_ID = "wx11a116ef840f67f9";
+//    public static final String APP_ID = "wxb10473f0c1891302";
 
     //未付款 = 0
     public static final int ORDER_NOPAY = 0;

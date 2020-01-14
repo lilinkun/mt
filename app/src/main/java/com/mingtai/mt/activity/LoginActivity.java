@@ -164,6 +164,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
   public void getDataSuccess(HomeBean msg) {
     update(msg);
     ProApplication.mHomeBean = msg;
+    MingtaiUtil.APP_ID = msg.getAppid();
     ProApplication.BANNERIMG = msg.getImgUrl() + "imgdb/";
   }
 
