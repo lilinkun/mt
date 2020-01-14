@@ -67,6 +67,7 @@ public class HomeFragment extends BaseFragment implements HomeContract {
                     Bundle bundle = new Bundle();
                     bundle.putString("CategoryName", articleBeans.get(position).getCategoryName());
                     bundle.putString("URL", articleBeans.get(position).getLink());
+                    bundle.putString("type","home");
                     UiHelper.launcherBundle(getActivity(), WebviewActivity.class, bundle);
                 }
             }

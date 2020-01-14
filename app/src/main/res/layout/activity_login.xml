@@ -98,6 +98,7 @@
             android:layout_gravity="right"
             android:layout_marginTop="@dimen/margin_20"
             android:textColor="@color/green"
+            android:checked="true"
             android:text="记住密码"/>
 
         <Button

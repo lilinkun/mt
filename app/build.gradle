@@ -14,10 +14,41 @@ android {
         versionName "1.35"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    //配置keystore签名
+    signingConfigs {
         release {
+            storeFile file("libs/mingtai.jks")
+            storePassword "mt123789"
+            keyAlias "mingtai"
+            keyPassword "mt123789"
+        }
+    }
+
+    buildTypes {
+
+        debug {
+            signingConfig signingConfigs.release
+            //启用代码混淆
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //zip压缩
+            zipAlignEnabled false
+            //移除无用的resource文件
+            shrinkResources false
+            //混淆规则配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            debuggable true
+            signingConfig signingConfigs.release
+            //开启混淆
+            minifyEnabled false
+            zipAlignEnabled false
+            //移除无用的resource文件
+            shrinkResources false
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

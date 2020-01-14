@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -140,10 +141,21 @@ public class LoginActivity extends BaseActivity implements LoginContract {
   @Override
   public void setDataSuccess(AccountBean msg) {
 
-    ProApplication.mAccountBean = msg;
+      ProApplication.mAccountBean = msg;
 
-    UiHelper.launcher(this,MainActivity.class);
-    finish();
+      if (msg.getUserLogins() == 0){
+
+        Bundle bundle = new Bundle();
+        bundle.putString("CategoryName", "注册");
+        bundle.putString("URL", ProApplication.mHomeBean.getRegisterRequirements());
+        bundle.putString("type","register");
+        UiHelper.launcherForResultBundle(this, WebviewActivity.class,0x1212, bundle);
+
+      }else {
+        UiHelper.launcher(this,MainActivity.class);
+        finish();
+      }
+
 
   }
 
@@ -170,6 +182,9 @@ public class LoginActivity extends BaseActivity implements LoginContract {
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == RESULT_OK && requestCode == 0x1213){
+      finish();
+    }else if (resultCode == RESULT_OK && requestCode == 0x1212){
+      UiHelper.launcher(this,MainActivity.class);
       finish();
     }
   }
