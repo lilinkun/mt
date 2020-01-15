@@ -307,7 +307,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK && requestCode == 0x222) {
+        if (resultCode == RESULT_OK && (requestCode == 0x222 || requestCode == 0x223)) {
 //            integralPresenter.getBalance(ProApplication.SESSIONID(this));
             PAGE_INDEX = 1;
             init();

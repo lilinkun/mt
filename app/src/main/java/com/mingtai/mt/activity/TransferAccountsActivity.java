@@ -88,7 +88,9 @@ public class TransferAccountsActivity extends BaseActivity implements TransferAc
 
     @Override
     public void getTransferAccountsSuccess(String msg) {
-            toast("转账成功");
+        toast(msg);
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override

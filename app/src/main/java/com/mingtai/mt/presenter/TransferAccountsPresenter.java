@@ -66,7 +66,7 @@ public class TransferAccountsPresenter extends BasePresenter {
 
                     @Override
                     public void onResponse(String goodsBean, String status, ResultBean<String,Object> page) {
-                        transferAccountsContract.getTransferAccountsSuccess(goodsBean);
+                        transferAccountsContract.getTransferAccountsSuccess(page.getDesc());
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
