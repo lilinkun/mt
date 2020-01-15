@@ -229,7 +229,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 }
 
                 if (type == MingtaiUtil.UPDATEINT) {
-                    if (!MingtaiUtil.editIsNotNull(et_servicer_id)) {
+                    if (!MingtaiUtil.editIsNotNull(tv_update_level)) {
                         saleToast(R.string.hint_input_update_level);
                     }
                 }
@@ -433,6 +433,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         String name = et_sale_name.getText().toString();
         addressBean.setName(name);
         addressBean.setMobile(et_sale_mobile.getText().toString());
+        addressBean.setUserName(et_servicer_id.getText().toString());
         ProApplication.STORENO = et_business_name.getText().toString();
         bundle.putSerializable("StoreInfoAddressBean",addressBean);
         UiHelper.launcherBundle(this,GoodsActivity.class,bundle);

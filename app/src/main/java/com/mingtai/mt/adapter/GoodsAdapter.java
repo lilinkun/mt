@@ -76,6 +76,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         }
 
         holder.tv_goods_id.setText("产品编号:" + goodsBeans.get(position).getGoodsSn());
+//        holder.tv_product_id.setText("产品编号:" + goodsBeans.get(position).get());
 
         for (int i = 0; i < chooseItemBeans.size(); i++){
             if (chooseItemBeans.get(i).getGoodsSn().equals(goodsBeans.get(position).getGoodsSn())){
@@ -284,6 +285,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         TextView tv_integral_price;
         @BindView(R.id.tv_goods_id)
         TextView tv_goods_id;
+        @BindView(R.id.tv_product_id)
+        TextView tv_product_id;
         @BindView(R.id.tv_goods_market_price)
         TextView tv_goods_market_price;
         @BindView(R.id.ll_goods_adapter)

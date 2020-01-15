@@ -127,6 +127,7 @@ public class AllOrderFragment extends BasePagerFragment implements SelfOrderCont
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
+        allOrderRv.setVisibility(View.VISIBLE);
         if (selfOrderBeans.size() > 0) {
 
             if (selfOrderAdapter == null) {
@@ -152,6 +153,9 @@ public class AllOrderFragment extends BasePagerFragment implements SelfOrderCont
     public void getDataFail(String msg) {
         if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
+        }
+        if (msg.contains("查无数据")) {
+            allOrderRv.setVisibility(View.GONE);
         }
         ll_no_order.setVisibility(View.VISIBLE);
     }

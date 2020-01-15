@@ -150,7 +150,7 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
                 if (customPriceBean.getGoodsType() == MingtaiUtil.UPDATEINT){
                     orderListPresenter.settlement(goodsIdStr,customPriceBean.getUserlevel()+"", tv_total_goods_price.getText().toString(), customPriceBean.getShippingFreePrice(), goodsNum
                             , addressBean.getName(), addressBean.getMobile(), ProApplication.STORENO, customPriceBean.getDeliveryMethod() + "", addressBean.getProv() + "",
-                            addressBean.getCity() + "", addressBean.getArea() + "", customPriceBean.getGoodsType() + "", addressBean.getAddress(), addressBean.getUserName(), addressBean.getPost(),
+                            addressBean.getCity() + "", addressBean.getArea() + "", customPriceBean.getGoodsType() + "", addressBean.getAddress(), addressBean.getName(), addressBean.getPost(),
                             "", customPriceBean.getPoint(), ProApplication.SESSIONID(this));
                 }else {
                     orderListPresenter.settlement(goodsIdStr, tv_total_goods_price.getText().toString(), customPriceBean.getShippingFreePrice(), goodsNum

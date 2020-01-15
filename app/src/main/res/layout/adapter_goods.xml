@@ -67,6 +67,15 @@
                 android:textSize="@dimen/textsize13"
                 />
 
+
+                <TextView
+                    android:id="@+id/tv_product_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/line"
+                    android:textSize="@dimen/textsize13"
+                    />
+
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"

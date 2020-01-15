@@ -138,6 +138,7 @@ public class OrderSurePresenter extends BasePresenter {
     public void settlement(String GoodsId,String UserLevel,String OrderAmount,String ShippingFree,String goodsNum,String Consignee,String Mobile,String SingleCenterName,
                            String deliveryMethod,String prov,String city,String area,String OrderType,String Address,String UserName,String Post,
                            String PostScript,String Integral,String SessionId){
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "提交订单中...", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "UserBaseUpgrade");
@@ -168,12 +169,18 @@ public class OrderSurePresenter extends BasePresenter {
                     public void onResponse(String goodsBeans, String status, ResultBean<String, Object> page) {
                         orderListContract.getTlementSuccess(goodsBeans);
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
                         orderListContract.getTlementFail(msg);
 
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                     }
                 }));
     }
