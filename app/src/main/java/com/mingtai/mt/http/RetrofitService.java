@@ -107,6 +107,10 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
+    Observable<ResultBean<String, Object>> sureGoodsOrder1(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
     Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -291,6 +292,7 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 
                         Bundle bundle = new Bundle();
                         bundle.putString(MingtaiUtil.ORDERSN, orderDetailBeans.getOrderSn() + "");
+                        bundle.putString(MingtaiUtil.WHERE,"goods");
                         UiHelper.launcherForResultBundle(OrderDetailActivity.this, PayActivity.class, 0x1231, bundle);
 //                        allOrderPresenter.getOrderData(ProApplication.SESSIONID(AllOrderActivity.this));
                     } else if (status == 2) {
@@ -351,5 +353,17 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
         Bundle bundle = new Bundle();
         bundle.putString("GOODSID", goodsid);
         UiHelper.launcherBundle(this,GoodsDetailActivity.class,bundle);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
+        }
+
+
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -102,7 +102,7 @@
     <string name="pay_psd">支付密码</string>
     <string name="login_psd">登录密码</string>
     <string name="setting_exit_login">退出登录</string>
-    <string name="about_app">关于唯乐美</string>
+    <string name="about_app">版本信息</string>
     <string name="setting_delete_cache">清除缓存</string>
     <string name="me_center_info">个人中心</string>
     <string name="me_bind_card">银行卡管理</string>

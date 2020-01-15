@@ -6,10 +6,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mingtai.mt.entity.AccountBean;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.NumberFormat;
 
 /**
@@ -33,13 +40,14 @@ public class MingtaiUtil {
     public static final String DISCOUNT = "Discount";
     public static final String COIN = "coin";
     public static final String USERBANKBEAN = "UserBankBean";
+    public static final String WHERE = "WHERE";
 
     public static final int UPDATEINT = 2;
     public static final int SALEINT = 4;
     public static final int TIAOBOINT = 8;
 
-    public static String APP_ID = "wx11a116ef840f67f9";
-//    public static final String APP_ID = "wxb10473f0c1891302";
+//    public static String APP_ID = "wx11a116ef840f67f9";
+    public static String APP_ID = "wxb10473f0c1891302";
 
     //未付款 = 0
     public static final int ORDER_NOPAY = 0;
@@ -125,6 +133,81 @@ public class MingtaiUtil {
             Log.e("PAY_GET", "异常：" + e.getMessage());
             Toast.makeText(context, "异常：" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * 序列化对象
+     * @param loginBean
+     * @return
+     * @throws IOException
+     */
+    public static String serialize(AccountBean loginBean) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+                byteArrayOutputStream);
+        objectOutputStream.writeObject(loginBean);
+        String serStr = byteArrayOutputStream.toString("ISO-8859-1");
+        serStr = java.net.URLEncoder.encode(serStr, "UTF-8");
+        objectOutputStream.close();
+        byteArrayOutputStream.close();
+        Log.d("serial", "serialize str =" + serStr);
+        return serStr;
+    }
+
+    /**
+     * 序列化对象
+     * @return
+     * @throws IOException
+     */
+    public static String serialize(Serializable t) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+                byteArrayOutputStream);
+        objectOutputStream.writeObject(t);
+        String serStr = byteArrayOutputStream.toString("ISO-8859-1");
+        serStr = java.net.URLEncoder.encode(serStr, "UTF-8");
+        objectOutputStream.close();
+        byteArrayOutputStream.close();
+        Log.d("serial", "serialize str =" + serStr);
+        return serStr;
+    }
+
+    /**
+     * 反序列化对象
+     * @param str
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static AccountBean deSerialization(String str) throws IOException,
+            ClassNotFoundException {
+        String redStr = java.net.URLDecoder.decode(str, "UTF-8");
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+                redStr.getBytes("ISO-8859-1"));
+        ObjectInputStream objectInputStream = new ObjectInputStream(
+                byteArrayInputStream);
+        AccountBean loginBean = (AccountBean) objectInputStream.readObject();
+        objectInputStream.close();
+        byteArrayInputStream.close();
+        return loginBean;
+    }
+
+    /**
+     * 反序列化对象
+     * @param str
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static Serializable unSerialization(String str) throws IOException,
+            ClassNotFoundException {
+        String redStr = java.net.URLDecoder.decode(str, "UTF-8");
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+                redStr.getBytes("ISO-8859-1"));
+        ObjectInputStream objectInputStream = new ObjectInputStream(
+                byteArrayInputStream);
+        Serializable loginBean = (Serializable) objectInputStream.readObject();
+        objectInputStream.close();
+        byteArrayInputStream.close();
+        return loginBean;
     }
 
 }

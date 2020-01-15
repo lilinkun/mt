@@ -21,7 +21,7 @@ public interface PayContract extends IView {
      * 余额支付
      */
     public void sureOrderSuccess(WxInfo str);
-
+    public void sureOrderSuccess(String str);
     public void sureOrderFail(String msg);
 
 

@@ -66,16 +66,16 @@ public class WaitPayFragment extends BasePagerFragment implements SelfOrderContr
             @Override
             public void onRefresh() {
                 pageIndex = 1;
-                selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, "0", ProApplication.SESSIONID(getActivity()));
+                selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_NOPAY+"", ProApplication.SESSIONID(getActivity()));
             }
         });
 
-        selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, "0", ProApplication.SESSIONID(getActivity()));
+        selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_NOPAY+"", ProApplication.SESSIONID(getActivity()));
     }
 
     public void setData() {
         if (getActivity() != null) {
-            selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, "0", ProApplication.SESSIONID(getActivity()));
+            selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_NOPAY+"", ProApplication.SESSIONID(getActivity()));
         }
     }
 
@@ -130,7 +130,7 @@ public class WaitPayFragment extends BasePagerFragment implements SelfOrderContr
                 }
             }
         }*/
-        selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_PAID+"", ProApplication.SESSIONID(getActivity()));
+        selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_NOPAY+"", ProApplication.SESSIONID(getActivity()));
     }
 
     @Override

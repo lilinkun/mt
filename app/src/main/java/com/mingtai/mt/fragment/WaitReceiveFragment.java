@@ -62,7 +62,7 @@ public class WaitReceiveFragment extends BasePagerFragment implements SelfOrderC
             @Override
             public void onRefresh() {
                 pageIndex = 1;
-                selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, "1", ProApplication.SESSIONID(getActivity()));
+                selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_PAID+"", ProApplication.SESSIONID(getActivity()));
             }
         });
 
@@ -72,12 +72,12 @@ public class WaitReceiveFragment extends BasePagerFragment implements SelfOrderC
 //        divider.setDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.custom_divider));
 //        waitReceiveRv.addItemDecoration(divider);
 
-        selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, "1", ProApplication.SESSIONID(getActivity()));
+        selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_PAID+"", ProApplication.SESSIONID(getActivity()));
     }
 
     public void setData() {
         if (getActivity() != null) {
-            selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, "1", ProApplication.SESSIONID(getActivity()));
+            selfOrderPresenter.getOrderData(pageIndex + "", MingtaiUtil.PAGE_COUNT, MingtaiUtil.ORDER_PAID+"", ProApplication.SESSIONID(getActivity()));
         }
     }
 
@@ -195,6 +195,6 @@ public class WaitReceiveFragment extends BasePagerFragment implements SelfOrderC
 
     @Override
     public void loadData() {
-        selfOrderPresenter.getOrderData("1", "20", "1", ProApplication.SESSIONID(getActivity()));
+        selfOrderPresenter.getOrderData("1", "20", MingtaiUtil.ORDER_PAID+"", ProApplication.SESSIONID(getActivity()));
     }
 }

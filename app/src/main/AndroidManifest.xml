@@ -75,6 +75,10 @@
         <activity android:name=".activity.ForgetPsdActivity"
             android:screenOrientation="portrait"/>
 
+
+        <activity android:name=".wxapi.WXPayEntryActivity"
+            android:theme="@android:style/Theme.Translucent"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -130,7 +130,7 @@ public class RegisterPresenter extends BasePresenter {
      * @param UserType
      * @param SessionId
      */
-    public void queryName(String UserName, String UserType, String SessionId){
+    public void queryName(String UserName, String UserType, String SessionId, final int isType){
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "UserBaseQueryNameGet");
@@ -144,7 +144,7 @@ public class RegisterPresenter extends BasePresenter {
                 .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
                     @Override
                     public void onResponse(FriendsBean friendsBean, String status, ResultBean<FriendsBean, Object> o) {
-                        registerContract.queryNameSuccess(friendsBean,status);
+                        registerContract.queryNameSuccess(friendsBean,status,isType);
 
                     }
 

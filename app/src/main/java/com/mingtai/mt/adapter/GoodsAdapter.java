@@ -86,6 +86,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
         Picasso.with(context).load(ProApplication.BANNERIMG + goodsBeans.get(position).getGoodsImg()).error(R.color.line).into(holder.goodsImage);
 
+        holder.goodsImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String goodsid = goodsBeans.get(position).getGoodsId();
+                Bundle bundle = new Bundle();
+                bundle.putString("GOODSID", goodsid);
+                UiHelper.launcherBundle(context, GoodsDetailActivity.class,bundle);
+            }
+        });
+
+
         holder.increaseGoodsNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,16 +152,12 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         holder.ll_goods_adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(holder.singleCheckBox.isChecked()){
+                if(holder.singleCheckBox.isChecked()){
                     holder.singleCheckBox.setChecked(false);
                 }else {
                     holder.singleCheckBox.setChecked(true);
-                }*/
+                }
 
-                String goodsid = goodsBeans.get(position).getGoodsId();
-                Bundle bundle = new Bundle();
-                bundle.putString("GOODSID", goodsid);
-                UiHelper.launcherBundle(context, GoodsDetailActivity.class,bundle);
 
             }
         });

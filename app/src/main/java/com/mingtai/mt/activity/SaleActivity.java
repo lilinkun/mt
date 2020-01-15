@@ -220,8 +220,6 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     saleToast(R.string.input_service_id);
                 }else if (!MingtaiUtil.editIsNotNull(tv_send_type)){
                     saleToast(R.string.choose_send_type);
-                }else if (!MingtaiUtil.editIsNotNull(et_business_name)){
-                    saleToast(R.string.input_store_id);
                 }else if (!MingtaiUtil.editIsNotNull(et_address)){
                     saleToast(R.string.hint_input_address);
                 }else if (!MingtaiUtil.editIsNotNull(tv_province)){
@@ -235,6 +233,8 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                         saleToast(R.string.hint_input_update_level);
                     }
                 }
+
+
 
                 if (ProApplication.mAccountBean.getStoreNo() != null && ProApplication.mAccountBean.getStoreNo().toString().trim().length() > 0) {
 
@@ -250,7 +250,12 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 }else {
 
                     if ((typeInt == PersonalInt && personalInfoBean != null) || (typeInt == StoreInt && storeInfoAddressBean != null)) {
-                        salePresenter.saleNext(et_business_name.getText().toString(), et_servicer_id.getText().toString());
+
+                       if (!MingtaiUtil.editIsNotNull(et_business_name)){
+                            saleNextSuccess("");
+                       }else {
+                           salePresenter.saleNext(et_business_name.getText().toString(), et_servicer_id.getText().toString());
+                       }
                     }
 
                     if (typeInt == StoreInt && storeInfoAddressBean == null && MingtaiUtil.editIsNotNull(et_business_name)){

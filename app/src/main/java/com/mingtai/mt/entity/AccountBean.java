@@ -1,10 +1,12 @@
 package com.mingtai.mt.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by lilinkun
  * on 2019/12/28
  */
-public class AccountBean {
+public class AccountBean implements Serializable {
     private int UserId;
     private String UserName;
     private String Mobile;
@@ -274,5 +276,41 @@ public class AccountBean {
 
     public void setAgreement(boolean agreement) {
         Agreement = agreement;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "UserId=" + UserId +
+                ", UserName='" + UserName + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", UserSex='" + UserSex + '\'' +
+                ", SurName='" + SurName + '\'' +
+                ", Resettlement='" + Resettlement + '\'' +
+                ", Referees='" + Referees + '\'' +
+                ", UserLevel=" + UserLevel +
+                ", UserLevelName='" + UserLevelName + '\'' +
+                ", Portrait='" + Portrait + '\'' +
+                ", NickName='" + NickName + '\'' +
+                ", LastLoginTime='" + LastLoginTime + '\'' +
+                ", IsSingleCenter=" + IsSingleCenter +
+                ", SingleCenterName='" + SingleCenterName + '\'' +
+                ", VipValidity='" + VipValidity + '\'' +
+                ", ActivationTime='" + ActivationTime + '\'' +
+                ", IsFrozeBank=" + IsFrozeBank +
+                ", IsFrozeTrade=" + IsFrozeTrade +
+                ", IsWd=" + IsWd +
+                ", UserStatus=" + UserStatus +
+                ", PDTypeId=" + PDTypeId +
+                ", FatherUserId=" + FatherUserId +
+                ", RegType=" + RegType +
+                ", IsRealName=" + IsRealName +
+                ", Honour=" + Honour +
+                ", PersonalOrCorporate=" + PersonalOrCorporate +
+                ", UserLogins=" + UserLogins +
+                ", StoreName='" + StoreName + '\'' +
+                ", StoreNo='" + StoreNo + '\'' +
+                ", Agreement=" + Agreement +
+                '}';
     }
 }

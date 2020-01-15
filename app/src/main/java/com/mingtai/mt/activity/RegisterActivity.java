@@ -64,6 +64,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     TextView tv_server_local;
     @BindView(R.id.et_serverer_id)
     EditText et_serverer_id;
+    @BindView(R.id.tv_local_server)
+    TextView tv_local_server;
     @BindView(R.id.rl_server_local)
     RelativeLayout rl_server_local;
     @BindView(R.id.et_reigster_idcard)
@@ -84,6 +86,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     TextView tv_serverer;
     @BindView(R.id.et_address)
     EditText et_address;
+    @BindView(R.id.main_view)
+    RelativeLayout main_view;
 
     private AddressPickerView addressView;
     private String localStr;
@@ -97,6 +101,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     private ArrayList<EditText> editTexts = new ArrayList<>();
     private boolean isRegister = true;
     private String code = "0";
+    private String sername = "";
     RegisterPresenter registerPresenter = new RegisterPresenter();
 
     @Override
@@ -117,6 +122,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
         setEditString(et_register_bank_account);
         setEditString(et_register_mobile);
         setEditString(et_address);
+        setEditString(et_serverer_id);
 
         et_register_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -134,7 +140,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
                     if (et_friends_id.getText().toString().trim().length() > 0) {
-                        registerPresenter.queryName(et_friends_id.getText().toString(), "0", ProApplication.SESSIONID(RegisterActivity.this));
+                        registerPresenter.queryName(et_friends_id.getText().toString(), "0", ProApplication.SESSIONID(RegisterActivity.this),1);
                     }else {
                         toast("请输入亲友人编号");
                     }
@@ -147,7 +153,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
                     if (et_local_server.getText().toString().trim().length() > 0) {
-                        registerPresenter.getRefereesName(et_local_server.getText().toString(),"0", ProApplication.SESSIONID(RegisterActivity.this));
+                        registerPresenter.queryName(et_local_server.getText().toString(), "0", ProApplication.SESSIONID(RegisterActivity.this),2);
                     }else {
                         toast("请输入服务区域编号");
                     }
@@ -171,38 +177,39 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
     }
 
     @Override
-    public void queryNameSuccess(FriendsBean friendsBean,String code) {
-        toast(friendsBean.getNickName());
-        tv_friends_name.setText(friendsBean.getNickName());
-        ll_local_server.setVisibility(View.VISIBLE);
-        ll_server_local.setVisibility(View.VISIBLE);
-        ll_server_id.setVisibility(View.VISIBLE);
-        this.code = code;
+    public void queryNameSuccess(FriendsBean friendsBean,String code,int type) {
+        if (type == 1) {
+            tv_friends_name.setText(friendsBean.getNickName());
+            ll_local_server.setVisibility(View.VISIBLE);
+            ll_server_local.setVisibility(View.VISIBLE);
+            ll_server_id.setVisibility(View.VISIBLE);
+            this.code = code;
 
-        if (code.equals("-1")){
-            localBean = LocalBean.HUALUO;
-            tv_server_local.setText(LocalBean.HUALUO.getLocalStr());
-            et_serverer_id.setText("空");
-            et_serverer_id.setFocusable(false);
-            et_serverer_id.setClickable(false);
-            rl_server_local.setClickable(false);
-            et_local_server.setFocusable(false);
-            et_local_server.setText("空");
-            registerPresenter.getRefereesName(et_friends_id.getText().toString(),"0", ProApplication.SESSIONID(RegisterActivity.this));
-        }else if (code.equals("0")){
-            localBean = LocalBean.SERVER;
-            et_serverer_id.setText(et_friends_id.getText().toString());
-            tv_server_local.setText(LocalBean.SERVER.getLocalStr());
-            tv_serverer.setText(friendsBean.getNickName());
-            rl_server_local.setClickable(false);
-            et_serverer_id.setFocusable(false);
-            et_local_server.setText("空");
-            et_local_server.setFocusable(false);
+            if (code.equals("-1")) {
+                localBean = LocalBean.HUALUO;
+                tv_server_local.setText(LocalBean.HUALUO.getLocalStr());
+                et_serverer_id.setText("空");
+                et_serverer_id.setFocusable(false);
+                et_serverer_id.setClickable(false);
+                rl_server_local.setClickable(false);
+                et_local_server.setFocusable(false);
+                et_local_server.setText("空");
+                registerPresenter.getRefereesName(et_friends_id.getText().toString(), "0", ProApplication.SESSIONID(RegisterActivity.this));
+            } else if (code.equals("0")) {
+                localBean = LocalBean.SERVER;
+                et_serverer_id.setText(et_friends_id.getText().toString());
+                tv_server_local.setText(LocalBean.SERVER.getLocalStr());
+                tv_serverer.setText(friendsBean.getNickName());
+                rl_server_local.setClickable(false);
+                et_serverer_id.setFocusable(false);
+                et_local_server.setText("空");
+                et_local_server.setFocusable(false);
+            } else {
+                rl_server_local.setClickable(true);
+                et_local_server.setFocusable(true);
+            }
         }else {
-            rl_server_local.setClickable(true);
-            et_serverer_id.setFocusable(true);
-            et_local_server.setFocusable(true);
-            et_serverer_id.setClickable(true);
+            tv_local_server.setText(friendsBean.getNickName());
         }
     }
 
@@ -213,6 +220,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
     @Override
     public void getRefereesNameSuccess(String friendsBean, String code) {
+        sername = friendsBean;
         et_serverer_id.setText(friendsBean);
     }
 
@@ -231,7 +239,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
         toast(msg);
     }
 
-    @OnClick({R.id.ll_province,R.id.rl_server_local,R.id.ll_back,R.id.ll_bank,R.id.tv_register})
+    @OnClick({R.id.ll_province,R.id.rl_server_local,R.id.ll_back,R.id.ll_bank,R.id.tv_register,R.id.main_view})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ll_province:
@@ -300,10 +308,26 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         localStr = LocalBean.values()[position].getLocalStr();
                         localBean = LocalBean.values()[position];
+
+                        if (position == 0){
+                            if(MingtaiUtil.editIsNotNull(et_local_server)){
+                                et_serverer_id.setText(et_local_server.getText().toString());
+                                tv_serverer.setText(tv_local_server.getText().toString());
+                            }else {
+                                et_serverer_id.setText(et_friends_id.getText().toString());
+                                tv_serverer.setText(tv_friends_name.getText().toString());
+                            }
+
+                        }else {
+                            registerPresenter.getRefereesName(et_local_server.getText().toString(),"0", ProApplication.SESSIONID(RegisterActivity.this));
+                        }
+
                         popupWindow1.dismiss();
 
                     }
                 });
+
+
 
                 break;
 
@@ -325,6 +349,12 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
                         et_friends_id.getText().toString(),et_nickname.getText().toString(),et_register_name.getText().toString(),et_reigster_idcard.getText().toString(),
                         "0",bankBean.getId()+"",et_register_bank_account.getText().toString(),localBean.getId()+"",et_serverer_id.getText().toString(),
                         mProvinceCode,mCityCode,mAreaCode,et_address.getText().toString(),mZipCode,ProApplication.SESSIONID(this));
+
+                break;
+
+            case R.id.main_view:
+
+                main_view.setFocusable(true);
 
                 break;
         }

@@ -166,6 +166,14 @@ public class DataManager {
 
 
     /**
+     * 支付订单信息
+     */
+    public Observable<ResultBean<String, Object>> sureGoodsOrder1(HashMap<String, String> mHashMap) {
+        return mRetrofitService.sureGoodsOrder1(mHashMap);
+    }
+
+
+    /**
      * 获取订单详情
      */
     public Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(HashMap<String, String> mHashMap) {

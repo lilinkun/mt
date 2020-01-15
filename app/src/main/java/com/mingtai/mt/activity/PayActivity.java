@@ -151,11 +151,11 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         if (bundle != null) {
             orderid = bundle.getString(MingtaiUtil.ORDERSN);
             goodsType = bundle.getInt(MingtaiUtil.GOODSTYPE);
+            where = bundle.getString(MingtaiUtil.WHERE);
         }
 //        tv_amount.setText(totalPrice + "");
         payPresenter.getBalance(ProApplication.SESSIONID(this));
 
-        payPresenter.orderDetail(orderid, ProApplication.SESSIONID(this));
 
         check_self.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -252,21 +252,25 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
 
                     if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
-                        if (tv_surplus_point.getText().toString().equals("0")) {
-                            String dateStr = "";
-                            String pointStr = "";
-                            for (int i = 0; i < tiaoboBeans.size(); i++) {
-                                if (i == 0) {
-                                    dateStr = tiaoboBeans.get(i).getTime();
-                                    pointStr = tiaoboBeans.get(i).getValue() + "";
-                                } else {
-                                    dateStr = dateStr + "," + tiaoboBeans.get(i).getTime();
-                                    pointStr = pointStr + "," + tiaoboBeans.get(i).getValue();
+                        if (orderDetailBeans.getMoney1() > 0 || orderDetailBeans.getMoney5() > 0) {
+                            if (tv_surplus_point.getText().toString().equals("0")) {
+                                String dateStr = "";
+                                String pointStr = "";
+                                for (int i = 0; i < tiaoboBeans.size(); i++) {
+                                    if (i == 0) {
+                                        dateStr = tiaoboBeans.get(i).getTime();
+                                        pointStr = tiaoboBeans.get(i).getValue() + "";
+                                    } else {
+                                        dateStr = dateStr + "," + tiaoboBeans.get(i).getTime();
+                                        pointStr = pointStr + "," + tiaoboBeans.get(i).getValue();
+                                    }
                                 }
+                                payPresenter.unloadPoint(orderid, dateStr, pointStr, ProApplication.SESSIONID(this));
+                            } else {
+                                toast("你输入的调拨值不正确");
                             }
-                            payPresenter.unloadPoint(orderid, dateStr, pointStr, ProApplication.SESSIONID(this));
-                        } else {
-                            toast("你输入的调拨值不正确");
+                        }else {
+                            pay();
                         }
                     }else {
                         pay();
@@ -275,11 +279,12 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
             case R.id.ll_back:
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("status", 0);
-                bundle.putString("order_sn", orderid);
-                UiHelper.launcherForResultBundle(this, OrderDetailActivity.class, 0x0987, bundle);
-
+                if (where.equals("goods")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("status", 0);
+                    bundle.putString("order_sn", orderid);
+                    UiHelper.launcherForResultBundle(this, OrderDetailActivity.class, 0x0987, bundle);
+                }
                 setResult(RESULT_OK);
                 finish();
 
@@ -446,15 +451,22 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         if (check_wx.isChecked() && Double.valueOf(isRemind) > 0){
             MingtaiUtil.wxPay(wxInfo.getAppId(), wxInfo.getPartnerid(), wxInfo.getPrepayid(), wxInfo.getNonceStr(), wxInfo.getTimeStamp(), wxInfo.getPaySign(), this);
         }else {
-
-            Bundle bundle = new Bundle();
-            bundle.putString(MingtaiUtil.PRICE, totalPrice);
-            bundle.putString(MingtaiUtil.ORDERSN, orderid);
-            bundle.putString(MingtaiUtil.GOODSTYPE, orderDetailBeans.getOrderType() + "");
-            UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
-
-            finish();
         }
+    }
+
+    @Override
+    public void sureOrderSuccess(String str) {
+
+        toast(str);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(MingtaiUtil.PRICE, totalPrice);
+        bundle.putString(MingtaiUtil.ORDERSN, orderid);
+        bundle.putString(MingtaiUtil.GOODSTYPE, orderDetailBeans.getOrderType() + "");
+        UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
+
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
@@ -479,6 +491,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         tv_discount_balance.setText("(剩余" + balanceBean.getMoney5Balance() + ")");
         tv_netcoin_balance.setText("(剩余" + balanceBean.getMoney1Balance() + ")");
 
+        payPresenter.orderDetail(orderid, ProApplication.SESSIONID(this));
     }
 
     @Override
@@ -522,13 +535,15 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
             et_netcoin_pay.setFocusable(false);
             et_discount_pay.setFocusable(false);
+        }else {
+
+            if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
+                tv_have_point.setText(point);
+                tv_surplus_point.setText(point);
+                ll_tiaobo.setVisibility(View.VISIBLE);
+            }
         }
 
-        if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
-            tv_have_point.setText(point);
-            tv_surplus_point.setText(point);
-            ll_tiaobo.setVisibility(View.VISIBLE);
-        }
         setEditListener(et_discount_pay,isRemainderPrice,balanceBean.getMoney5Balance());
         setEditListener(et_netcoin_pay,isRemainderPrice,balanceBean.getMoney1Balance());
     }
@@ -552,10 +567,12 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            Bundle bundle = new Bundle();
-            bundle.putInt("status", 0);
-            bundle.putString("order_sn", orderid);
-            UiHelper.launcherForResultBundle(this, OrderDetailActivity.class, 0x0987, bundle);
+            if (where.equals("goods")) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("status", 0);
+                bundle.putString("order_sn", orderid);
+                UiHelper.launcherForResultBundle(this, OrderDetailActivity.class, 0x0987, bundle);
+            }
             setResult(RESULT_OK);
             finish();
             return true;
@@ -590,13 +607,26 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     }
 
     public void pay(){
+
+
+        if (orderDetailBeans.getMoney1() > 0 || orderDetailBeans.getMoney5() > 0) {
+
+            isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+
+            payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
+                    "", et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
+                    ProApplication.SESSIONID(PayActivity.this));
+
+
+        }else {
+
+
         if (tv_balance_not_enough != null && !tv_balance_not_enough.isShown()) {
 
             View view1 = LayoutInflater.from(this).inflate(R.layout.layout_popup_psd, null);
 
             payDialog =new Dialog(PayActivity.this);
             payDialog.setContentView(view1);
-            payDialog.show();
 
             TextView tv_forgetPwd = view1.findViewById(R.id.tv_forgetPwd);
             ImageView tvCancel = view1.findViewById(R.id.tvCancel);
@@ -619,9 +649,15 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                 public void onClick(View v) {
                     if (MingtaiUtil.editIsNotNull(et_psd)) {
                         isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+                        if (Double.valueOf(isRemind) > 0 ) {
                             payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
                                     et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
                                     ProApplication.SESSIONID(PayActivity.this));
+                        }else {
+                            payPresenter.getPayOrderInfo1(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
+                                    et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
+                                    ProApplication.SESSIONID(PayActivity.this));
+                        }
                     }else {
                         toast("密码不能为空");
                     }
@@ -668,13 +704,19 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 //                    popupWindow.showAsDropDown(ll_back);
                     payDialog.show();
                 } else if (isRemainPrice > 0 && check_wx.isChecked()) {
-                    toast("微信支付待开发");
+                        payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
+                                "", et_netcoin_pay.getText().toString(), isRemainPrice + "", et_discount_pay.getText().toString(),
+                                ProApplication.SESSIONID(PayActivity.this));
+
                 } else  if (isRemainPrice > 0 && !check_wx.isChecked()){
                     toast("您输入的余额不足以支付，请一起选择微信支付");
                 }
             }else {
                 toast("请选择支付方式");
             }
+            payDialog.show();
+
+        }
 
         }
     }

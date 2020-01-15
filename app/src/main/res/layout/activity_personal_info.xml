@@ -335,11 +335,11 @@
             <!--            android:background="@drawable/new_edition"-->
             <!--            android:text="有新版本"-->
 
-            <ImageView
+            <!--<ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_right_arrow"
-                android:layout_marginLeft="@dimen/margin_10"/>
+                android:layout_marginLeft="@dimen/margin_10"/>-->
 
         </LinearLayout>
     </RelativeLayout>

@@ -224,7 +224,8 @@
                 <WebView
                     android:id="@+id/wv_goods_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></WebView>
+                    android:layout_height="match_parent"
+                    android:background="@color/black"></WebView>
 
 
 

@@ -299,6 +299,14 @@
                     android:textColor="@color/sale_text_bg" />
 
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/ic_right_arrow" />
+
+
             </RelativeLayout>
 
             <View
@@ -335,6 +343,7 @@
                     android:layout_marginBottom="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_10"
                     android:background="@null"
+                    android:focusable="false"
                     android:layout_centerVertical="true"
                     android:textSize="@dimen/textsize14"
                     android:hint="请输入服务人员编号"

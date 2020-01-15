@@ -91,6 +91,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:textSize="@dimen/textsize14"
+                android:inputType="number"
                 android:hint="@string/input_service_id"
                 android:textColorHint="@color/line"
                 android:textColor="@color/sale_text_bg"/>
@@ -239,6 +240,7 @@
                 android:hint="@string/input_store_id"
                 android:textColorHint="@color/line"
                 android:textSize="@dimen/textsize14"
+                android:inputType="number"
                 android:textColor="@color/sale_text_bg"
                 android:background="@null"
                 />

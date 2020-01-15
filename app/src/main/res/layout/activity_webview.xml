@@ -70,7 +70,7 @@
             android:textSize="@dimen/textsize16"
             android:textColor="@color/white"
             android:gravity="center"
-            android:text="同意"
+            android:text="我已阅读，并同意相关协议"
             />
     </LinearLayout>
 

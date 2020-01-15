@@ -38,6 +38,8 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
     @Override
     public void initEventAndData() {
 
+        webviewPresenter.onCreate(this,this);
+
         String categoryName = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("CategoryName");
         String url = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("URL");
         String type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("type");

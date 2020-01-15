@@ -165,6 +165,7 @@ public class OrderListActivity extends BaseActivity implements IPayOrderClickLis
 
         Bundle bundle = new Bundle();
         bundle.putString(MingtaiUtil.ORDERSN, selfOrderBean.getOrderSn());
+        bundle.putString(MingtaiUtil.WHERE,"order");
         UiHelper.launcherForResultBundle(this, PayActivity.class, 0x0987, bundle);
     }
 

@@ -4,6 +4,7 @@ package com.mingtai.mt.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.interf.IWxResultListener;
@@ -45,7 +46,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp resp) {
-//		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+		Log.d("WX", "onPayFinish, errCode = " + resp.errCode);
 
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (resp.errCode == 0) {

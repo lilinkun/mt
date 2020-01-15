@@ -68,8 +68,15 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailCont
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             wv_goods_detail.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
-        wv_goods_detail.setVisibility(View.GONE);
-
+//        wv_goods_detail.setVisibility(View.GONE);
+        wv_goods_detail.setWebViewClient(new WebViewClient() {
+            //覆盖shouldOverrideUrlLoading 方法
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
 
         wv_goods_detail.setWebChromeClient(new WebChromeClient() {
             @Override

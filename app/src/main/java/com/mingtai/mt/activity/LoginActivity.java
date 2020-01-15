@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
@@ -35,6 +36,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -139,19 +141,32 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
 
   @Override
-  public void setDataSuccess(AccountBean msg) {
+  public void setDataSuccess(AccountBean accountBean) {
 
-      ProApplication.mAccountBean = msg;
+      ProApplication.mAccountBean = accountBean;
 
-      if (msg.getUserLogins() == 0){
+      if (accountBean.getUserLogins() == 0){
 
         Bundle bundle = new Bundle();
-        bundle.putString("CategoryName", "注册");
+        bundle.putString("CategoryName", "用户协议");
         bundle.putString("URL", ProApplication.mHomeBean.getRegisterRequirements());
         bundle.putString("type","register");
         UiHelper.launcherForResultBundle(this, WebviewActivity.class,0x1212, bundle);
 
       }else {
+
+        if (cb_remember_psd.isChecked()){
+          String msg = "";
+          SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
+          try {
+            msg = MingtaiUtil.serialize(ProApplication.mAccountBean);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          sharedPreferences.edit().putBoolean(MingtaiUtil.LOGIN,true).putString("AccountBean",msg).commit();
+        }
+
+
         UiHelper.launcher(this,MainActivity.class);
         finish();
       }
@@ -185,6 +200,18 @@ public class LoginActivity extends BaseActivity implements LoginContract {
     if (resultCode == RESULT_OK && requestCode == 0x1213){
       finish();
     }else if (resultCode == RESULT_OK && requestCode == 0x1212){
+
+      if (cb_remember_psd.isChecked()){
+        String msg = "";
+        SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
+        try {
+          msg = MingtaiUtil.serialize(ProApplication.mAccountBean);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        sharedPreferences.edit().putBoolean(MingtaiUtil.LOGIN,true).putString("AccountBean",msg).commit();
+      }
+
       UiHelper.launcher(this,MainActivity.class);
       finish();
     }

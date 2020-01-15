@@ -181,6 +181,7 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
         Bundle bundle = new Bundle();
         bundle.putString(MingtaiUtil.ORDERSN,msg);
         bundle.putInt(MingtaiUtil.GOODSTYPE,customPriceBean.getGoodsType());
+        bundle.putString(MingtaiUtil.WHERE,"order");
         UiHelper.launcherBundle(this,PayActivity.class,bundle);
         ActivityUtil.finishHomeAll();
     }

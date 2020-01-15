@@ -14,7 +14,7 @@ public interface RegisterContract extends IView {
     public void setDataSuccess(String msg);
     public void setDataFail(String msg);
 
-    public void queryNameSuccess(FriendsBean friendsBean,String code);
+    public void queryNameSuccess(FriendsBean friendsBean,String code,int type);
     public void queryNameFail(String msg);
 
     public void getRefereesNameSuccess(String str,String code);
