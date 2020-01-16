@@ -1,5 +1,7 @@
 package com.mingtai.mt.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +14,7 @@ import com.mingtai.mt.activity.ChooseAddressActivity;
 import com.mingtai.mt.activity.IntegralActivity;
 import com.mingtai.mt.activity.OrderListActivity;
 import com.mingtai.mt.activity.PersonalInfoActivity;
+import com.mingtai.mt.activity.WebviewActivity;
 import com.mingtai.mt.base.BaseFragment;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.MeContract;
@@ -76,7 +79,7 @@ public class MeFragment extends BaseFragment implements MeContract {
 //        mePresenter.getBalance(ProApplication.SESSIONID(getActivity()));
     }
 
-    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_bind_card,R.id.ll_wait_receiver,R.id.ll_wait_deliver,R.id.ll_customer_service, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
+    @OnClick({R.id.rl_my_all_order,R.id.ll_wait_pay,R.id.ll_agreement,R.id.ll_bind_card,R.id.ll_wait_receiver,R.id.ll_wait_deliver,R.id.ll_customer_service, R.id.ll_integral,R.id.ll_coin,R.id.ll_me_setting,R.id.ll_address})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_my_all_order:
@@ -147,6 +150,16 @@ public class MeFragment extends BaseFragment implements MeContract {
 
                 type = 3;
                 mePresenter.SendSms("2",ProApplication.SESSIONID(getActivity()));
+
+                break;
+
+            case R.id.ll_agreement:
+
+                Bundle bundle = new Bundle();
+                bundle.putString("CategoryName", "购货申请");
+                bundle.putString("URL", ProApplication.mHomeBean.getShoppingApplication());
+                bundle.putString("type","agreement");
+                UiHelper.launcherForResultBundle(this, WebviewActivity.class,0x1212, bundle);
 
                 break;
 
@@ -230,5 +243,16 @@ public class MeFragment extends BaseFragment implements MeContract {
 //            bundle5.putSerializable(MingtaiUtil.BALANCEBEAN, balanceBean);
             UiHelper.launcherForResultBundle(getActivity(), IntegralActivity.class, 0x1987, bundle5);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == result_person && resultCode == Activity.RESULT_OK){
+            if (data.getBooleanExtra("loginout",false)){
+                getActivity().finish();
+            }
+        }
+
     }
 }

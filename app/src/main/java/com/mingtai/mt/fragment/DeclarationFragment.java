@@ -51,6 +51,10 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
         rv_declaration.setAdapter(declarationAdapter);
 
         declarationAdapter.setItemClickListener(this);
+
+        if (ProApplication.mAccountBean.getUserLevel() == 0){
+            rv_declaration.setVisibility(View.GONE);
+        }
     }
 
     @Override

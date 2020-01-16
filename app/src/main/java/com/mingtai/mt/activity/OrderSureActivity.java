@@ -137,6 +137,9 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
         switch (view.getId()) {
             case R.id.tv_settlement:
 
+                goodsIdStr = "";
+                goodsNum = "";
+
                 for (int i = 0; i < chooseItemBeans.size(); i++) {
                     if (goodsIdStr.equals("") && goodsNum.equals("")) {
                         goodsIdStr = chooseItemBeans.get(i).getGoodsId();
@@ -150,7 +153,7 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
                 if (customPriceBean.getGoodsType() == MingtaiUtil.UPDATEINT){
                     orderListPresenter.settlement(goodsIdStr,customPriceBean.getUserlevel()+"", tv_total_goods_price.getText().toString(), customPriceBean.getShippingFreePrice(), goodsNum
                             , addressBean.getName(), addressBean.getMobile(), ProApplication.STORENO, customPriceBean.getDeliveryMethod() + "", addressBean.getProv() + "",
-                            addressBean.getCity() + "", addressBean.getArea() + "", customPriceBean.getGoodsType() + "", addressBean.getAddress(), addressBean.getName(), addressBean.getPost(),
+                            addressBean.getCity() + "", addressBean.getArea() + "", customPriceBean.getGoodsType() + "", addressBean.getAddress(), addressBean.getUserName(), addressBean.getPost(),
                             "", customPriceBean.getPoint(), ProApplication.SESSIONID(this));
                 }else {
                     orderListPresenter.settlement(goodsIdStr, tv_total_goods_price.getText().toString(), customPriceBean.getShippingFreePrice(), goodsNum

@@ -209,7 +209,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                         }
                     }else {
                         if (check_wx.isChecked()){
-                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value1 - Double.valueOf(editListener.getText().toString())) + ")");
+                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value1 - Double.valueOf(et_netcoin_pay.getText().toString())- Double.valueOf(et_discount_pay.getText().toString())) + ")");
                         }
                     }
                 }
@@ -582,9 +582,14 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
     @Override
     public void setWxSuccess() {
-//        Bundle bundle = new Bundle();
-//        bundle.putString(MingtaiUtil.ORDERSN, orderid);
-//        UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
+        Bundle bundle = new Bundle();
+        bundle.putString(MingtaiUtil.PRICE, totalPrice);
+        bundle.putString(MingtaiUtil.ORDERSN, orderid);
+        bundle.putString(MingtaiUtil.GOODSTYPE, orderDetailBeans.getOrderType() + "");
+        UiHelper.launcherForResultBundle(this, PayResultActivity.class, 0x0987, bundle);
+
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
@@ -717,9 +722,11 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
                         } else if (isRemainPrice > 0 && !check_wx.isChecked()) {
                             toast("您输入的余额不足以支付，请一起选择微信支付");
+                            return;
                         }
                     } else {
                         toast("请选择支付方式");
+                        return;
                     }
                     payDialog.show();
 

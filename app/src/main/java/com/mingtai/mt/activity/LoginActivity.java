@@ -99,10 +99,13 @@ public class LoginActivity extends BaseActivity implements LoginContract {
             });
 
     SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
-    if (sharedPreferences != null && sharedPreferences.getBoolean("isLogin",false)){
+    if (sharedPreferences != null && sharedPreferences.getBoolean(MingtaiUtil.LOGIN,false)){
       et_login_input_account.setText(sharedPreferences.getString("account",""));
       et_login_input_psd.setText(sharedPreferences.getString("psd",""));
       cb_remember_psd.setChecked(true);
+    }else {
+      et_login_input_account.setText("");
+      et_login_input_psd.setText("");
     }
 
 
@@ -209,7 +212,8 @@ public class LoginActivity extends BaseActivity implements LoginContract {
         } catch (IOException e) {
           e.printStackTrace();
         }
-        sharedPreferences.edit().putBoolean(MingtaiUtil.LOGIN,true).putString("AccountBean",msg).commit();
+        sharedPreferences.edit().putBoolean(MingtaiUtil.LOGIN,true).putString("account",et_login_input_account.getText().toString())
+                .putString("psd",et_login_input_psd.getText().toString()).putString("AccountBean",msg).commit();
       }
 
       UiHelper.launcher(this,MainActivity.class);

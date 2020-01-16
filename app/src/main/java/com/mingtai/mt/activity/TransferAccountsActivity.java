@@ -9,6 +9,7 @@ import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.TransferAccountsContract;
 import com.mingtai.mt.presenter.TransferAccountsPresenter;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 
 import java.text.SimpleDateFormat;
@@ -44,6 +45,9 @@ public class TransferAccountsActivity extends BaseActivity implements TransferAc
 
     @Override
     public void initEventAndData() {
+
+        Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
+
         String mtCoin = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.COIN);
 
         transferAccountsPresenter.onCreate(this,this);

@@ -107,6 +107,7 @@
     <string name="me_center_info">个人中心</string>
     <string name="me_bind_card">银行卡管理</string>
     <string name="me_address">地址管理</string>
+    <string name="me_agreement">购货申请</string>
 
 
     <!--地址管理-->

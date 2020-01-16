@@ -99,11 +99,17 @@ public class SplashActivity extends BaseActivity implements LoginContract {
     @Override
     public void setDataSuccess(AccountBean msg) {
 
+        ProApplication.mAccountBean = msg;
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void setDataFail(String msg) {
         toast(msg);
+        Intent intent = new Intent();
+        intent.setClass(this,LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -112,7 +118,6 @@ public class SplashActivity extends BaseActivity implements LoginContract {
         MingtaiUtil.APP_ID = msg.getAppid();
         ProApplication.mHomeBean = msg;
         ProApplication.BANNERIMG = msg.getImgUrl() + "imgdb/";
-        turnHome();
     }
 
     @Override
@@ -149,24 +154,18 @@ public class SplashActivity extends BaseActivity implements LoginContract {
 
     private void turnHome(){
 
-        Intent intent = null;
         SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
         if (sharedPreferences.getBoolean(MingtaiUtil.LOGIN,false)){
-            intent = new Intent(getBaseContext(), MainActivity.class);
-            try {
-                AccountBean accountBean = MingtaiUtil.deSerialization(sharedPreferences.getString("AccountBean",""));
-                ProApplication.mAccountBean = accountBean;
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+
+            loginPresenter.setLogin(sharedPreferences.getString("account",""),
+                    sharedPreferences.getString("psd",""),ProApplication.SESSIONID(this));
+
         }else {
-            intent = new Intent(getBaseContext(), LoginActivity.class);
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+            //LoginActivity
+            startActivity(intent);
+            finish();
         }
-        //启动MainActivity
-        startActivity(intent);
-        finish();
     }
 
     private CheckBean bean;
@@ -215,10 +214,12 @@ public class SplashActivity extends BaseActivity implements LoginContract {
                             });
                             builder.show();
 
+                        }else {
+
+                            turnHome();
                         }
                     }
                 });
-
     }
 
     /**

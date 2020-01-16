@@ -232,6 +232,10 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     if (!MingtaiUtil.editIsNotNull(tv_update_level)) {
                         saleToast(R.string.hint_input_update_level);
                     }
+
+                    if (tv_update_level.getText().toString().trim().length() == 0){
+                        return;
+                    }
                 }
 
 
@@ -449,7 +453,16 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         this.friendsBean = friendsBean;
         tv_servicer_name.setText(friendsBean.getNickName() + "  当前级别:" + friendsBean.getUserLevelName());
 
-        if (type == 2){
+        if (type == MingtaiUtil.SALEINT || type == MingtaiUtil.TIAOBOINT){
+            if (friendsBean.getUserLevel() == 0){
+                tv_next.setVisibility(View.GONE);
+                toast("此用户不能购物");
+            }else {
+                tv_next.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (type == MingtaiUtil.UPDATEINT){
             ll_update_level.setVisibility(View.VISIBLE);
         }
     }
@@ -470,7 +483,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 forLength = getLevelInfoSuccess.size() - 2;
             }
             for (int i = 0; i < forLength;i++) {
-                if(friendsBean.getUserLevel() < getLevelInfoSuccess.get(i).getId()){
+                if(friendsBean.getUserLevel() <= getLevelInfoSuccess.get(i).getId()){
 
                     arrayList.add(getLevelInfoSuccess.get(i));
                 }

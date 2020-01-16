@@ -109,7 +109,6 @@ public class MingtaiUtil {
     }
 
     public static void wxPay(String appid, String partnerId, String prepayId, String nonceStr, String timeStamp, String sign, Context context) {
-        Toast.makeText(context, "获取订单中...", Toast.LENGTH_SHORT).show();
         IWXAPI api = WXAPIFactory.createWXAPI(context, null);
         api.registerApp(appid);
         try {

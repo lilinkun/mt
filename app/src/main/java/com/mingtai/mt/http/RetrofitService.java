@@ -7,6 +7,7 @@ import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.CategoryBean;
+import com.mingtai.mt.entity.ChangeIsWdBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.HomeBean;
@@ -161,6 +162,10 @@ public interface RetrofitService {
     @FormUrlEncoded
     @POST("Api/")
     Observable<ResultBean<UserBankBean, Object>> getBankBean(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<ChangeIsWdBean, Object>> ChangeIsWd(@FieldMap Map<String, String> params);
 
 
 }

@@ -10,7 +10,9 @@ import com.mingtai.mt.R;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.WebviewContract;
+import com.mingtai.mt.entity.ChangeIsWdBean;
 import com.mingtai.mt.presenter.WebviewPresenter;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 
 import butterknife.BindView;
@@ -29,6 +31,7 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
     LinearLayout ll_add_bottom;
 
     private WebviewPresenter webviewPresenter = new WebviewPresenter();
+    private String type;
 
     @Override
     public int getLayoutId() {
@@ -37,17 +40,24 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
 
     @Override
     public void initEventAndData() {
+        Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
         webviewPresenter.onCreate(this,this);
 
         String categoryName = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("CategoryName");
         String url = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("URL");
-        String type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("type");
+        type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("type");
 
         tv_home_webview.setText(categoryName);
 
         if (type.equals("register")){
             ll_add_bottom.setVisibility(View.VISIBLE);
+        }
+
+        if ( type.equals("agreement")){
+            if (ProApplication.mAccountBean.getIsWd() == 0) {
+                ll_add_bottom.setVisibility(View.VISIBLE);
+            }
         }
 
         webView.getSettings().setJavaScriptEnabled(true);
@@ -76,7 +86,11 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
 
             case R.id.tv_agree:
 
-                webviewPresenter.getWebview(ProApplication.SESSIONID(this));
+                if (type.equals("register")) {
+                    webviewPresenter.getWebview(ProApplication.SESSIONID(this));
+                }else if (type.equals("agreement")){
+                    webviewPresenter.changeIsWd(ProApplication.SESSIONID(this));
+                }
 
                 break;
 
@@ -96,6 +110,19 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
 
     @Override
     public void webviewFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
+    public void changeIsWdSuccess(String changeIsWd) {
+        ProApplication.mAccountBean.setIsWd(2);
+        toast(changeIsWd);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void changeIsWdFail(String msg) {
         toast(msg);
     }
 }

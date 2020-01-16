@@ -16,6 +16,7 @@ public class HomeBean {
     private boolean IsPDType;
     private int IsShippingFree;
     private int ShippingPrice;
+    private String ShoppingApplication;
     private String imgUrl;
     private String Appid;
 
@@ -121,5 +122,13 @@ public class HomeBean {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getShoppingApplication() {
+        return ShoppingApplication;
+    }
+
+    public void setShoppingApplication(String shoppingApplication) {
+        ShoppingApplication = shoppingApplication;
     }
 }

@@ -334,7 +334,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
 
     @Override
     public void LoginOutSuccess(String msg) {
-        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN, MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(MingtaiUtil.LOGIN,false).commit();
 
         UiHelper.launcher(this, LoginActivity.class);

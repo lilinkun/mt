@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.WebviewContract;
+import com.mingtai.mt.entity.ChangeIsWdBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
@@ -69,6 +70,39 @@ public class WebviewPresenter extends BasePresenter {
                     @Override
                     public void onErr(String msg, String status) {
                         webviewContract.webviewFail(msg);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+
+                }));
+    }
+
+
+    public void changeIsWd(String SessionId){
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext,"请稍等...","同意中...",true);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "UserBaseChangeIsWd");
+        params.put("SessionId", SessionId);
+
+        mCompositeSubscription.add(manager.ChangeIsWd(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<ChangeIsWdBean, Object>() {
+
+                    @Override
+                    public void onResponse(ChangeIsWdBean goodsBean, String status, ResultBean<ChangeIsWdBean,Object> page) {
+                        webviewContract.changeIsWdSuccess(page.getDesc());
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        webviewContract.changeIsWdFail(msg);
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
