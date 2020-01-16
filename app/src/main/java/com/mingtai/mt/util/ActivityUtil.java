@@ -12,10 +12,26 @@ public class ActivityUtil {
 
     public static List<Activity> activityList = new ArrayList<>();
     public static List<Activity> activityLists = new ArrayList<>();
+    public static List<Activity> activityLists2 = new ArrayList<>();
 
     // 添加Activity
     public static void addActivity(Activity activity) {
         activityList.add(activity);
+    }
+
+
+    // 添加Activity
+    public static void addAllActivity(Activity activity) {
+        activityLists2.add(activity);
+    }
+
+    // 移除所有Activity
+    public static void finishAll1() {
+        for (Activity activity : activityLists2) {
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
+        }
     }
 
     // 移除Activity

@@ -12,6 +12,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.WebviewContract;
 import com.mingtai.mt.entity.ChangeIsWdBean;
 import com.mingtai.mt.presenter.WebviewPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 
@@ -42,6 +43,7 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
     public void initEventAndData() {
         Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
+        ActivityUtil.addAllActivity(this);
         webviewPresenter.onCreate(this,this);
 
         String categoryName = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("CategoryName");

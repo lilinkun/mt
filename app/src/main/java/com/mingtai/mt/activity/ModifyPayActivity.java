@@ -11,6 +11,7 @@ import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.ModifyPayPsdContract;
 import com.mingtai.mt.presenter.ModifyPayPsdPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 
@@ -49,6 +50,7 @@ public class ModifyPayActivity extends BaseActivity implements ModifyPayPsdContr
 
         type = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("type",0);
 
+        ActivityUtil.addAllActivity(this);
         if (type == 1) {
             tv_detail.setText("修改支付密码");
         }else if (type ==2){

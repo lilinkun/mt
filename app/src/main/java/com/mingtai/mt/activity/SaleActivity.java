@@ -110,6 +110,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
         ActivityUtil.addHomeActivity(this);
         ActivityUtil.addActivity(this);
+        ActivityUtil.addAllActivity(this);
 
         if (ProApplication.mAccountBean.getStoreNo() != null && ProApplication.mAccountBean.getStoreNo().toString().trim().length() > 0) {
             et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
@@ -219,7 +220,6 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 break;
 
             case R.id.tv_next:
-
 
                 if (!MingtaiUtil.editIsNotNull(et_servicer_id)) {
                     saleToast(R.string.input_service_id);

@@ -1,12 +1,16 @@
 package com.mingtai.mt.base;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 
+import com.mingtai.mt.activity.LoginActivity;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.UToast;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -38,6 +42,12 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     protected void toast(@NonNull String text) {
         UToast.show(this, text);
+        if (text.contains("登录已失效")){
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("loginerror","error");
+            startActivity(intent);
+            ActivityUtil.finishAll1();
+        }
     }
 
     protected void toast(@NonNull String text, int duration) {

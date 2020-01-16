@@ -20,6 +20,7 @@ import com.mingtai.mt.contract.BindCardContract;
 import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.presenter.BindCardPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class BindCardActivity extends BaseActivity implements BindCardContract {
     public void initEventAndData() {
         Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
+        ActivityUtil.addAllActivity(this);
         bindCardPresenter.onCreate(this, this);
 
         bindCardPresenter.getBankCard(ProApplication.SESSIONID(this));

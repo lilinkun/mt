@@ -135,6 +135,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
         Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
+        ActivityUtil.addAllActivity(this);
         payPresenter.onCreate(this, this);
         ActivityUtil.addActivity(this);
 

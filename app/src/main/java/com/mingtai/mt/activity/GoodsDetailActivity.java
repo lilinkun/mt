@@ -17,6 +17,7 @@ import com.mingtai.mt.contract.GoodsDetailContract;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.presenter.GoodsDetailPresenter;
 import com.mingtai.mt.ui.CustomBannerView;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.youth.banner.Banner;
@@ -56,6 +57,7 @@ public class GoodsDetailActivity extends BaseActivity implements GoodsDetailCont
     public void initEventAndData() {
         Eyes.translucentStatusBar(this, false);
 
+        ActivityUtil.addAllActivity(this);
         goodsDetailPresenter.onCreate(this,this);
 
         String str = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("GOODSID");

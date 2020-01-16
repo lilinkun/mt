@@ -27,6 +27,7 @@ import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.presenter.PersonalInfoPresenter;
 import com.mingtai.mt.ui.DownloadingDialog;
 import com.mingtai.mt.ui.SmsDialog;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.DataCleanManager;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
@@ -122,6 +123,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
     public void initEventAndData() {
         Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
+        ActivityUtil.addAllActivity(this);
         code = UpdateManager.getInstance().getVersionName(this);
 
         mFilePath = Environment.getExternalStorageDirectory() + "/test/" + "temp.jpg";// 获取SD卡路径

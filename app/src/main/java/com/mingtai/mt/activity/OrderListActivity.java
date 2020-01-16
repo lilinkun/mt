@@ -77,6 +77,7 @@ public class OrderListActivity extends BaseActivity implements IPayOrderClickLis
         orderListPresenter.onCreate(this, this);
         ActivityUtil.addActivity(this);
 
+        ActivityUtil.addAllActivity(this);
         initData();
 
         TabPageAdapter pageAdapter = new TabPageAdapter(getSupportFragmentManager(), fragments, mTitles);

@@ -25,6 +25,7 @@ import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.presenter.IntegralPresenter;
 import com.mingtai.mt.ui.SmsDialog;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
@@ -91,6 +92,7 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
 
         Eyes.translucentStatusBar(this);
 
+        ActivityUtil.addAllActivity(this);
         integralPresenter.onCreate(this, this);
 
         mListStyle = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("style");

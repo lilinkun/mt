@@ -9,6 +9,7 @@ import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.TransferAccountsContract;
 import com.mingtai.mt.presenter.TransferAccountsPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 
@@ -48,6 +49,7 @@ public class TransferAccountsActivity extends BaseActivity implements TransferAc
 
         Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
+        ActivityUtil.addAllActivity(this);
         String mtCoin = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.COIN);
 
         transferAccountsPresenter.onCreate(this,this);

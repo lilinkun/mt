@@ -105,6 +105,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
         Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
 
+        ActivityUtil.addAllActivity(this);
         goodsPresenter.onCreate(this,this);
         goodsPresenter.getCategory(ProApplication.SESSIONID(this));
 

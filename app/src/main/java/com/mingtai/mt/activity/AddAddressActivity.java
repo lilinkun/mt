@@ -21,6 +21,7 @@ import com.mingtai.mt.contract.AddAddressContract;
 import com.mingtai.mt.entity.AddressBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.presenter.AddAddressPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.ButtonUtils;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
@@ -74,6 +75,8 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContra
         Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
         addAddressPresenter.onCreate(this, this);
         addAddressPresenter.getLocalData("1", TYPE_PROVINCE);
+
+        ActivityUtil.addAllActivity(this);
 
         if (getIntent() != null) {
             if (getIntent().getBundleExtra(MingtaiUtil.TYPEID) != null) {

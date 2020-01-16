@@ -84,6 +84,7 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
         Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         orderListPresenter.onCreate(this,this);
 
+        ActivityUtil.addAllActivity(this);
         ActivityUtil.addHomeActivity(this);
         ActivityUtil.addActivity(this);
         chooseItemBeans = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getParcelableArrayList("ChooseItemBeans");

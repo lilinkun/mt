@@ -30,6 +30,7 @@ import com.mingtai.mt.entity.BankBean;
 import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.LocalBean;
 import com.mingtai.mt.presenter.RegisterPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
@@ -114,6 +115,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
         Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
 
+        ActivityUtil.addAllActivity(this);
         registerPresenter.onCreate(this,this);
 
         setEditString(et_register_name);

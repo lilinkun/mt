@@ -12,6 +12,7 @@ import com.mingtai.mt.contract.ForgetPsdContract;
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.presenter.ForgetPsdPresenter;
 import com.mingtai.mt.ui.SmsDialog;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
@@ -47,6 +48,8 @@ public class ForgetPsdActivity extends BaseActivity implements ForgetPsdContract
 
     @Override
     public void initEventAndData() {
+
+        ActivityUtil.addAllActivity(this);
         Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
 
         forgetPsdPresenter.onCreate(this,this);

@@ -15,6 +15,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.ChooseAddressContract;
 import com.mingtai.mt.entity.AddressBean;
 import com.mingtai.mt.presenter.ChooseAddressPresenter;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.ButtonUtils;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
@@ -51,6 +52,7 @@ public class ChooseAddressActivity extends BaseActivity implements ChooseAddress
     @Override
     public void initEventAndData() {
 
+        ActivityUtil.addAllActivity(this);
         Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
 
         chooseAddressPresenter.onCreate(this, this);

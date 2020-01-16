@@ -27,6 +27,7 @@ import com.mingtai.mt.entity.CheckBean;
 import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.presenter.LoginPresenter;
 import com.mingtai.mt.ui.DownloadingDialog;
+import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UToast;
@@ -85,6 +86,11 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
     loginPresenter.onCreate(this,this);
     loginPresenter.getSettingParameter(ProApplication.SESSIONID(this));
+
+    if (getIntent() != null && getIntent().getStringExtra("loginerror") != null && getIntent().getStringExtra("loginerror").trim().length() > 0){
+      toast("登录失效，请重新登录");
+    }
+
 
     // 监听下载进度
     BGAUpgradeUtil.getDownloadProgressEventObservable()
