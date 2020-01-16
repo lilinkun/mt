@@ -280,6 +280,9 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
                 smsDialog.dismiss();
             }
         }else if (cointype == 2){
+            if (smsDialog!=null && smsDialog.isShowing()) {
+                smsDialog.dismiss();
+            }
             Bundle bundle = new Bundle();
             bundle.putString(MingtaiUtil.COIN, pointListBeans.get(0).getBalance() + "");
             UiHelper.launcherForResultBundle(this, TransferAccountsActivity.class, 0x223, bundle);

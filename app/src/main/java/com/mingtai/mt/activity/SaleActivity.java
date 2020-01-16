@@ -89,6 +89,8 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     private FriendsBean friendsBean;
     private AddressPickerView addressView;
 
+    private int userType = 20;
+
     private SalePresenter salePresenter = new SalePresenter();
 
 
@@ -123,16 +125,19 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
         if (type == MingtaiUtil.SALEINT){
             tv_detail.setText(R.string.declaration_sale);
+            userType = 10;
         }else if (type == MingtaiUtil.UPDATEINT){
             tv_detail.setText(R.string.declaration_upgrade);
+            userType = 20;
             if (getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id") != null && getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id").toString().trim().length() > 0){
                 et_servicer_id.setText(getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("id"));
                 et_servicer_id.setFocusable(false);
-                salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                salePresenter.queryName(et_servicer_id.getText().toString(), userType+"", ProApplication.SESSIONID(SaleActivity.this));
             }
 
         }else if (type == MingtaiUtil.TIAOBOINT){
             tv_detail.setText(R.string.declaration_tiaobo);
+            userType = 10;
         }
 
         et_business_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -158,7 +163,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     if (typeInt == PersonalInt) {
                         salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
                     }
-                    salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                    salePresenter.queryName(et_servicer_id.getText().toString(), userType+"", ProApplication.SESSIONID(SaleActivity.this));
                 }
             }
         });
@@ -248,7 +253,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                         }
                     }else {
                         if (MingtaiUtil.editIsNotNull(et_servicer_id)) {
-                            salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                            salePresenter.queryName(et_servicer_id.getText().toString(), userType+"", ProApplication.SESSIONID(SaleActivity.this));
                         }
                     }
                 }else {
@@ -316,7 +321,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
             case R.id.main_view:
                 if (et_servicer_id.getText().toString().trim().length() > 0) {
-                    salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                    salePresenter.queryName(et_servicer_id.getText().toString(), userType+"", ProApplication.SESSIONID(SaleActivity.this));
                 }
                 break;
 
@@ -346,7 +351,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     salePresenter.getPersonalAddress(et_servicer_id.getText().toString(), ProApplication.SESSIONID(this));
 
                     if (ProApplication.mAccountBean.getStoreNo() == null || ProApplication.mAccountBean.getStoreNo().toString().trim().length() == 0) {
-                        salePresenter.queryName(et_servicer_id.getText().toString(), "20", ProApplication.SESSIONID(SaleActivity.this));
+                        salePresenter.queryName(et_servicer_id.getText().toString(), userType+"", ProApplication.SESSIONID(SaleActivity.this));
                     }
 
                 }
@@ -373,14 +378,16 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
     @Override
     public void getStoreAddressSuccess(StoreInfoAddressBean storeInfoAddressBean) {
-        this.storeInfoAddressBean = storeInfoAddressBean;
-        et_sale_name.setFocusable(false);
-        et_sale_name.setText(storeInfoAddressBean.getName());
-        et_sale_mobile.setFocusable(false);
-        et_sale_mobile.setText(storeInfoAddressBean.getMobile());
-        tv_province.setText(storeInfoAddressBean.getProvince_name() + " " + storeInfoAddressBean.getCity_name() + " " + storeInfoAddressBean.getArea_name());
-        et_address.setFocusable(false);
-        et_address.setText(storeInfoAddressBean.getAddress());
+        if (storeInfoAddressBean != null) {
+            this.storeInfoAddressBean = storeInfoAddressBean;
+            et_sale_name.setFocusable(false);
+            et_sale_name.setText(storeInfoAddressBean.getName());
+            et_sale_mobile.setFocusable(false);
+            et_sale_mobile.setText(storeInfoAddressBean.getMobile());
+            tv_province.setText(storeInfoAddressBean.getProvince_name() + " " + storeInfoAddressBean.getCity_name() + " " + storeInfoAddressBean.getArea_name());
+            et_address.setFocusable(false);
+            et_address.setText(storeInfoAddressBean.getAddress());
+        }
     }
 
     @Override
@@ -390,20 +397,22 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
     @Override
     public void getPersonalAddressSuccess(StoreInfoAddressBean personalInfoBean) {
-        this.personalInfoBean = personalInfoBean;
-        et_sale_name.setFocusable(true);
-        et_sale_name.setFocusableInTouchMode(true);
-        et_sale_name.requestFocus();
-        et_sale_name.setText(personalInfoBean.getName());
-        et_sale_mobile.setFocusable(true);
-        et_sale_mobile.setFocusableInTouchMode(true);
-        et_sale_mobile.requestFocus();
-        et_sale_mobile.setText(personalInfoBean.getMobile());
-        tv_province.setText(personalInfoBean.getProvince_name() + " " + personalInfoBean.getCity_name() + " " + personalInfoBean.getArea_name());
-        et_address.setFocusable(true);
-        et_address.setFocusableInTouchMode(true);
-        et_address.requestFocus();
-        et_address.setText(personalInfoBean.getAddress());
+        if (personalInfoBean != null) {
+            this.personalInfoBean = personalInfoBean;
+            et_sale_name.setFocusable(true);
+            et_sale_name.setFocusableInTouchMode(true);
+            et_sale_name.requestFocus();
+            et_sale_name.setText(personalInfoBean.getName());
+            et_sale_mobile.setFocusable(true);
+            et_sale_mobile.setFocusableInTouchMode(true);
+            et_sale_mobile.requestFocus();
+            et_sale_mobile.setText(personalInfoBean.getMobile());
+            tv_province.setText(personalInfoBean.getProvince_name() + " " + personalInfoBean.getCity_name() + " " + personalInfoBean.getArea_name());
+            et_address.setFocusable(true);
+            et_address.setFocusableInTouchMode(true);
+            et_address.requestFocus();
+            et_address.setText(personalInfoBean.getAddress());
+        }
     }
 
     @Override
@@ -470,6 +479,11 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     @Override
     public void queryNameFail(String msg) {
         toast(msg);
+
+        et_sale_mobile.setText("");
+        et_sale_name.setText("");
+        tv_province.setText("");
+        et_address.setText("");
     }
 
     @Override

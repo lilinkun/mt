@@ -9,7 +9,7 @@ import com.mingtai.mt.util.MingtaiUtil;
 
 import rx.Subscriber;
 
-public abstract class HttpResultCallBack<M, T> extends Subscriber<ResultBean<M, T>> {
+public abstract class HttpResultCallBack<Context,M, T> extends Subscriber<ResultBean<M, T>> {
 
     /**
      * 请求返回

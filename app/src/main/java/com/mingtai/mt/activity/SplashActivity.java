@@ -102,6 +102,8 @@ public class SplashActivity extends BaseActivity implements LoginContract {
         ProApplication.mAccountBean = msg;
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+
+        finish();
     }
 
     @Override
@@ -110,6 +112,7 @@ public class SplashActivity extends BaseActivity implements LoginContract {
         Intent intent = new Intent();
         intent.setClass(this,LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

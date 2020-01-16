@@ -345,7 +345,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract {
 
             case R.id.tv_register:
 
-                registerPresenter.register(et_register_name.getText().toString(),et_nickname.getText().toString(),"1",et_local_server.getText().toString(),
+                registerPresenter.register(et_register_name.getText().toString(),et_register_mobile.getText().toString(),"1",et_local_server.getText().toString(),
                         et_friends_id.getText().toString(),et_nickname.getText().toString(),et_register_name.getText().toString(),et_reigster_idcard.getText().toString(),
                         "0",bankBean.getId()+"",et_register_bank_account.getText().toString(),localBean.getId()+"",et_serverer_id.getText().toString(),
                         mProvinceCode,mCityCode,mAreaCode,et_address.getText().toString(),mZipCode,ProApplication.SESSIONID(this));
