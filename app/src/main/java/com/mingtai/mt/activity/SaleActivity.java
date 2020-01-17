@@ -427,6 +427,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     @Override
     public void getPersonalAddressSuccess(StoreInfoAddressBean personalInfoBean) {
         if (personalInfoBean != null) {
+            ll_personal.setVisibility(View.VISIBLE);
             this.personalInfoBean = personalInfoBean;
             et_sale_name.setFocusable(true);
             et_sale_name.setFocusableInTouchMode(true);
