@@ -189,6 +189,7 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
             bundle.putString(MingtaiUtil.ORDERSN, msg);
             bundle.putString(MingtaiUtil.WHERE, "goods");
             bundle.putInt("point", Integer.valueOf(customPriceBean.getPoint()));
+            bundle.putString(MingtaiUtil.USERNAME, addressBean.getUserName());
             UiHelper.launcherForResultBundle(this, PointActivity.class, 0x0987, bundle);
         }else {
 

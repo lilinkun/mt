@@ -24,6 +24,7 @@ import com.mingtai.mt.entity.TiaoboBean;
 import com.mingtai.mt.entity.TiaoboHistoryBean;
 import com.mingtai.mt.presenter.PointPresenter;
 import com.mingtai.mt.ui.XcyDatePicker;
+import com.mingtai.mt.util.Eyes;
 import com.mingtai.mt.util.MingtaiUtil;
 import com.mingtai.mt.util.UiHelper;
 
@@ -73,8 +74,8 @@ public class PointActivity extends BaseActivity implements PointContract {
     @Override
     public void initEventAndData() {
 
+        Eyes.setStatusBarWhiteColor(this, getResources().getColor(R.color.white));
         pointPresenter.onCreate(this,this);
-
 
         integral = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("point");
         orderSn = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.ORDERSN);

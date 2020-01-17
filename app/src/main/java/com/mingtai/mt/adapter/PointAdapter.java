@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
@@ -31,7 +32,7 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_tiaobo_history,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_tiaobo_history,parent,false);
 
         ViewHolder viewHolder = new ViewHolder(view);
 
@@ -41,15 +42,14 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.et_point.setText(tiaoboBeans.getHormonicList().get(0).getIntegral() + "");
-        holder.et_point.requestLayout();
-        holder.et_date.setText(tiaoboBeans.getHormonicList().get(0).getHarmonicDate() + "");
-        holder.et_date.requestLayout();
+        holder.et_point.setText(tiaoboBeans.getHormonicList().get(position).getIntegral() + "");
+        holder.et_date.setText(tiaoboBeans.getHormonicList().get(position).getHarmonicDate() + "");
+        holder.ll_adapter_point.requestLayout();
     }
 
     @Override
     public int getItemCount() {
-        return tiaoboBeans.getHormonicList().size()+12;
+        return tiaoboBeans.getHormonicList().size();
     }
 
     @Override
@@ -61,10 +61,11 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> 
 
         TextView et_date;
         TextView et_point;
+        LinearLayout ll_adapter_point;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
+            ll_adapter_point = itemView.findViewById(R.id.ll_adapter_point);
             et_date = itemView.findViewById(R.id.tv_date);
             et_point = itemView.findViewById(R.id.et_point);
         }
