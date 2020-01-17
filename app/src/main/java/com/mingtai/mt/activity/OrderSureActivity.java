@@ -183,14 +183,14 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
     @Override
     public void getTlementSuccess(String msg) {
 
-        if (customPriceBean.getGoodsType() == MingtaiUtil.TIAOBOINT){
+        /*if (customPriceBean.getGoodsType() == MingtaiUtil.TIAOBOINT){
 
             Bundle bundle = new Bundle();
             bundle.putString(MingtaiUtil.ORDERSN, msg);
             bundle.putString(MingtaiUtil.WHERE, "goods");
             bundle.putInt("point", Integer.valueOf(customPriceBean.getPoint()));
             UiHelper.launcherForResultBundle(this, PointActivity.class, 0x0987, bundle);
-        }else {
+        }else {*/
 
             Bundle bundle = new Bundle();
             bundle.putString(MingtaiUtil.ORDERSN, msg);
@@ -199,7 +199,7 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
             UiHelper.launcherBundle(this, PayActivity.class, bundle);
             ActivityUtil.finishHomeAll();
 
-        }
+//        }
     }
 
     @Override

@@ -164,19 +164,19 @@ public class OrderListActivity extends BaseActivity implements IPayOrderClickLis
     public void payMode(OrderBean selfOrderBean, int mode) {
         this.selfOrderBean = selfOrderBean;
 
-        if (selfOrderBean.getOrderType() == MingtaiUtil.TIAOBOINT){
+        /*if (selfOrderBean.getOrderType() == MingtaiUtil.TIAOBOINT){
             Bundle bundle = new Bundle();
             bundle.putString(MingtaiUtil.ORDERSN, selfOrderBean.getOrderSn());
             bundle.putString(MingtaiUtil.WHERE, "order");
             bundle.putInt("point", selfOrderBean.getIntegral());
             UiHelper.launcherForResultBundle(this, PointActivity.class, 0x0987, bundle);
-        }else {
+        }else {*/
 
             Bundle bundle = new Bundle();
             bundle.putString(MingtaiUtil.ORDERSN, selfOrderBean.getOrderSn());
             bundle.putString(MingtaiUtil.WHERE, "order");
             UiHelper.launcherForResultBundle(this, PayActivity.class, 0x0987, bundle);
-        }
+//        }
     }
 
     @Override
