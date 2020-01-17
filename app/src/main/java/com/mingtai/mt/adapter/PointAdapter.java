@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.entity.TiaoboBean;
+import com.mingtai.mt.entity.TiaoboHistoryBean;
 
 import java.util.ArrayList;
 
@@ -19,9 +21,9 @@ import java.util.ArrayList;
 public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<TiaoboBean> tiaoboBeans;
+    private TiaoboHistoryBean tiaoboBeans;
 
-    public PointAdapter(Context context, ArrayList<TiaoboBean> tiaoboBeans){
+    public PointAdapter(Context context, TiaoboHistoryBean tiaoboBeans){
         this.context = context;
         this.tiaoboBeans = tiaoboBeans;
     }
@@ -29,7 +31,7 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.tiaobo_item,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_tiaobo_history,null);
 
         ViewHolder viewHolder = new ViewHolder(view);
 
@@ -39,13 +41,15 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.et_point.setText(tiaoboBeans.get(position).getValue() + "");
-        holder.et_date.setText(tiaoboBeans.get(position).getTime() + "");
+        holder.et_point.setText(tiaoboBeans.getHormonicList().get(0).getIntegral() + "");
+        holder.et_point.requestLayout();
+        holder.et_date.setText(tiaoboBeans.getHormonicList().get(0).getHarmonicDate() + "");
+        holder.et_date.requestLayout();
     }
 
     @Override
     public int getItemCount() {
-        return tiaoboBeans.size();
+        return tiaoboBeans.getHormonicList().size()+12;
     }
 
     @Override
@@ -55,8 +59,8 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        EditText et_date;
-        EditText et_point;
+        TextView et_date;
+        TextView et_point;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -292,10 +292,19 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
                     tv_pay_order.setClickable(false);
                     if (status == 0) {
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString(MingtaiUtil.ORDERSN, orderDetailBeans.getOrderSn() + "");
-                        bundle.putString(MingtaiUtil.WHERE,"order");
-                        UiHelper.launcherForResultBundle(OrderDetailActivity.this, PayActivity.class, 0x1231, bundle);
+                        if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT){
+                            Bundle bundle = new Bundle();
+                            bundle.putString(MingtaiUtil.ORDERSN, orderDetailBeans.getOrderSn());
+                            bundle.putString(MingtaiUtil.USERNAME, orderDetailBeans.getUserName());
+                            bundle.putString(MingtaiUtil.WHERE, "order");
+                            bundle.putInt("point", orderDetailBeans.getIntegral());
+                            UiHelper.launcherForResultBundle(OrderDetailActivity.this, PointActivity.class, 0x1231, bundle);
+                        }else {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(MingtaiUtil.ORDERSN, orderDetailBeans.getOrderSn() + "");
+                            bundle.putString(MingtaiUtil.WHERE, "order");
+                            UiHelper.launcherForResultBundle(OrderDetailActivity.this, PayActivity.class, 0x1231, bundle);
+                        }
 //                        allOrderPresenter.getOrderData(ProApplication.SESSIONID(AllOrderActivity.this));
                     } else if (status == 2) {
 

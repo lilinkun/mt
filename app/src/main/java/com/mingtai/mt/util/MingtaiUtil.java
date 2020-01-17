@@ -33,6 +33,7 @@ public class MingtaiUtil {
 
     public static final String TYPEID = "TYPEID";
     public static final String LOGIN = "login";
+    public static final String USERNAME = "username";
     public static final String ORDERSN = "ORDERSN";
     public static final String GOODSTYPE = "goodstype";
     public static final String PRICE = "PRICE";

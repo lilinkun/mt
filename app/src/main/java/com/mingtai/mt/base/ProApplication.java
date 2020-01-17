@@ -65,10 +65,11 @@ public class ProApplication extends Application {
     return instance;
   }
 
+  public static String name = "";
 
   public static String SESSIONID(Context mContext) {
 //      return  "wlm06afbb052494856945c98f32d8be2c45";
-    return "mt" + DeviceData.getUniqueId(mContext);
+    return "mt" + DeviceData.getUniqueId(mContext)+"_" + name;
   }
 
   public static String BANNERIMG = "";

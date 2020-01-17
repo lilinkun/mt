@@ -336,7 +336,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
     }
 
 
-    @OnClick({R.id.tv_settlement})
+    @OnClick({R.id.tv_settlement,R.id.ll_back})
     public void onClick(View view){
         switch (view.getId()) {
             case R.id.tv_settlement:
@@ -371,6 +371,13 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
                     break;
                 }
+
+            case R.id.ll_back:
+
+                finish();
+
+                break;
+
         }
     }
 

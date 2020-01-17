@@ -19,6 +19,7 @@ import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
+import com.mingtai.mt.entity.TiaoboHistoryBean;
 import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.http.RetrofitHelper;
@@ -189,6 +190,14 @@ public class DataManager {
     }
 
     /**
+     * 获取调拨历史记录
+     */
+    public Observable<ResultBean<TiaoboHistoryBean, Object>> getHistoryPoint(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getHistoryPoint(mHashMap);
+    }
+
+
+    /**
      * 获取订单列表
      */
     public Observable<ResultBean<ArrayList<OrderBean>, Object>> getSelfOrderList(HashMap<String, String> mHashMap) {
@@ -277,7 +286,7 @@ public class DataManager {
     /**
      * 获取银行卡信息
      */
-    public Observable<ResultBean<ChangeIsWdBean, Object>> ChangeIsWd(HashMap<String, String> mHashMap) {
+    public Observable<ResultBean<Object, Object>> ChangeIsWd(HashMap<String, String> mHashMap) {
         return mRetrofitService.ChangeIsWd(mHashMap);
     }
 

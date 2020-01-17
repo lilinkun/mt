@@ -91,6 +91,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     private boolean isClick = false;
 
     private int userType = 20;
+    private String businessName = "";
 
     private SalePresenter salePresenter = new SalePresenter();
 
@@ -225,15 +226,23 @@ public class SaleActivity extends BaseActivity implements SaleContract {
             case R.id.tv_next:
 
                 if (!MingtaiUtil.editIsNotNull(et_servicer_id)) {
-                    saleToast(R.string.input_service_id);
-                }else if (!MingtaiUtil.editIsNotNull(tv_send_type)){
-                    saleToast(R.string.choose_send_type);
-                }else if (!MingtaiUtil.editIsNotNull(et_address)){
-                    saleToast(R.string.hint_input_address);
-                }else if (!MingtaiUtil.editIsNotNull(tv_province)){
-                    saleToast(R.string.hint_choose_address);
+                    toast(R.string.input_service_id);
+                    return;
+                }else if (!MingtaiUtil.editIsNotNull(et_sale_name)){
+                    saleToast(R.string.hint_input_name);
+                    return;
                 }else if (!MingtaiUtil.editIsNotNull(et_sale_mobile)){
                     saleToast(R.string.hint_input_mobile);
+                    return;
+                }else if (!MingtaiUtil.editIsNotNull(tv_send_type)){
+                    saleToast(R.string.choose_send_type);
+                    return;
+                }else if (!MingtaiUtil.editIsNotNull(et_address)){
+                    saleToast(R.string.hint_input_address);
+                    return;
+                }else if (!MingtaiUtil.editIsNotNull(tv_province)){
+                    saleToast(R.string.hint_choose_address);
+                    return;
                 }
 
                 if (type == MingtaiUtil.UPDATEINT) {
@@ -260,6 +269,16 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                         }
                     }
                 }else {
+
+                    if (typeInt == 2 && et_business_name.getText().toString().trim().length() == 0){
+                        toast("请填写店铺编号");
+                        return;
+                    }
+
+                    if (typeInt == 2 && !businessName.equals(et_business_name.getText().toString())){
+                        salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(SaleActivity.this));
+                        return;
+                    }
 
                     if ((typeInt == PersonalInt && personalInfoBean != null) || (typeInt == StoreInt && storeInfoAddressBean != null)) {
 
@@ -373,6 +392,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
             if (storeInfoAddressBean == null) {
                 if (et_business_name.getText().toString().trim().length() > 0) {
                     salePresenter.getStoreAddress(et_business_name.getText().toString(), ProApplication.SESSIONID(this));
+                }else {
+                    ll_personal.setVisibility(View.GONE);
+                    eartyEdit();
                 }
             }else {
                 getStoreAddressSuccess(storeInfoAddressBean);
@@ -384,7 +406,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     @Override
     public void getStoreAddressSuccess(StoreInfoAddressBean storeInfoAddressBean) {
         if (storeInfoAddressBean != null) {
+            ll_personal.setVisibility(View.VISIBLE);
             this.storeInfoAddressBean = storeInfoAddressBean;
+            businessName = et_business_name.getText().toString();
             et_sale_name.setFocusable(false);
             et_sale_name.setText(storeInfoAddressBean.getName());
             et_sale_mobile.setFocusable(false);
@@ -484,12 +508,11 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
     @Override
     public void queryNameFail(String msg) {
-        toast(msg);
+        if(!msg.equals("")) {
+            toast(msg);
+        }
 
-        et_sale_mobile.setText("");
-        et_sale_name.setText("");
-        tv_province.setText("");
-        et_address.setText("");
+        eartyEdit();
     }
 
     @Override

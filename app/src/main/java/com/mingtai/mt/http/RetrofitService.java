@@ -19,6 +19,7 @@ import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.StoreInfoAddressBean;
+import com.mingtai.mt.entity.TiaoboHistoryBean;
 import com.mingtai.mt.entity.UserBankBean;
 import com.mingtai.mt.entity.WxInfo;
 
@@ -118,6 +119,9 @@ public interface RetrofitService {
     @POST("Api/")
     Observable<ResultBean<String, Object>> unloadPoint(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("Api/")
+    Observable<ResultBean<TiaoboHistoryBean, Object>> getHistoryPoint(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("Api/")
@@ -165,7 +169,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
-    Observable<ResultBean<ChangeIsWdBean, Object>> ChangeIsWd(@FieldMap Map<String, String> params);
+    Observable<ResultBean<Object, Object>> ChangeIsWd(@FieldMap Map<String, String> params);
 
 
 }

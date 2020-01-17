@@ -170,9 +170,9 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         });
 
         if (goodsType == MingtaiUtil.TIAOBOINT){
-            ll_tiaobo.setVisibility(View.VISIBLE);
+//            ll_tiaobo.setVisibility(View.VISIBLE);
         }else {
-            ll_tiaobo.setVisibility(View.GONE);
+//            ll_tiaobo.setVisibility(View.GONE);
             ll_pay.setVisibility(View.VISIBLE);
         }
 
@@ -252,7 +252,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                 final SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN, MODE_PRIVATE);
 
 
-                    if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
+                    /*if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
 
                             if (tv_surplus_point.getText().toString().equals("0")) {
                                 String dateStr = "";
@@ -271,9 +271,9 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                                 toast("你输入的调拨值不正确");
                             }
 
-                    }else {
+                    }else {*/
                         pay();
-                    }
+//                    }
                 break;
 
             case R.id.ll_back:
@@ -291,7 +291,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
             case R.id.tv_add_tiaobo_item:
 
-                final PopupWindow popupWindow = new PopupWindow(this);
+               /* final PopupWindow popupWindow = new PopupWindow(this);
 //                View rootView = LayoutInflater.from(PayActivity.this).inflate(R.layout.pop_date,null);
 
                 final XcyDatePicker xcyDatePicker = new XcyDatePicker(PayActivity.this);
@@ -403,21 +403,9 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                         dialog.show();
 
                     }
-                });
+                });*/
 
 
-
-               /* Calendar calendar = Calendar.getInstance();
-
-                new DatePickerDialog(this,2, new DatePickerDialog.OnDateSetListener(){
-
-                    @Override
-                    public void onDateSet(DatePicker view,final int year,final int month, int dayOfMonth) {
-
-                    }
-                }, calendar.get(Calendar.YEAR)
-                        ,calendar.get(Calendar.MONTH)
-                        ,calendar.get(Calendar.DAY_OF_MONTH)).show();*/
 
                 break;
 
@@ -539,7 +527,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
                 tv_have_point.setText(point);
                 tv_surplus_point.setText(point);
-                ll_tiaobo.setVisibility(View.VISIBLE);
+//                ll_tiaobo.setVisibility(View.VISIBLE);
             }
         }
 

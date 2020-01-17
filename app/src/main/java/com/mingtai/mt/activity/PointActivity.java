@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.adapter.PointAdapter;
 import com.mingtai.mt.base.BaseActivity;
+import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.PointContract;
 import com.mingtai.mt.entity.TiaoboBean;
+import com.mingtai.mt.entity.TiaoboHistoryBean;
 import com.mingtai.mt.presenter.PointPresenter;
 import com.mingtai.mt.ui.XcyDatePicker;
 import com.mingtai.mt.util.MingtaiUtil;
@@ -44,6 +48,8 @@ public class PointActivity extends BaseActivity implements PointContract {
     TextView tv_surplus_point;
     @BindView(R.id.tv_add_tiaobo_item)
     TextView tv_add_tiaobo_item;
+    @BindView(R.id.tv_month_point)
+    TextView tv_month_point;
     @BindView(R.id.ll_pay_order)
     LinearLayout ll_pay_order;
 
@@ -57,6 +63,7 @@ public class PointActivity extends BaseActivity implements PointContract {
     private int integral = 0;
     private String orderSn = "";
     private String where =  "";
+    private String username = "";
 
     @Override
     public int getLayoutId() {
@@ -68,9 +75,14 @@ public class PointActivity extends BaseActivity implements PointContract {
 
         pointPresenter.onCreate(this,this);
 
+
         integral = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("point");
         orderSn = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.ORDERSN);
         where = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.WHERE);
+        username = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString(MingtaiUtil.USERNAME);
+
+        pointPresenter.getPointHistory(username, ProApplication.SESSIONID(this));
+
 
         tv_have_point.setText(integral+"");
         tv_surplus_point.setText(integral+"");
@@ -79,23 +91,39 @@ public class PointActivity extends BaseActivity implements PointContract {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
 
-//        rv_tiaobo.setLayoutManager();
+        rv_tiaobo.setLayoutManager(linearLayoutManager);
     }
 
     @Override
     public void getPointSuccess(String msg) {
 
-
-
+        Bundle bundle = new Bundle();
+        bundle.putString(MingtaiUtil.ORDERSN, orderSn);
+        bundle.putString(MingtaiUtil.WHERE, where);
+        UiHelper.launcherForResultBundle(this, PayActivity.class, 0x0987, bundle);
+        setResult(RESULT_OK);
+        finish();
 
     }
 
     @Override
     public void getPointFail(String msg) {
+        toast(msg);
+    }
+
+    @Override
+    public void getPointHistorySuccess(TiaoboHistoryBean tiaoboHistoryBean) {
+        tv_month_point.setText(tiaoboHistoryBean.getMonthMoney()+"");
+        PointAdapter pointAdapter = new PointAdapter(this,tiaoboHistoryBean);
+        rv_tiaobo.setAdapter(pointAdapter);
+    }
+
+    @Override
+    public void getPointHistoryFail(String msg) {
 
     }
 
-    @OnClick({R.id.tv_add_tiaobo_item,R.id.tv_agree})
+    @OnClick({R.id.tv_add_tiaobo_item,R.id.tv_agree,R.id.ll_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_add_tiaobo_item:
@@ -217,13 +245,43 @@ public class PointActivity extends BaseActivity implements PointContract {
 
             case R.id.tv_agree:
 
-                Bundle bundle = new Bundle();
-                bundle.putString(MingtaiUtil.ORDERSN, orderSn);
-                bundle.putString(MingtaiUtil.WHERE, where);
-                UiHelper.launcherForResultBundle(this, PayActivity.class, 0x0987, bundle);
+                if (tv_surplus_point.getText().toString().equals("0")) {
+                    String dateStr = "";
+                    String pointStr = "";
+                    for (int i = 0; i < tiaoboBeans.size(); i++) {
+                        if (i == 0) {
+                            dateStr = tiaoboBeans.get(i).getTime();
+                            pointStr = tiaoboBeans.get(i).getValue() + "";
+                        } else {
+                            dateStr = dateStr + "," + tiaoboBeans.get(i).getTime();
+                            pointStr = pointStr + "," + tiaoboBeans.get(i).getValue();
+                        }
+                    }
+                    pointPresenter.unloadPoint(orderSn, dateStr, pointStr, ProApplication.SESSIONID(this));
+                } else {
+                    toast("你输入的调拨值不正确");
+                }
 
+                break;
+
+            case R.id.ll_back:
+
+                setResult(RESULT_OK);
+                finish();
 
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            setResult(RESULT_OK);
+            finish();
+        }
+
+
+        return super.onKeyDown(keyCode, event);
     }
 }

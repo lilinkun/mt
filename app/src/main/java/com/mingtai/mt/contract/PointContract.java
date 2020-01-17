@@ -1,5 +1,6 @@
 package com.mingtai.mt.contract;
 
+import com.mingtai.mt.entity.TiaoboHistoryBean;
 import com.mingtai.mt.mvp.IView;
 
 /**
@@ -12,4 +13,8 @@ public interface PointContract extends IView {
      */
     public void getPointSuccess(String msg);
     public void getPointFail(String msg);
+
+
+    public void getPointHistorySuccess(TiaoboHistoryBean tiaoboHistoryBean);
+    public void getPointHistoryFail(String msg);
 }

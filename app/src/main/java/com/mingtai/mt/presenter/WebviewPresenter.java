@@ -81,7 +81,6 @@ public class WebviewPresenter extends BasePresenter {
 
     public void changeIsWd(String SessionId){
         final ProgressDialog progressDialog = ProgressDialog.show(mContext,"请稍等...","同意中...",true);
-
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "UserBase");
         params.put("fun", "UserBaseChangeIsWd");
@@ -90,10 +89,10 @@ public class WebviewPresenter extends BasePresenter {
         mCompositeSubscription.add(manager.ChangeIsWd(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<ChangeIsWdBean, Object>() {
+                .subscribe(new HttpResultCallBack<Object, Object>() {
 
                     @Override
-                    public void onResponse(ChangeIsWdBean goodsBean, String status, ResultBean<ChangeIsWdBean,Object> page) {
+                    public void onResponse(Object goodsBean, String status, ResultBean<Object,Object> page) {
                         webviewContract.changeIsWdSuccess(page.getDesc());
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();

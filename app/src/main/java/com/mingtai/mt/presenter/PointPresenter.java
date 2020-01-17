@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.PointContract;
 import com.mingtai.mt.entity.ResultBean;
+import com.mingtai.mt.entity.TiaoboHistoryBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
 import com.mingtai.mt.manager.DataManager;
 import com.mingtai.mt.mvp.IView;
@@ -77,23 +78,24 @@ public class PointPresenter extends BasePresenter {
     }
 
 
-    public void getPointHistory(String UserName){
+    public void getPointHistory(String UserName,String SessionId){
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "OrderHormonic");
         params.put("fun", "OrderHormonicVipList");
         params.put("UserName", UserName);
-        mCompositeSubscription.add(manager.unloadPoint(params)
+        params.put("SessionId", SessionId);
+        mCompositeSubscription.add(manager.getHistoryPoint(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<String, Object>() {
+                .subscribe(new HttpResultCallBack<TiaoboHistoryBean, Object>() {
                     @Override
-                    public void onResponse(String s, String status, ResultBean<String, Object> page) {
-                        pointContract.getPointSuccess(s);
+                    public void onResponse(TiaoboHistoryBean s, String status, ResultBean<TiaoboHistoryBean, Object> page) {
+                        pointContract.getPointHistorySuccess(s);
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
-                        pointContract.getPointFail(msg);
+                        pointContract.getPointHistoryFail(msg);
                     }
                 }));
     }
