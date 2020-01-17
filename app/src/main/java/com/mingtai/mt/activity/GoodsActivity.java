@@ -239,13 +239,12 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                         if (p < ShippingFree){
                             if (tv_total_ShippingFree.getText().toString().equals("0")) {
                                 total_ShippingFree = ShippingFreePrice;
-                                p = p +total_ShippingFree;
                             }
                         }else {
                             total_ShippingFree = 0;
                         }
                         tv_total_ShippingFree.setText(total_ShippingFree+"");
-                        tv_total_goods_price.setText(MingtaiUtil.isCoin(p) +"");
+                        tv_total_goods_price.setText(MingtaiUtil.isCoin(p +total_ShippingFree) +"");
                     }
                 }
             }else {
@@ -316,11 +315,18 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
                 tv_total_integral.setText(intergral + "");
                 tv_point.setText("  分值:" + intergral );
 
-                if (p < ShippingFree){
-                    total_ShippingFree = ShippingFreePrice;
-                }else {
+                if (p == 0){
                     total_ShippingFree = 0;
+                }else {
+
+                    if (p < ShippingFree) {
+                        total_ShippingFree = ShippingFreePrice;
+                    } else {
+                        total_ShippingFree = 0;
+                    }
                 }
+
+
                 tv_total_ShippingFree.setText(total_ShippingFree+"");
                 tv_total_goods_price.setText(MingtaiUtil.isCoin(p+total_ShippingFree) +"");
                 chooseItemBeans.remove(i);

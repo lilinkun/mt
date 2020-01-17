@@ -109,9 +109,14 @@ public class LoginActivity extends BaseActivity implements LoginContract {
       et_login_input_account.setText(sharedPreferences.getString("account",""));
       et_login_input_psd.setText(sharedPreferences.getString("psd",""));
       cb_remember_psd.setChecked(true);
+    }else if (sharedPreferences != null && !sharedPreferences.getBoolean(MingtaiUtil.LOGIN,false)){
+      et_login_input_account.setText(sharedPreferences.getString("account",""));
+      et_login_input_psd.setText("");
+      cb_remember_psd.setChecked(false);
     }else {
       et_login_input_account.setText("");
       et_login_input_psd.setText("");
+      cb_remember_psd.setChecked(true);
     }
 
 
@@ -130,7 +135,7 @@ public class LoginActivity extends BaseActivity implements LoginContract {
         }else {
 
           sharedPreferences.edit().putString("account",et_login_input_account.getText().toString())
-                  .putString("psd",et_login_input_psd.getText().toString()).putBoolean("isLogin",false).commit();
+                  .putString("psd","").putBoolean("isLogin",false).commit();
         }
 
         if (et_login_input_account.getText().toString().trim().length() > 0 && et_login_input_psd.getText().toString().trim().length() > 0){
@@ -164,15 +169,17 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
       }else {
 
+        SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
         if (cb_remember_psd.isChecked()){
           String msg = "";
-          SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
           try {
             msg = MingtaiUtil.serialize(ProApplication.mAccountBean);
           } catch (IOException e) {
             e.printStackTrace();
           }
           sharedPreferences.edit().putBoolean(MingtaiUtil.LOGIN,true).putString("AccountBean",msg).commit();
+        }else {
+          sharedPreferences.edit().putBoolean(MingtaiUtil.LOGIN,false).putString("psd","").commit();
         }
 
 

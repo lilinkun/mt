@@ -146,7 +146,7 @@
                     android:textColor="@color/pop_text_bg"
                     android:textSize="30sp"
                     android:paddingLeft="@dimen/padding_10"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:digits="0123456789."
                     android:background="@null"/>
 

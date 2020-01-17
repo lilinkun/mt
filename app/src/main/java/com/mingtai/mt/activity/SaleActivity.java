@@ -88,6 +88,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     private String mZipCode;
     private FriendsBean friendsBean;
     private AddressPickerView addressView;
+    private boolean isClick = false;
 
     private int userType = 20;
 
@@ -135,6 +136,8 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                 et_servicer_id.setFocusable(false);
                 salePresenter.queryName(et_servicer_id.getText().toString(), userType+"", ProApplication.SESSIONID(SaleActivity.this));
             }
+
+            ll_update_level.setVisibility(View.VISIBLE);
 
         }else if (type == MingtaiUtil.TIAOBOINT){
             tv_detail.setText(R.string.declaration_tiaobo);
@@ -327,7 +330,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
             case R.id.ll_update_level:
 
-                salePresenter.chooseUpdateLevel(ProApplication.SESSIONID(this));
+                isClick = true;
+
+                salePresenter.queryName(et_servicer_id.getText().toString(), userType+"", ProApplication.SESSIONID(SaleActivity.this));
 
                 break;
         }
@@ -471,8 +476,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
             }
         }
 
-        if (type == MingtaiUtil.UPDATEINT){
-            ll_update_level.setVisibility(View.VISIBLE);
+        if (type == MingtaiUtil.UPDATEINT && isClick){
+            isClick = false;
+            salePresenter.chooseUpdateLevel(ProApplication.SESSIONID(this));
         }
     }
 

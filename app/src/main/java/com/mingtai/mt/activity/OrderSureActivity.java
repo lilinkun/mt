@@ -182,12 +182,24 @@ public class OrderSureActivity extends BaseActivity implements OrderSureContract
 
     @Override
     public void getTlementSuccess(String msg) {
-        Bundle bundle = new Bundle();
-        bundle.putString(MingtaiUtil.ORDERSN,msg);
-        bundle.putInt(MingtaiUtil.GOODSTYPE,customPriceBean.getGoodsType());
-        bundle.putString(MingtaiUtil.WHERE,"order");
-        UiHelper.launcherBundle(this,PayActivity.class,bundle);
-        ActivityUtil.finishHomeAll();
+
+        if (customPriceBean.getGoodsType() == MingtaiUtil.TIAOBOINT){
+
+            Bundle bundle = new Bundle();
+            bundle.putString(MingtaiUtil.ORDERSN, msg);
+            bundle.putString(MingtaiUtil.WHERE, "goods");
+            bundle.putInt("point", Integer.valueOf(customPriceBean.getPoint()));
+            UiHelper.launcherForResultBundle(this, PointActivity.class, 0x0987, bundle);
+        }else {
+
+            Bundle bundle = new Bundle();
+            bundle.putString(MingtaiUtil.ORDERSN, msg);
+            bundle.putInt(MingtaiUtil.GOODSTYPE, customPriceBean.getGoodsType());
+            bundle.putString(MingtaiUtil.WHERE, "goods");
+            UiHelper.launcherBundle(this, PayActivity.class, bundle);
+            ActivityUtil.finishHomeAll();
+
+        }
     }
 
     @Override

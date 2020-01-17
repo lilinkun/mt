@@ -294,7 +294,7 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 
                         Bundle bundle = new Bundle();
                         bundle.putString(MingtaiUtil.ORDERSN, orderDetailBeans.getOrderSn() + "");
-                        bundle.putString(MingtaiUtil.WHERE,"goods");
+                        bundle.putString(MingtaiUtil.WHERE,"order");
                         UiHelper.launcherForResultBundle(OrderDetailActivity.this, PayActivity.class, 0x1231, bundle);
 //                        allOrderPresenter.getOrderData(ProApplication.SESSIONID(AllOrderActivity.this));
                     } else if (status == 2) {

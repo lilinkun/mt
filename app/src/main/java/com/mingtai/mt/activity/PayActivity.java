@@ -253,7 +253,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
 
                     if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT) {
-                        if (orderDetailBeans.getMoney1() > 0 || orderDetailBeans.getMoney5() > 0) {
+
                             if (tv_surplus_point.getText().toString().equals("0")) {
                                 String dateStr = "";
                                 String pointStr = "";
@@ -270,9 +270,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                             } else {
                                 toast("你输入的调拨值不正确");
                             }
-                        }else {
-                            pay();
-                        }
+
                     }else {
                         pay();
                     }

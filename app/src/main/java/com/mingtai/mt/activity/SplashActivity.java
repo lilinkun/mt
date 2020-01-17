@@ -157,18 +157,18 @@ public class SplashActivity extends BaseActivity implements LoginContract {
 
     private void turnHome(){
 
-        SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getSharedPreferences(MingtaiUtil.LOGIN,MODE_PRIVATE);
         if (sharedPreferences.getBoolean(MingtaiUtil.LOGIN,false)){
 
             loginPresenter.setLogin(sharedPreferences.getString("account",""),
                     sharedPreferences.getString("psd",""),ProApplication.SESSIONID(this));
 
-        }else {
+        }else {*/
             Intent intent = new Intent(getBaseContext(), LoginActivity.class);
             //LoginActivity
             startActivity(intent);
             finish();
-        }
+//        }
     }
 
     private CheckBean bean;
