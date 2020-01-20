@@ -223,10 +223,19 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
         if (cointype == 1) {
             integralPresenter.getBankCard(ProApplication.SESSIONID(this));
             smsDialog.dismiss();
-        }else if (cointype == 2){
+        }else if (cointype == 2) {
+
+        if (tv_balance_amount != null && Double.valueOf(tv_balance_amount.getText().toString()) > 0){
             Bundle bundle = new Bundle();
             bundle.putString(MingtaiUtil.COIN, pointListBeans.get(0).getBalance() + "");
             UiHelper.launcherForResultBundle(this, TransferAccountsActivity.class, 0x223, bundle);
+        }else {
+            toast("您的余额为零不能转账");
+            if (smsDialog != null && smsDialog.isShowing()) {
+                smsDialog.dismiss();
+            }
+            return;
+        }
         }
     }
 
@@ -262,10 +271,19 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
                 }
             }).show();
         }else {
-            Bundle bundle = new Bundle();
-            bundle.putString(MingtaiUtil.COIN, pointListBeans.get(0).getBalance() + "");
-            bundle.putSerializable(MingtaiUtil.USERBANKBEAN, userBankBean);
-            UiHelper.launcherForResultBundle(this, GetCashActivity.class, 0x222, bundle);
+
+            if (tv_balance_amount != null && Double.valueOf(tv_balance_amount.getText().toString()) > 0){
+                Bundle bundle = new Bundle();
+                bundle.putString(MingtaiUtil.COIN, pointListBeans.get(0).getBalance() + "");
+                bundle.putSerializable(MingtaiUtil.USERBANKBEAN, userBankBean);
+                UiHelper.launcherForResultBundle(this, GetCashActivity.class, 0x222, bundle);
+            }else {
+                toast("您的余额为零不能转账");
+                if (smsDialog != null && smsDialog.isShowing()) {
+                    smsDialog.dismiss();
+                }
+                return;
+            }
         }
     }
 
@@ -284,10 +302,18 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
         }else if (cointype == 2){
             if (smsDialog!=null && smsDialog.isShowing()) {
                 smsDialog.dismiss();
+        }
+            if (tv_balance_amount != null && Double.valueOf(tv_balance_amount.getText().toString()) > 0){
+                Bundle bundle = new Bundle();
+                bundle.putString(MingtaiUtil.COIN, pointListBeans.get(0).getBalance() + "");
+                UiHelper.launcherForResultBundle(this, TransferAccountsActivity.class, 0x223, bundle);
+            }else {
+                toast("您的余额为零不能转账");
+                if (smsDialog != null && smsDialog.isShowing()) {
+                    smsDialog.dismiss();
+                }
+                return;
             }
-            Bundle bundle = new Bundle();
-            bundle.putString(MingtaiUtil.COIN, pointListBeans.get(0).getBalance() + "");
-            UiHelper.launcherForResultBundle(this, TransferAccountsActivity.class, 0x223, bundle);
         }
     }
 

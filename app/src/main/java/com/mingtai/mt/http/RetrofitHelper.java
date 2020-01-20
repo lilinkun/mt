@@ -26,6 +26,7 @@ public class RetrofitHelper {
 //    public static final String BASE_URL = "https://api.vlmei.com/api/WebService/";
 //    public static final String BASE_URL = "http://192.168.0.168:8081/api/WebService/";
     public static final String BASE_URL = "http://nine.mmibb.net:99/api/WebService/";
+//    public static final String BASE_URL = "http://mt.kmsd1818.cn/api/WebService/";
 
     //    设置超时时间
     private static final long DEFAULT_TIMEOUT = 15_000L;

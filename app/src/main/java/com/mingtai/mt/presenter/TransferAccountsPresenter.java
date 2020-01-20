@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.mingtai.mt.base.BasePresenter;
 import com.mingtai.mt.contract.TransferAccountsContract;
+import com.mingtai.mt.entity.FriendsBean;
 import com.mingtai.mt.entity.GoodsBean;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
@@ -82,6 +83,37 @@ public class TransferAccountsPresenter extends BasePresenter {
 
                 }));
 
+    }
+
+    /**
+     * 点击亲友人获取信息
+     * @param UserName
+     * @param UserType
+     * @param SessionId
+     */
+    public void queryName(String UserName, String UserType, String SessionId){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("cls", "UserBase");
+        params.put("fun", "UserBaseQueryNameGet");
+        params.put("UserName", UserName);
+        params.put("SessionId", SessionId);
+
+        compositeSubscription.add(manager.queryName(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpResultCallBack<FriendsBean, Object>() {
+                    @Override
+                    public void onResponse(FriendsBean friendsBean, String status, ResultBean<FriendsBean, Object> o) {
+                        transferAccountsContract.queryNameSuccess(friendsBean,status);
+
+                    }
+
+                    @Override
+                    public void onErr(String msg, String status) {
+                        transferAccountsContract.queryNameFail(msg);
+
+                    }
+                }));
     }
 
 }
