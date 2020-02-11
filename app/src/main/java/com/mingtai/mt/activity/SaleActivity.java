@@ -85,6 +85,9 @@ public class SaleActivity extends BaseActivity implements SaleContract {
     private String mProvinceCode;
     private String mCityCode;
     private String mAreaCode;
+    private String mProvinceStr;
+    private String mCityStr;
+    private String mAreaStr;
     private String mZipCode;
     private FriendsBean friendsBean;
     private AddressPickerView addressView;
@@ -311,6 +314,15 @@ public class SaleActivity extends BaseActivity implements SaleContract {
                     @Override
                     public void onSureClick(String address, String provinceCode, String cityCode, String districtCode, String zipCode) {
                         tv_province.setText(address);
+
+                        if (address.contains(" ")){
+                            String[] s = address.split(" ");
+
+                            mProvinceStr = s[0];
+                            mCityStr = s[1];
+                            mAreaStr = s[2];
+                        }
+
                         mProvinceCode = provinceCode;
                         mCityCode = cityCode;
                         mAreaCode = districtCode;
@@ -477,6 +489,16 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         addressBean.setName(name);
         addressBean.setMobile(et_sale_mobile.getText().toString());
         addressBean.setUserName(et_servicer_id.getText().toString());
+        if(mProvinceStr != null && mProvinceStr.trim().length()>0){
+            addressBean.setProvince_name(mProvinceStr);
+        }
+        if(mCityStr != null && mCityStr.trim().length()>0){
+            addressBean.setCity_name(mCityStr);
+        }
+        if(mAreaStr != null && mAreaStr.trim().length()>0){
+            addressBean.setArea_name(mAreaStr);
+        }
+        addressBean.setAddress(et_address.getText().toString());
         ProApplication.STORENO = et_business_name.getText().toString();
         bundle.putSerializable("StoreInfoAddressBean",addressBean);
         UiHelper.launcherBundle(this,GoodsActivity.class,bundle);

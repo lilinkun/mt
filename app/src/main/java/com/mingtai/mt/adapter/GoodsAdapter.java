@@ -78,8 +78,9 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         holder.tv_goods_id.setText("产品编号:" + goodsBeans.get(position).getGoodsSn());
 //        holder.tv_product_id.setText("产品编号:" + goodsBeans.get(position).get());
 
+
         for (int i = 0; i < chooseItemBeans.size(); i++){
-            if (chooseItemBeans.get(i).getGoodsSn().equals(goodsBeans.get(position).getGoodsSn())){
+            if (chooseItemBeans.get(i).getGoodsId().equals(goodsBeans.get(position).getGoodsId())){
                 holder.goodsNum.setText(chooseItemBeans.get(i).getNum() + "");
                 holder.singleCheckBox.setChecked(true);
             }
@@ -137,6 +138,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(),position, Integer.valueOf(holder.goodsNum.getText().toString()));
+//                    ChooseItemBean chooseItemBean = new ChooseItemBean();
                 }else{
                     checkInterface.unCheckItem(goodsBeans.get(position).getGoodsSn(),position);
                 }
@@ -150,7 +152,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
             }
         });*/
 
-        holder.ll_goods_adapter.setOnClickListener(new View.OnClickListener() {
+        holder.goodsData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(holder.singleCheckBox.isChecked()){
@@ -172,6 +174,12 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
+        return position;
+    }
+
+
+    @Override
+    public long getItemId(int position) {
         return position;
     }
 
@@ -259,6 +267,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
          */
         void unCheckItem(String goodsSn,int position);
     }
+
+    public void setChooseItemBeans(ArrayList<ChooseItemBean> chooseItemBeans){
+        this.chooseItemBeans = chooseItemBeans;
+    }
+
 
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -196,7 +196,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
             }else {
                 this.goodsBeans.addAll(goodsBeans);
             }
-            goodsAdapter.setData(goodsBeans);
+            goodsAdapter.setData(this.goodsBeans);
         }
 
         if (sr_goods != null && sr_goods.isRefreshing()){
@@ -298,6 +298,10 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
             tv_total_ShippingFree.setText(total_ShippingFree+"");
             tv_total_goods_price.setText(MingtaiUtil.isCoin(p+total_ShippingFree) +"");
         }
+
+        if (goodsAdapter != null) {
+            goodsAdapter.setChooseItemBeans(chooseItemBeans);
+        }
     }
 
     @Override
@@ -333,6 +337,9 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
             }
         }
 
+        if (goodsAdapter != null) {
+            goodsAdapter.setChooseItemBeans(chooseItemBeans);
+        }
     }
 
 

@@ -146,17 +146,25 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
                 break;
 
             case R.id.tv_withdrawal:
+                if (tv_balance_amount != null && Double.valueOf(tv_balance_amount.getText().toString()) > 0) {
 
-                cointype = 1;
-
-                integralPresenter.SendSms("2",ProApplication.SESSIONID(this));
+                    cointype = 1;
+                    integralPresenter.SendSms("2", ProApplication.SESSIONID(this));
+                }else {
+                    toast("您的余额为零不能转账");
+                }
 
                 break;
 
             case R.id.tv_transfer_accounts:
-                cointype = 2;
 
-                integralPresenter.SendSms("2",ProApplication.SESSIONID(this));
+                if (tv_balance_amount != null && Double.valueOf(tv_balance_amount.getText().toString()) > 0) {
+
+                    cointype = 2;
+                    integralPresenter.SendSms("2", ProApplication.SESSIONID(this));
+                }else {
+                    toast("您的余额为零不能转账");
+                }
 
                 break;
 
@@ -222,10 +230,15 @@ public class IntegralActivity extends BaseActivity implements IntegralContract {
     public void safetyVerificationCodeSuccess(String msg) {
         if (cointype == 1) {
             integralPresenter.getBankCard(ProApplication.SESSIONID(this));
-            smsDialog.dismiss();
+            if (smsDialog != null && smsDialog.isShowing()) {
+                smsDialog.dismiss();
+            }
         }else if (cointype == 2) {
 
         if (tv_balance_amount != null && Double.valueOf(tv_balance_amount.getText().toString()) > 0){
+            if (smsDialog != null && smsDialog.isShowing()) {
+                smsDialog.dismiss();
+            }
             Bundle bundle = new Bundle();
             bundle.putString(MingtaiUtil.COIN, pointListBeans.get(0).getBalance() + "");
             UiHelper.launcherForResultBundle(this, TransferAccountsActivity.class, 0x223, bundle);
