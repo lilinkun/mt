@@ -250,7 +250,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
             }else {
                 chooseGoodsList.add(goodsSn);
                 ChooseItemBean chooseItemBean = new ChooseItemBean();
-                chooseItemBean.setGoodsSn(goodsSn);
+                chooseItemBean.setGoodsSn(goodsBeans.get(position).getGoodsSn());
                 chooseItemBean.setNum(num);
                 chooseItemBean.setGoodsId(goodsBeans.get(position).getGoodsId());
                 chooseItemBeans.add(chooseItemBean);
@@ -277,7 +277,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         }else {
             chooseGoodsList.add(goodsSn);
             ChooseItemBean chooseItemBean = new ChooseItemBean();
-            chooseItemBean.setGoodsSn(goodsSn);
+            chooseItemBean.setGoodsSn(goodsBeans.get(position).getGoodsSn());
             chooseItemBean.setGoodsId(goodsBeans.get(position).getGoodsId());
             chooseItemBean.setNum(num);
 
@@ -305,11 +305,11 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
     }
 
     @Override
-    public void unCheckItem(String goodsSn, int position) {
-        chooseGoodsList.remove(goodsSn);
+    public void unCheckItem(String goodsId, int position) {
+        chooseGoodsList.remove(goodsId);
 
         for (int i = 0; i < chooseItemBeans.size();i++) {
-            if (chooseItemBeans.get(i).getGoodsSn().equals(goodsSn)){
+            if (chooseItemBeans.get(i).getGoodsId().equals(goodsId)){
                 int num = chooseItemBeans.get(i).getNum();
                 chooseGoodsBeans.remove(i);
 

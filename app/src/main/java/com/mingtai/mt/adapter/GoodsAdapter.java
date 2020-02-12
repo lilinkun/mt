@@ -78,12 +78,18 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         holder.tv_goods_id.setText("产品编号:" + goodsBeans.get(position).getGoodsSn());
 //        holder.tv_product_id.setText("产品编号:" + goodsBeans.get(position).get());
 
+        int has = 0;
 
         for (int i = 0; i < chooseItemBeans.size(); i++){
             if (chooseItemBeans.get(i).getGoodsId().equals(goodsBeans.get(position).getGoodsId())){
                 holder.goodsNum.setText(chooseItemBeans.get(i).getNum() + "");
                 holder.singleCheckBox.setChecked(true);
+                has = 1;
             }
+        }
+
+        if (has == 0){
+            holder.singleCheckBox.setChecked(false);
         }
 
         Picasso.with(context).load(ProApplication.BANNERIMG + goodsBeans.get(position).getGoodsImg()).error(R.color.line).into(holder.goodsImage);
@@ -105,7 +111,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
                 int num = Integer.valueOf(holder.goodsNum.getText().toString()) + 1;
                 holder.goodsNum.setText(num+"");
                 if (holder.singleCheckBox.isChecked()) {
-                    checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(), position, Integer.valueOf(holder.goodsNum.getText().toString()));
+                    checkInterface.checkItem(goodsBeans.get(position).getGoodsId(), position, Integer.valueOf(holder.goodsNum.getText().toString()));
                 }
 
             }
@@ -117,7 +123,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
                 if (num != 0) {
                     holder.goodsNum.setText(num + "");
                     if (holder.singleCheckBox.isChecked()) {
-                        checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(), position, Integer.valueOf(holder.goodsNum.getText().toString()));
+                        checkInterface.checkItem(goodsBeans.get(position).getGoodsId(), position, Integer.valueOf(holder.goodsNum.getText().toString()));
                     }
                 }
             }
@@ -137,10 +143,10 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    checkInterface.checkItem(goodsBeans.get(position).getGoodsSn(),position, Integer.valueOf(holder.goodsNum.getText().toString()));
+                    checkInterface.checkItem(goodsBeans.get(position).getGoodsId(),position, Integer.valueOf(holder.goodsNum.getText().toString()));
 //                    ChooseItemBean chooseItemBean = new ChooseItemBean();
                 }else{
-                    checkInterface.unCheckItem(goodsBeans.get(position).getGoodsSn(),position);
+                    checkInterface.unCheckItem(goodsBeans.get(position).getGoodsId(),position);
                 }
             }
         });
@@ -258,7 +264,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
          * @param position  子元素的位置
          * @param num 子元素的选中与否
          */
-        void checkItem(String goodsSn,int position, int num);
+        void checkItem(String goodsId,int position, int num);
 
         /**
          * 取消事件
