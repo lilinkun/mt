@@ -225,7 +225,7 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
             if (chooseGoodsList.contains(goodsSn)){
                 for (int i = 0; i < chooseItemBeans.size(); i++) {
-                    if (chooseItemBeans.get(i).getGoodsSn().equals(goodsSn)) {
+                    if (chooseItemBeans.get(i).getGoodsId().equals(goodsSn)) {
                         int oldNum = chooseItemBeans.get(i).getNum();
                         chooseItemBeans.get(i).setNum(num);
                         int rechangeNum = num - oldNum;
