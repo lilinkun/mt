@@ -184,6 +184,7 @@ public class SplashActivity extends BaseActivity implements LoginContract {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
+                        turnHome();
                         Log.d("err===========", e + "");
                     }
 

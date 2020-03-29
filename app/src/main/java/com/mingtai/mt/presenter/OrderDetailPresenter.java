@@ -55,6 +55,7 @@ public class OrderDetailPresenter extends BasePresenter {
      * @param SessionId
      */
     public void cartBuy(String OrderSn, String SessionId) {
+        final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "获取数据中...", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "OrderInfo");
         params.put("fun", "OrderInfoGoodsDetail");
@@ -66,11 +67,17 @@ public class OrderDetailPresenter extends BasePresenter {
                 .subscribe(new HttpResultCallBack<OrderDetailBean, Object>() {
                     @Override
                     public void onResponse(OrderDetailBean orderDetailBeans, String status, ResultBean<OrderDetailBean,Object> page) {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                         allOrderContract.setDataSuccess(orderDetailBeans);
                     }
 
                     @Override
                     public void onErr(String msg, String status) {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                         allOrderContract.setDataFail(msg);
                     }
                 }));

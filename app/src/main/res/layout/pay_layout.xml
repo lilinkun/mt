@@ -11,6 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:id="@+id/rl_goods_price"
         android:layout_height="44dp">
 
         <TextView
@@ -161,6 +162,7 @@
         android:background="@color/line_bg"/>
 
     <RelativeLayout
+        android:id="@+id/rl_need_pay"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         >

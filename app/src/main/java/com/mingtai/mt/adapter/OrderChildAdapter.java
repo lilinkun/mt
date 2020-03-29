@@ -47,7 +47,7 @@ public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.Vi
 
         holder.goodsTitle.setText(childListBeans.get(position).getGoodsName());
 
-        holder.goodsPrice.setText("¥ " + childListBeans.get(position).getPrice());
+//        holder.goodsPrice.setText("¥ " + childListBeans.get(position).getPrice());
 
         holder.goodsnum.setText("X" + childListBeans.get(position).getGoodsNumber());
 

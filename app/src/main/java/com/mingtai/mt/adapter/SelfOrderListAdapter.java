@@ -44,9 +44,9 @@ public class SelfOrderListAdapter extends RecyclerView.Adapter<SelfOrderListAdap
 
         holder.tv_goods_count.setText("X" + selfOrderInfoBeans.get(position).getGoodsNumber());
         holder.tv_goods_title.setText("" + selfOrderInfoBeans.get(position).getGoodsName());
-        holder.tv_goods_price.setText("¥" + selfOrderInfoBeans.get(position).getPrice());
-        holder.tv_goods_market_price.setText(selfOrderInfoBeans.get(position).getMarketPrice()+"");
-        holder.tv_goods_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        holder.tv_goods_price.setText("¥" + selfOrderInfoBeans.get(position).getPrice());
+//        holder.tv_goods_market_price.setText(selfOrderInfoBeans.get(position).getMarketPrice()+"");
+//        holder.tv_goods_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.tv_goods_id.setText("产品编号:" + selfOrderInfoBeans.get(position).getGoodsSn());
 
         holder.ll_integral.setVisibility(View.VISIBLE);

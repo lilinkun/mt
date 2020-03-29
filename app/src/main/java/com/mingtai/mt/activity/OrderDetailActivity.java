@@ -99,6 +99,10 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
     LinearLayout ll_lgs_time;
     @BindView(R.id.tv_query_logistics)
     TextView tv_query_logistics;
+    @BindView(R.id.rl_need_pay)
+    RelativeLayout rl_need_pay;
+    @BindView(R.id.rl_goods_price)
+    RelativeLayout rl_goods_price;
 
     private  OrderDetailPresenter orderDetailPresenter = new OrderDetailPresenter();
     private String orderSn = "";
@@ -138,6 +142,9 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 //        WXPayEntryActivity.setPayListener(this);
 
         iv_address_right.setVisibility(View.GONE);
+
+        rl_need_pay.setVisibility(View.GONE);
+        rl_goods_price.setVisibility(View.GONE);
     }
 
 

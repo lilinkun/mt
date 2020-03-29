@@ -61,9 +61,10 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
         BigDecimal b = new BigDecimal(price);
         price = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
-        holder.tv_integral.setText("(含运费" + selfOrderBeans.get(position).getShippingFree()  + ")" + "、分值:");
+        holder.tv_integral.setText("分值:");
+//        holder.tv_integral.setText("(含运费" + selfOrderBeans.get(position).getShippingFree()  + ")" + "、分值:");
         holder.tv_point_amount.setText("" + selfOrderBeans.get(position).getIntegral());
-        holder.tv_order_amount.setText("¥" + price);
+//        holder.tv_order_amount.setText("¥" + price);
         int num = 0;
         ArrayList<SelfOrderInfoBean> selfOrderInfoBeans = selfOrderBeans.get(position).getList();
         for (int i = 0; i < selfOrderInfoBeans.size(); i++) {
