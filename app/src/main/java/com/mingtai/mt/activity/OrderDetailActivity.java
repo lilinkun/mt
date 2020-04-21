@@ -18,6 +18,7 @@ import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.AllOrderContract;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.OrderDetailInfo;
 import com.mingtai.mt.presenter.OrderDetailPresenter;
 import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.ButtonUtils;
@@ -170,8 +171,13 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
     }
 
     @Override
-    public void setDataSuccess(final OrderDetailBean orderDetailBeans) {
-        this.orderDetailBeans = orderDetailBeans;
+    public void setDataSuccess(final OrderDetailInfo orderDetailBean) {
+
+        if (orderDetailBean.getOrder().getOrderType() != 2){
+            rl_need_pay.setVisibility(View.VISIBLE);
+        }
+
+        this.orderDetailBeans = orderDetailBean.getOrder();
         OrderChildAdapter orderChildAdapter = new OrderChildAdapter(this, orderDetailBeans.getOrderDetail());
         recyclerView.setAdapter(orderChildAdapter);
 

@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.HomeBean;
+import com.mingtai.mt.util.CrashHandler;
 import com.mingtai.mt.util.DeviceData;
 
 import java.lang.reflect.Field;
@@ -28,6 +29,10 @@ public class ProApplication extends Application {
   public void onCreate() {
     super.onCreate();
     mContext = this;
+
+    CrashHandler catchHandler = CrashHandler.getInstance();
+    catchHandler.init(getApplicationContext());
+
     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
     displayMetrics.scaledDensity = displayMetrics.density;
     disableAPIDialog();

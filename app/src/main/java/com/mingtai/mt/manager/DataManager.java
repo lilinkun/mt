@@ -15,6 +15,7 @@ import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.OrderDetailInfo;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.ProvinceBean;
 import com.mingtai.mt.entity.ResultBean;
@@ -178,7 +179,7 @@ public class DataManager {
     /**
      * 获取订单详情
      */
-    public Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(HashMap<String, String> mHashMap) {
+    public Observable<ResultBean<OrderDetailInfo, Object>> getOrderDetail(HashMap<String, String> mHashMap) {
         return mRetrofitService.getOrderDetail(mHashMap);
     }
 

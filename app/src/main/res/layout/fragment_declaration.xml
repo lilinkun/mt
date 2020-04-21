@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/margin_20"
         android:textSize="@dimen/textsize16"
         android:textColor="@color/black_333333"
-        android:text="报单类型"/>
+        android:text="购物类型"/>
 
     <View
         android:layout_width="match_parent"

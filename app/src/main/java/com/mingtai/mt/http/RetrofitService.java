@@ -14,6 +14,7 @@ import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.HomeMobileBean;
 import com.mingtai.mt.entity.OrderBean;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.OrderDetailInfo;
 import com.mingtai.mt.entity.PageBean;
 import com.mingtai.mt.entity.PersonalInfoBean;
 import com.mingtai.mt.entity.ProvinceBean;
@@ -113,7 +114,7 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("Api/")
-    Observable<ResultBean<OrderDetailBean, Object>> getOrderDetail(@FieldMap Map<String, String> params);
+    Observable<ResultBean<OrderDetailInfo, Object>> getOrderDetail(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("Api/")

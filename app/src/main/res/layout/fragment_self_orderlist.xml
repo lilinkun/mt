@@ -91,11 +91,12 @@
                 android:text="共１件商品"/>
 
             <TextView
+                android:id="@+id/tv_total_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black_title_text"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:text="合计："/>
+                android:text=" "/>
 
             <TextView
                 android:id="@+id/tv_order_amount"

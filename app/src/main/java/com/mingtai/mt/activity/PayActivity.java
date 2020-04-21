@@ -30,6 +30,7 @@ import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.PayContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.OrderDetailInfo;
 import com.mingtai.mt.entity.TiaoboBean;
 import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.interf.IWxResultListener;
@@ -113,6 +114,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
     private OrderDetailBean orderDetailBeans;
     private BalanceBean balanceBean;
+    private OrderDetailInfo orderDetailInfo;
 
     HashMap<String,View> stringViewHashMap = new HashMap<>();
     HashMap<String,TextView> stringTextViewHashMap = new HashMap<>();
@@ -169,6 +171,20 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             }
         });
 
+        check_wx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        if (orderDetailInfo != null){
+                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - Double.valueOf(et_netcoin_pay.getText().toString())- Double.valueOf(et_discount_pay.getText().toString())) + ")");
+                        }
+
+                    }else {
+                        tv_wx_price.setText("");
+                    }
+            }
+        });
+
         if (goodsType == MingtaiUtil.TIAOBOINT){
 //            ll_tiaobo.setVisibility(View.VISIBLE);
         }else {
@@ -179,7 +195,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
     }
 
-    private void setEditListener(final EditText editListener,final double value1,final double value2){
+    private void setEditListener(final EditText editListener,final double value1,final double value2,final double value3){
         editListener.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -210,7 +226,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                         }
                     }else {
                         if (check_wx.isChecked()){
-                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value1 - Double.valueOf(et_netcoin_pay.getText().toString())- Double.valueOf(et_discount_pay.getText().toString())) + ")");
+                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value3 - Double.valueOf(et_netcoin_pay.getText().toString())- Double.valueOf(et_discount_pay.getText().toString())) + ")");
                         }
                     }
                 }
@@ -487,8 +503,9 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     }
 
     @Override
-    public void setDataSuccess(OrderDetailBean orderDetailBeans) {
-        this.orderDetailBeans = orderDetailBeans;
+    public void setDataSuccess(OrderDetailInfo orderDetailBean) {
+        this.orderDetailInfo = orderDetailBean;
+        this.orderDetailBeans = orderDetailBean.getOrder();
         this.point = orderDetailBeans.getIntegral() + "";
         this.totalPrice = orderDetailBeans.getOrderAmount()+"";
         tv_amount.setText(totalPrice + "");
@@ -531,8 +548,8 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             }
         }
 
-        setEditListener(et_discount_pay,isRemainderPrice,balanceBean.getMoney5Balance());
-        setEditListener(et_netcoin_pay,isRemainderPrice,balanceBean.getMoney1Balance());
+        setEditListener(et_discount_pay,Math.floor(isRemainderPrice * (1-orderDetailInfo.getMinCash())),balanceBean.getMoney5Balance(),isRemainderPrice);
+        setEditListener(et_netcoin_pay,Math.floor(isRemainderPrice * (1-orderDetailInfo.getMinCash())),balanceBean.getMoney1Balance(),isRemainderPrice);
     }
 
     @Override
@@ -685,7 +702,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                         et_netcoin_pay.setText("0");
                     }
 
-                    if (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()) > orderDetailBeans.getOrderAmount()) {
+                    if (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()) > Math.floor(orderDetailBeans.getOrderAmount() * (1-orderDetailInfo.getMinCash()))) {
                         toast("输入的金额有误，请重新输入");
                         et_discount_pay.setText("0");
                         et_netcoin_pay.setText("0");

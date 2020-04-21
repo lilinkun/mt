@@ -2,6 +2,7 @@ package com.mingtai.mt.contract;
 
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.OrderDetailInfo;
 import com.mingtai.mt.mvp.IView;
 
 /**
@@ -9,7 +10,7 @@ import com.mingtai.mt.mvp.IView;
  */
 public interface PayResultContract extends IView {
 
-    public void setDataSuccess(OrderDetailBean orderDetailBeans);
+    public void setDataSuccess(OrderDetailInfo orderDetailBeans);
 
     public void setDataFail(String msg);
 

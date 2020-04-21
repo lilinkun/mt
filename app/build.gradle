@@ -16,15 +16,19 @@ android {
     }
 
     //配置keystore签名
-    /*signingConfigs {
+    signingConfigs {
         release {
+            storeFile file("libs/mingtai.jks")
+            storePassword "mt123789"
+            keyAlias "mingtai"
+            keyPassword "mt123789"
         }
-    }*/
+    }
 
     buildTypes {
 
         debug {
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             //启用代码混淆
             minifyEnabled false
             //zip压缩
@@ -37,7 +41,7 @@ android {
 
         release {
             debuggable true
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             //开启混淆
             minifyEnabled false
             zipAlignEnabled false

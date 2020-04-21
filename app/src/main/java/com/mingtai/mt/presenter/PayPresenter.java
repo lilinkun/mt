@@ -8,6 +8,7 @@ import com.mingtai.mt.contract.PayContract;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.HomeBean;
 import com.mingtai.mt.entity.OrderDetailBean;
+import com.mingtai.mt.entity.OrderDetailInfo;
 import com.mingtai.mt.entity.ResultBean;
 import com.mingtai.mt.entity.WxInfo;
 import com.mingtai.mt.http.callback.HttpResultCallBack;
@@ -188,15 +189,15 @@ public class PayPresenter extends BasePresenter {
         final ProgressDialog progressDialog = ProgressDialog.show(mContext, "请稍等...", "获取订单中", true);
         HashMap<String, String> params = new HashMap<>();
         params.put("cls", "OrderInfo");
-        params.put("fun", "OrderInfoGoodsDetail");
+        params.put("fun", "OrderInfoVipDetail");
         params.put("OrderSn", OrderSn);
         params.put("SessionId", SessionId);
         mCompositeSubscription.add(manager.getOrderDetail(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpResultCallBack<OrderDetailBean, Object>() {
+                .subscribe(new HttpResultCallBack<OrderDetailInfo, Object>() {
                     @Override
-                    public void onResponse(OrderDetailBean orderDetailBeans, String status, ResultBean<OrderDetailBean, Object> page) {
+                    public void onResponse(OrderDetailInfo orderDetailBeans, String status, ResultBean<OrderDetailInfo, Object> page) {
                         payContract.setDataSuccess(orderDetailBeans);
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();

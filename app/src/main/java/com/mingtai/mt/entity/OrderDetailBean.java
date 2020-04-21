@@ -14,6 +14,7 @@ public class OrderDetailBean {
     private String OrderStatusName;
     private String Consignee;
     private String OrderTypeName;
+    //升级2 消费 4  业绩调拨 8
     private int OrderType;
     private int Integral;
     private String Address;

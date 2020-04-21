@@ -125,7 +125,11 @@ public class SplashActivity extends BaseActivity implements LoginContract {
 
     @Override
     public void getDataFail(String msg) {
-        UToast.show(this,msg);
+        if (msg.contains("HTTP 500 Internal Server Error")){
+            UToast.show(this,"连接服务器异常");
+        }else {
+            UToast.show(this, msg);
+        }
     }
 
     /**

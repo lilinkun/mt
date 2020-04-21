@@ -64,7 +64,12 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
         holder.tv_integral.setText("分值:");
 //        holder.tv_integral.setText("(含运费" + selfOrderBeans.get(position).getShippingFree()  + ")" + "、分值:");
         holder.tv_point_amount.setText("" + selfOrderBeans.get(position).getIntegral());
-//        holder.tv_order_amount.setText("¥" + price);
+
+        if(selfOrderBeans.get(position).getOrderType() != 2) {
+            holder.tv_order_amount.setText("¥" + price + " ");
+            holder.tv_total_name.setText("合计：");
+        }
+
         int num = 0;
         ArrayList<SelfOrderInfoBean> selfOrderInfoBeans = selfOrderBeans.get(position).getList();
         for (int i = 0; i < selfOrderInfoBeans.size(); i++) {
@@ -211,6 +216,7 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
         private TextView tv_integral;
         private TextView tv_point_amount;
         private TextView tv_query_logistics;
+        private TextView tv_total_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -224,6 +230,7 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
             tv_integral = (TextView) itemView.findViewById(R.id.tv_integral);
             tv_point_amount = (TextView) itemView.findViewById(R.id.tv_point_amount);
             tv_query_logistics = (TextView) itemView.findViewById(R.id.tv_query_logistics);
+            tv_total_name = (TextView) itemView.findViewById(R.id.tv_total_name);
         }
     }
 
