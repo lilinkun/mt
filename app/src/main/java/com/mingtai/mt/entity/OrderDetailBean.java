@@ -42,7 +42,9 @@ public class OrderDetailBean {
     private String DrawName;
     private String Zip;
     private ArrayList<SelfOrderInfoBean> orderDetail;
+    private ArrayList<ProductBean> listProduct;
     private String FreezeId;
+    private int SendStatus;
 
     public String getOrderId() {
         return OrderId;
@@ -322,5 +324,21 @@ public class OrderDetailBean {
 
     public void setFreezeId(String freezeId) {
         FreezeId = freezeId;
+    }
+
+    public ArrayList<ProductBean> getListProduct() {
+        return listProduct;
+    }
+
+    public void setListProduct(ArrayList<ProductBean> listProduct) {
+        this.listProduct = listProduct;
+    }
+
+    public int getSendStatus() {
+        return SendStatus;
+    }
+
+    public void setSendStatus(int sendStatus) {
+        SendStatus = sendStatus;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.mingtai.mt.R;
 import com.mingtai.mt.adapter.OrderChildAdapter;
+import com.mingtai.mt.adapter.OrderProductAdapter;
 import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.AllOrderContract;
@@ -50,6 +51,8 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
     TextView tv_total;
     @BindView(R.id.rv_order)
     RecyclerView recyclerView;
+    @BindView(R.id.rv_product)
+    RecyclerView rv_product;
     @BindView(R.id.tv_consignee_address)
     TextView tv_consignee_address;
     @BindView(R.id.tv_consignee_name)
@@ -140,6 +143,12 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
+
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+
+        rv_product.setLayoutManager(linearLayoutManager1);
+
 //        WXPayEntryActivity.setPayListener(this);
 
         iv_address_right.setVisibility(View.GONE);
@@ -149,7 +158,7 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
     }
 
 
-    @OnClick({R.id.ll_back, R.id.tv_query_logistics})
+    @OnClick({R.id.ll_back, R.id.ll_lgs})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_back:
@@ -159,12 +168,13 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
 
                 break;
 
-            case R.id.tv_query_logistics:
+            case R.id.ll_lgs:
 
-//                Bundle bundle = new Bundle();
-//                bundle.putString("type", "5");
-//                bundle.putString("ordersn", orderSn);
-//                UiHelper.launcherBundle(this, WebViewActivity.class, bundle);
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "lgs");
+                bundle.putString("ordersn", orderSn);
+                bundle.putString("CategoryName","物流信息");
+                UiHelper.launcherBundle(this, WebviewActivity.class, bundle);
 
                 break;
         }
@@ -180,6 +190,10 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
         this.orderDetailBeans = orderDetailBean.getOrder();
         OrderChildAdapter orderChildAdapter = new OrderChildAdapter(this, orderDetailBeans.getOrderDetail());
         recyclerView.setAdapter(orderChildAdapter);
+
+        OrderProductAdapter orderChildAdapter1 = new OrderProductAdapter(this, orderDetailBeans.getListProduct());
+
+        rv_product.setAdapter(orderChildAdapter1);
 
         orderChildAdapter.setItemClickListener(this);
 
@@ -231,8 +245,6 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
             tv_pay_order.setText("确认收货");
             tv_pay_message.setText("您的商品正在运输中");
             tv_query_logistics.setVisibility(View.VISIBLE);
-            ll_lgs_time.setVisibility(View.VISIBLE);
-            ll_lgs.setVisibility(View.VISIBLE);
             iv_order_status.setImageResource(R.mipmap.ic_order_status_unover);
         } else if (status == 0) {
             tv_exit_order.setText("取消订单");
@@ -243,8 +255,6 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
             tv_pay_message.setText("您的交易已经完成");
             tv_pay_order.setText("删除订单");
             tv_query_logistics.setVisibility(View.VISIBLE);
-            ll_lgs.setVisibility(View.VISIBLE);
-            ll_lgs_time.setVisibility(View.VISIBLE);
             ll_price_status.setVisibility(View.GONE);
             tv_exit_order.setVisibility(View.GONE);
             tv_pay_order.setVisibility(View.GONE);
@@ -258,6 +268,11 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
             rl_bottom.setVisibility(View.GONE);
         }
 
+
+        if (orderDetailBeans.getSendStatus() > 0){
+            ll_lgs.setVisibility(View.VISIBLE);
+            ll_lgs_time.setVisibility(View.VISIBLE);
+        }
 
 
 //        send_out_date.setText(orderDetailBeans.getShippingDate() + "");
@@ -302,7 +317,7 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
             @Override
             public void onClick(View v) {
                 if (!ButtonUtils.isFastDoubleClick()) {
-                    tv_pay_order.setClickable(false);
+//                    tv_pay_order.setClickable(false);
                     if (status == 0) {
 
                         if (orderDetailBeans.getOrderType() == MingtaiUtil.TIAOBOINT){

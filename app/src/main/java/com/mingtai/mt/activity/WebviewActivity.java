@@ -11,6 +11,7 @@ import com.mingtai.mt.base.BaseActivity;
 import com.mingtai.mt.base.ProApplication;
 import com.mingtai.mt.contract.WebviewContract;
 import com.mingtai.mt.entity.ChangeIsWdBean;
+import com.mingtai.mt.http.RetrofitHelper;
 import com.mingtai.mt.presenter.WebviewPresenter;
 import com.mingtai.mt.util.ActivityUtil;
 import com.mingtai.mt.util.Eyes;
@@ -56,11 +57,13 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
             ll_add_bottom.setVisibility(View.VISIBLE);
         }
 
-        if ( type.equals("agreement")){
+        if (type.equals("agreement")){
             if (ProApplication.mAccountBean.getIsWd() == 0) {
                 ll_add_bottom.setVisibility(View.VISIBLE);
             }
         }
+
+
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient()
@@ -78,6 +81,16 @@ public class WebviewActivity extends BaseActivity implements WebviewContract {
                 return false;
             }
         });
+
+
+        if (type.equals("lgs")){
+            url = RetrofitHelper.BASE_U + "/Order/LogisticsQuery/" + getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("ordersn");
+        }
+
+        if (type.equals("product")){
+            url = RetrofitHelper.BASE_U + "/Order/LogisticsQuery/"+ getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("ordersn")
+                    + "?OrderProductId=" + getIntent().getBundleExtra(MingtaiUtil.TYPEID).getString("OrderProductId");
+        }
         webView.loadUrl(url);
 
     }

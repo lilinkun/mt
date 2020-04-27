@@ -73,7 +73,9 @@ public class MeFragment extends BaseFragment implements MeContract {
     public void initEventAndData() {
         tv_wlm_account.setText(ProApplication.mAccountBean.getSurName());
         tv_me_vip.setText(ProApplication.mAccountBean.getUserLevelName());
-        tv_username.setText(ProApplication.mAccountBean.getUserName());
+        if(ProApplication.mAccountBean.getUserName().trim().length() > 6) {
+            tv_username.setText("**" + ProApplication.mAccountBean.getUserName().substring(ProApplication.mAccountBean.getUserName().length()-6,ProApplication.mAccountBean.getUserName().length()));
+        }
 
         mePresenter.onCreate(getActivity(),this);
 //        mePresenter.getBalance(ProApplication.SESSIONID(getActivity()));

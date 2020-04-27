@@ -100,6 +100,8 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     EditText et_discount_pay;
     @BindView(R.id.et_netcoin_pay)
     EditText et_netcoin_pay;
+    @BindView(R.id.tv_max)
+    TextView tv_max;
 
     IWXAPI iwxapi = null;
     private PayPresenter payPresenter = new PayPresenter();
@@ -165,8 +167,14 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     ll_self.setVisibility(View.VISIBLE);
+                    if (check_wx.isChecked()){
+                        tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - Double.valueOf(et_netcoin_pay.getText().toString()) - Double.valueOf(et_discount_pay.getText().toString())) + ")");
+                    }
                 }else {
                     ll_self.setVisibility(View.GONE);
+                    if (check_wx.isChecked()){
+                        tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount()) +")");
+                    }
                 }
             }
         });
@@ -176,7 +184,11 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
                         if (orderDetailInfo != null){
-                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - Double.valueOf(et_netcoin_pay.getText().toString())- Double.valueOf(et_discount_pay.getText().toString())) + ")");
+                            if (check_self.isChecked()) {
+                                tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - Double.valueOf(et_netcoin_pay.getText().toString()) - Double.valueOf(et_discount_pay.getText().toString())) + ")");
+                            }else {
+                                tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount()) +")");
+                            }
                         }
 
                     }else {
@@ -196,6 +208,24 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
     }
 
     private void setEditListener(final EditText editListener,final double value1,final double value2,final double value3){
+
+        editListener.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    if (editListener != null && editListener.getText().toString().equals("0")){
+                        editListener.setText("");
+                    }
+                }else {
+                    if (editListener != null && editListener.getText().toString().trim().length() == 0){
+                        editListener.setText("0");
+                    }
+                }
+            }
+        });
+
+
+
         editListener.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -204,27 +234,44 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                double sas = value1;
+
+                if (editListener.getId() == R.id.et_discount_pay){
+                    if (et_netcoin_pay.getText().toString() != "0"){
+                        if (orderDetailInfo != null) {
+                            sas = sas - Double.valueOf(et_netcoin_pay.getText().toString());
+//                            sas = value1 - sas;
+                        }
+                    }
+                }else if (editListener.getId() == R.id.et_netcoin_pay){
+                    if (et_discount_pay.getText().toString() != "0"){
+                        sas = Double.valueOf(et_discount_pay.getText().toString());
+                        sas = value1 - sas;
+                    }
+                }
+
                 if (s.toString().trim().length() > 0){
-                    if (Double.valueOf(s.toString()) > value1 &&
+                    if (Double.valueOf(s.toString()) > sas &&
                             Double.valueOf(s.toString()) < value2){
-                        toast("输入的金额有误，最多能输入"+value1);
-                        editListener.setText(value1+"");
-                    }else if (Double.valueOf(s.toString()) < value1 &&
+                        toast(getResources().getString(R.string.limit_max_pay) +sas);
+                        editListener.setText(sas+"");
+                    }else if (Double.valueOf(s.toString()) < sas &&
                             Double.valueOf(s.toString()) > value2){
-                        toast("输入的金额有误，最多能输入"+ value2);
+                        toast(getResources().getString(R.string.limit_max_pay) + value2);
                         editListener.setText(value2+"");
-                    }else if (Double.valueOf(s.toString()) > value1 &&
+                    }else if (Double.valueOf(s.toString()) > sas &&
                             Double.valueOf(s.toString()) > value2){
 
-                        if (value1 > value2) {
+                        if (sas > value2) {
 
-                            toast("输入的金额有误，最多能输入" + value2);
+                            toast(getResources().getString(R.string.limit_max_pay) + value2);
                             editListener.setText(value2 + "");
                         }else {
-                            toast("输入的金额有误，最多能输入" + value1);
-                            editListener.setText(value1 + "");
+                            toast(getResources().getString(R.string.limit_max_pay) + sas);
+                            editListener.setText(sas + "");
                         }
                     }else {
+
                         if (check_wx.isChecked()){
                             tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value3 - Double.valueOf(et_netcoin_pay.getText().toString())- Double.valueOf(et_discount_pay.getText().toString())) + ")");
                         }
@@ -548,8 +595,10 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
             }
         }
 
+        tv_max.setText("此单积分最多使用" + Math.floor(isRemainderPrice * (1-orderDetailInfo.getMinCash())));
+
         setEditListener(et_discount_pay,Math.floor(isRemainderPrice * (1-orderDetailInfo.getMinCash())),balanceBean.getMoney5Balance(),isRemainderPrice);
-        setEditListener(et_netcoin_pay,Math.floor(isRemainderPrice * (1-orderDetailInfo.getMinCash())),balanceBean.getMoney1Balance(),isRemainderPrice);
+        setEditListener(et_netcoin_pay,isRemainderPrice,balanceBean.getMoney1Balance(),isRemainderPrice);
     }
 
     @Override
@@ -630,10 +679,14 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
         }else {
 
             if(!check_self.isChecked() && check_wx.isChecked()){
-                isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+//                isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+                isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount());
                 payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
-                        "", et_netcoin_pay.getText().toString(), orderDetailBeans.getOrderAmount() + "", et_discount_pay.getText().toString(),
+                        "", "0", orderDetailBeans.getOrderAmount() + "", "0",
                         ProApplication.SESSIONID(PayActivity.this));
+//                payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
+//                        "", et_netcoin_pay.getText().toString(), orderDetailBeans.getOrderAmount() + "", et_discount_pay.getText().toString(),
+//                        ProApplication.SESSIONID(PayActivity.this));
             }else {
 
 
@@ -702,7 +755,7 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                         et_netcoin_pay.setText("0");
                     }
 
-                    if (Double.valueOf(et_discount_pay.getText().toString()) + Double.valueOf(et_netcoin_pay.getText().toString()) > Math.floor(orderDetailBeans.getOrderAmount() * (1-orderDetailInfo.getMinCash()))) {
+                    if (Double.valueOf(et_discount_pay.getText().toString())> Math.floor(orderDetailBeans.getOrderAmount() * (1-orderDetailInfo.getMinCash()))) {
                         toast("输入的金额有误，请重新输入");
                         et_discount_pay.setText("0");
                         et_netcoin_pay.setText("0");

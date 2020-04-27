@@ -27,7 +27,7 @@ public class BalanceBean implements Serializable {
     private double Money5;
     private double MoneyUse5;
     private double MoneyLock5;
-    private double Money5Balance; // 折扣币
+    private double Money5Balance; // 积分
     private double Money6;
     private double MoneyUse6;
     private double MoneyLock6;

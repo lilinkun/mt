@@ -125,6 +125,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:src="@mipmap/ic_order_self"/>
 
                     <LinearLayout
@@ -150,6 +151,15 @@
                             android:visibility="gone"
                             android:textColor="@color/list_divider"
                             />
+
+                        <TextView
+                            android:id="@+id/tv_max"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/textsize12"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:textColor="@color/black"/>
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -191,7 +201,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/textsize14"
                             android:textColor="@color/pay_text"
-                            android:text="折扣代扣"/>
+                            android:text="积分代扣"/>
 
                         <TextView
                             android:id="@+id/tv_discount_balance"
@@ -204,10 +214,11 @@
                     <EditText
                         android:id="@+id/et_discount_pay"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@null"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:inputType="numberDecimal"
+                        android:gravity="center_vertical"
                         android:digits="0123456789."
                         android:textSize="@dimen/textsize12"
                         android:textColorHint="@color/line"
@@ -236,7 +247,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/textsize14"
                             android:textColor="@color/pay_text"
-                            android:text="网币代扣"/>
+                            android:text="余额代扣"/>
 
                         <TextView
                             android:id="@+id/tv_netcoin_balance"
@@ -249,8 +260,9 @@
                     <EditText
                         android:id="@+id/et_netcoin_pay"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@null"
+                        android:gravity="center_vertical"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:textSize="@dimen/textsize12"
                         android:inputType="numberDecimal"

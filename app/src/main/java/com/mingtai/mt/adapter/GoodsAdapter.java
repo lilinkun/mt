@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,13 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
         holder.itemView.setTag(position);
 
-        holder.goodsName.setText(goodsBeans.get(position).getGoodsName());
+        if (goodsBeans.get(position).getIsPresell() == 1){
+            String s = goodsBeans.get(position).getGoodsName() + "<font color='#FF0000'>(预售)</font>";
+            holder.goodsName.setText(Html.fromHtml(s));
+        }else {
+            holder.goodsName.setText(goodsBeans.get(position).getGoodsName());
+        }
+
         holder.goodsPrice.setText("¥" + goodsBeans.get(position).getPrice() + "");
         holder.tv_goods_market_price.setText(goodsBeans.get(position).getMarketPrice()+"");
         holder.tv_goods_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

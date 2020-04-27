@@ -82,8 +82,8 @@
     <string name="declaration_sale">用户消费</string>
     <string name="declaration_upgrade">用户升级</string>
     <string name="declaration_tiaobo">购物调拨</string>
-    <string name="discount_coin">折扣币</string>
-    <string name="net_coin">网币</string>
+    <string name="discount_coin">用户积分</string>
+    <string name="net_coin">账户余额</string>
 
     <!--订单-->
     <string name="order_exit">取消订单</string>
@@ -128,4 +128,6 @@
     <!-- WXPayEntryActivity -->
     <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+
+    <string name="limit_max_pay">输入的金额有误，最多能输入</string>
 </resources>

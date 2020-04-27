@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/iv_goods_pic"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:scaleType="fitXY"
         android:background="@color/line"
         android:layout_marginLeft="@dimen/margin_10"
@@ -93,7 +93,70 @@
                 android:textColor="@color/setting_title_color"
                 android:textSize="@dimen/textsize14" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:paddingRight="@dimen/padding_5"
+                >
+
+                <TextView
+                    android:id="@+id/tv_shipped"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已发货"
+                    android:textColor="@color/red_price"
+                    android:visibility="gone"
+                    />
+
+
+            <TextView
+                android:id="@+id/tv_product_LgsNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:maxLines="2"
+                android:visibility="gone"
+                />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_integral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@drawable/blue_bg"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:paddingLeft="@dimen/padding_5"
+                android:paddingRight="@dimen/padding_5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_integral_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize12"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分值"
+                    android:lines="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize12"/>
+
+            </LinearLayout>
+
         </RelativeLayout>
+
+
 
     </LinearLayout>
 

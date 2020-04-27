@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:text="提现折扣币"
+                android:text="提现积分"
                 android:textColor="@color/pop_text_bg"
                 android:textSize="@dimen/textsize14"
                 android:layout_marginTop="@dimen/margin_14"/>
@@ -170,7 +170,7 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:textColor="@color/pop_text_bg"
                     android:textSize="@dimen/textsize14"
-                    android:text="当前折扣币"/>
+                    android:text="当前积分"/>
 
                 <TextView
                     android:id="@+id/tv_wlm_coin"

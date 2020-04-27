@@ -1,6 +1,7 @@
 package com.mingtai.mt.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +11,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mingtai.mt.R;
+import com.mingtai.mt.activity.WebviewActivity;
 import com.mingtai.mt.base.ProApplication;
+import com.mingtai.mt.entity.ProductBean;
 import com.mingtai.mt.entity.SelfOrderInfoBean;
+import com.mingtai.mt.util.UiHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by LG on 2020/1/8.
- */
-public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.ViewHolder> implements View.OnClickListener {
+public class OrderProductAdapter extends RecyclerView.Adapter<OrderProductAdapter.ViewHolder> implements View.OnClickListener {
 
     private Context mContext;
-    private ArrayList<SelfOrderInfoBean> childListBeans;
-    private OnItemClickListener mItemClickListener;
+    private ArrayList<ProductBean> childListBeans;
+    private OrderChildAdapter.OnItemClickListener mItemClickListener;
 
-    public OrderChildAdapter(Context context, ArrayList<SelfOrderInfoBean> childListBeans) {
+    public OrderProductAdapter(Context context, ArrayList<ProductBean> childListBeans) {
         this.mContext = context;
         this.childListBeans = childListBeans;
     }
@@ -42,7 +43,7 @@ public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder,final int position) {
 
         holder.itemView.setTag(position);
 
@@ -50,14 +51,29 @@ public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.Vi
 
 //        holder.goodsPrice.setText("¥ " + childListBeans.get(position).getPrice());
 
-        holder.goodsnum.setText("X" + childListBeans.get(position).getGoodsNumber());
+        holder.goodsnum.setText("X" + childListBeans.get(position).getGoodsNum());
 
-        if (childListBeans.get(position).getIntegral() > 0){
-            holder.ll_integral.setVisibility(View.VISIBLE);
-            holder.tv_integral_price.setText(childListBeans.get(position).getIntegral() +"");
+        if (childListBeans.get(position).getLgsName() != null && childListBeans.get(position).getLgsName().trim().length() > 0
+        && childListBeans.get(position).getLgsNumber() != null && childListBeans.get(position).getLgsNumber().trim().length() > 0 ) {
+            holder.tv_product_LgsNumber.setVisibility(View.VISIBLE);
+            holder.tv_shipped.setVisibility(View.VISIBLE);
+            holder.tv_product_LgsNumber.setText(childListBeans.get(position).getLgsName() +": " + childListBeans.get(position).getLgsNumber());
         }
 
-        holder.goodsSpec1.setText("商品编号:" + childListBeans.get(position).getGoodsSn());
+        holder.tv_product_LgsNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "product");
+                bundle.putString("OrderProductId", childListBeans.get(position).getOrderProductId());
+                bundle.putString("ordersn", childListBeans.get(position).getOrderSn());
+                bundle.putString("CategoryName","物流信息");
+                UiHelper.launcherBundle(mContext, WebviewActivity.class, bundle);
+            }
+        });
+
+        holder.goodsSpec1.setText("产品编号:" + childListBeans.get(position).getGoodsSn());
 
         Picasso.with(mContext).load(ProApplication.BANNERIMG + childListBeans.get(position).getGoodsImg()).error(R.color.line).into(holder.childImg);
     }
@@ -74,7 +90,7 @@ public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.Vi
         }
     }
 
-    public void setItemClickListener(OnItemClickListener itemClickListener) {
+    public void setItemClickListener(OrderChildAdapter.OnItemClickListener itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
@@ -90,6 +106,8 @@ public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.Vi
         TextView goodsSpec1;
         TextView goodsSpec2;
         TextView tv_integral_price;
+        TextView tv_product_LgsNumber;
+        TextView tv_shipped;
         LinearLayout ll_integral;
 
         public ViewHolder(View itemView) {
@@ -102,6 +120,8 @@ public class OrderChildAdapter extends RecyclerView.Adapter<OrderChildAdapter.Vi
             goodsSpec2 = itemView.findViewById(R.id.tv_goods_spec2);
             tv_integral_price = itemView.findViewById(R.id.tv_integral_price);
             ll_integral = itemView.findViewById(R.id.ll_integral);
+            tv_product_LgsNumber = itemView.findViewById(R.id.tv_product_LgsNumber);
+            tv_shipped = itemView.findViewById(R.id.tv_shipped);
         }
     }
 }

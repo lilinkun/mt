@@ -1,10 +1,12 @@
 package com.mingtai.mt.activity;
 
+import android.content.DialogInterface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -350,17 +352,51 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
 
                 if (chooseGoodsList.size() > 0) {
 
-                    CustomPriceBean CustomPriceBean = new CustomPriceBean(tv_total_goods_price.getText().toString(),tv_total_ShippingFree.getText().toString(),
+                    final CustomPriceBean CustomPriceBean = new CustomPriceBean(tv_total_goods_price.getText().toString(),tv_total_ShippingFree.getText().toString(),
                             tv_total_integral.getText().toString(),tv_total_price.getText().toString(),deliveryMethod,goodsType,userlevel);
 
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("ChooseItemBeans", chooseItemBeans);
-                    bundle.putParcelableArrayList("GOODSBEANS", chooseGoodsBeans);
-                    bundle.putSerializable("ADDRESS", addressBean);
-                    bundle.putSerializable("CUSTOMPRICEBEAN",CustomPriceBean);
+                    boolean isHavePresell = false;
 
-                    UiHelper.launcherBundle(this, OrderSureActivity.class, bundle);
+                    for ( GoodsBean goodsBean : chooseGoodsBeans){
+                        if (goodsBean.getIsPresell() == 1) {
+                            isHavePresell = true;
+                        }
+                    }
 
+                    if (isHavePresell){
+
+                        new AlertDialog.Builder(this).setTitle("有预售产品是否提交").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelableArrayList("ChooseItemBeans", chooseItemBeans);
+                                bundle.putParcelableArrayList("GOODSBEANS", chooseGoodsBeans);
+                                bundle.putSerializable("ADDRESS", addressBean);
+                                bundle.putSerializable("CUSTOMPRICEBEAN", CustomPriceBean);
+
+                                UiHelper.launcherBundle(GoodsActivity.this, OrderSureActivity.class, bundle);
+
+                                dialog.cancel();
+                            }
+                        }).create().show();
+
+                    }else {
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("ChooseItemBeans", chooseItemBeans);
+                        bundle.putParcelableArrayList("GOODSBEANS", chooseGoodsBeans);
+                        bundle.putSerializable("ADDRESS", addressBean);
+                        bundle.putSerializable("CUSTOMPRICEBEAN", CustomPriceBean);
+
+                        UiHelper.launcherBundle(this, OrderSureActivity.class, bundle);
+
+                    }
                     /*for (int i = 0; i < chooseItemBeans.size();i++){
                         if ( goodsIdStr.equals("") && goodsNum.equals("")) {
                             goodsIdStr = chooseItemBeans.get(i).getGoodsId();
