@@ -2,6 +2,7 @@ package com.mingtai.mt.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +36,8 @@ public class MeFragment extends BaseFragment implements MeContract {
 
     @BindView(R.id.tv_wlm_account)
     TextView tv_wlm_account;
+    @BindView(R.id.tv_account)
+    TextView tv_account;
     @BindView(R.id.tv_me_vip)
     TextView tv_me_vip;
     @BindView(R.id.tv_username)
@@ -72,6 +75,14 @@ public class MeFragment extends BaseFragment implements MeContract {
     @Override
     public void initEventAndData() {
         tv_wlm_account.setText(ProApplication.mAccountBean.getSurName());
+
+        tv_account.setText(ProApplication.mAccountBean.getUserStatusTwoName());
+        if (ProApplication.mAccountBean.getUserStatusTwo() == 10){
+            tv_account.setTextColor(Color.parseColor("#17AE1A"));
+        }else {
+            tv_account.setTextColor(Color.parseColor("#FFFF54"));
+        }
+
         tv_me_vip.setText(ProApplication.mAccountBean.getUserLevelName());
         if(ProApplication.mAccountBean.getUserName().trim().length() > 6) {
             tv_username.setText("**" + ProApplication.mAccountBean.getUserName().substring(ProApplication.mAccountBean.getUserName().length()-6,ProApplication.mAccountBean.getUserName().length()));

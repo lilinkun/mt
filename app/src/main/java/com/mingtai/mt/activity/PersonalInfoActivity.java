@@ -1,7 +1,6 @@
 package com.mingtai.mt.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -107,7 +106,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
             }else if (msg.what == 0x1234){
                 personalInfoPresenter.SendSms(ProApplication.SESSIONID(PersonalInfoActivity.this));
                 smsDialog.setStart();
-            }else if(msg.what == 0x112){
+            }else if(msg.what == 0x112 || msg.what == 0x222){
                 String vcode = msg.getData().getString("VCode");
                 personalInfoPresenter.getSafetyVerificationCode(vcode,ProApplication.SESSIONID(PersonalInfoActivity.this));
             }
@@ -276,7 +275,7 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         if (requestCode == RESULT_MYNICK && resultCode == Activity.RESULT_OK) {
+         if (requestCode == RESULT_MYNICK && resultCode == RESULT_OK) {
             String account = data.getStringExtra("account");
             nickName.setText(account);
         }
@@ -379,7 +378,13 @@ public class PersonalInfoActivity extends BaseActivity implements  View.OnClickL
 
     @Override
     public void safetyVerificationCodeSuccess(String msg) {
-        UiHelper.launcher(this, ModifyPayActivity.class);
+//        UiHelper.launcher(this, ModifyPayActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        UiHelper.launcherBundle(this, ModifyPayActivity.class,bundle);
+        if (smsDialog != null && smsDialog.isShowing()) {
+            smsDialog.dismiss();
+        }
     }
 
     @Override

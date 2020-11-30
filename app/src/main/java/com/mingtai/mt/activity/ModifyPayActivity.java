@@ -18,6 +18,8 @@ import com.mingtai.mt.util.MingtaiUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by LG on 2020/1/8.
  */

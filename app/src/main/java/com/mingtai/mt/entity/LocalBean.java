@@ -5,8 +5,8 @@ package com.mingtai.mt.entity;
  * on 2019/12/29
  */
 public enum LocalBean {
-    SERVER(0,"开新服务区"),
-    HUALUO(1,"自动滑落");
+    SERVER(1,"开新服务区"),
+    HUALUO(0,"自动滑落");
 
 
     private int id;

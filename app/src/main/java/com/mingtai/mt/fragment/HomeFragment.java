@@ -1,6 +1,8 @@
 package com.mingtai.mt.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -35,6 +37,7 @@ public class HomeFragment extends BaseFragment implements HomeContract {
 
     private HomePresenter homePresenter = new HomePresenter();
     private ArrayList<ArticleBean> articleBeans ;
+    private ArrayList<ArticleBean> notice;
 
     @Override
     public int getlayoutId() {
@@ -57,6 +60,33 @@ public class HomeFragment extends BaseFragment implements HomeContract {
     @Override
     public void getHomeSuccess(final HomeMobileBean homeMobileBean) {
         articleBeans = homeMobileBean.getNews();
+
+        if (ProApplication.isLogin) {
+            notice = (ArrayList<ArticleBean>)homeMobileBean.getNewsOpen();
+            if (notice.get(0).getSummary().trim().length() > 0) {
+                new AlertDialog.Builder(getActivity()).setTitle(notice.get(0).getTitle())
+                        .setMessage(notice.get(0).getSummary()).setNegativeButton("详情", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (notice.get(0).getLink() != null && notice.get(0).getLink().trim().length() > 0) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("CategoryName", notice.get(0).getCategoryName());
+                            bundle.putString("URL", notice.get(0).getLink());
+                            bundle.putString("type", "home");
+                            UiHelper.launcherBundle(getActivity(), WebviewActivity.class, bundle);
+                        }
+                        dialog.cancel();
+                    }
+                }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        }
+
+        ProApplication.isLogin = false;
 
         HomeAdapter homeAdapter = new HomeAdapter(getActivity(),articleBeans);
         rv_home.setAdapter(homeAdapter);

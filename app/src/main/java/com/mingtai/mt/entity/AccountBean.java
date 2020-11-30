@@ -37,6 +37,8 @@ public class AccountBean implements Serializable {
     private String StoreName;
     private String StoreNo;
     private boolean Agreement;
+    private int UserStatusTwo;
+    private String UserStatusTwoName;
 
     public int getUserId() {
         return UserId;
@@ -278,9 +280,25 @@ public class AccountBean implements Serializable {
         Agreement = agreement;
     }
 
+    public int getUserStatusTwo() {
+        return UserStatusTwo;
+    }
+
+    public void setUserStatusTwo(int userStatusTwo) {
+        UserStatusTwo = userStatusTwo;
+    }
+
+    public String getUserStatusTwoName() {
+        return UserStatusTwoName;
+    }
+
+    public void setUserStatusTwoName(String userStatusTwoName) {
+        UserStatusTwoName = userStatusTwoName;
+    }
+
     @Override
     public String toString() {
-        return "{" +
+        return "AccountBean{" +
                 "UserId=" + UserId +
                 ", UserName='" + UserName + '\'' +
                 ", Mobile='" + Mobile + '\'' +
@@ -311,6 +329,8 @@ public class AccountBean implements Serializable {
                 ", StoreName='" + StoreName + '\'' +
                 ", StoreNo='" + StoreNo + '\'' +
                 ", Agreement=" + Agreement +
+                ", UserStatusTwo=" + UserStatusTwo +
+                ", UserStatusTwoName='" + UserStatusTwoName + '\'' +
                 '}';
     }
 }

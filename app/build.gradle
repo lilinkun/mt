@@ -11,7 +11,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 26
         versionCode 1
-        versionName "1.74"
+        versionName "2.16"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,7 +29,7 @@ android {
 
         debug {
             signingConfig signingConfigs.release
-            //启用代码混淆
+//            启用代码混淆
             minifyEnabled false
             //zip压缩
             zipAlignEnabled false
@@ -40,7 +40,6 @@ android {
         }
 
         release {
-            debuggable true
             signingConfig signingConfigs.release
             //开启混淆
             minifyEnabled false
@@ -97,6 +96,7 @@ dependencies {
     implementation 'cn.bingoogolapple:bga-update:1.0.2@aar'
 
     implementation "com.android.support:cardview-v7:27.0.0"
+
 
     implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'com.zhy:okhttputils:2.6.2'

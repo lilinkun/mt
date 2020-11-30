@@ -41,7 +41,8 @@
 
     <color name="pop_text">#B2B2B2</color>
 
-    <color name="sale_title">#FBFBFB</color>
+    <color name="sale_title">#FFFFFF</color>
+<!--    <color name="sale_title">#FBFBFB</color>-->
     <color name="sale_line">#C4C4C4</color>
 
     <color name="local_transparent">#80000000</color>

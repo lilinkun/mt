@@ -23,8 +23,8 @@ public class RetrofitHelper {
     private Context mCntext;
     //        接口根地址
 //    public static final String BASE_U = "http://192.168.1.168:8081";
-    public static final String BASE_U = "http://nine.mmibb.net:99";
-//    public static final String BASE_U = "http://mt.kmsd1818.cn";
+//    public static final String BASE_U = "http://nine.mmibb.net:99";
+    public static final String BASE_U = "http://mt.kmsd1818.cn";
 
 //    public static final String BASE_URL = "http://wlm.mmibb.net:99/api/WebService/";
 //    public static final String BASE_URL = "https://api.vlmei.com/api/WebService/";

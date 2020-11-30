@@ -104,7 +104,7 @@
                 android:textSize="@dimen/textsize14"
                 android:background="@null"
                 android:textColor="@color/sale_text_bg"/>
-            
+
         </LinearLayout>
 
         <View
@@ -447,7 +447,7 @@
         </ScrollView>
 
     </LinearLayout>
-    
+
     <TextView
         android:id="@+id/tv_next"
         android:layout_width="match_parent"

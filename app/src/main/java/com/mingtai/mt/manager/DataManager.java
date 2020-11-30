@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.mingtai.mt.entity.AccountBean;
 import com.mingtai.mt.entity.AddressBean;
+import com.mingtai.mt.entity.ArticleBean;
 import com.mingtai.mt.entity.BalanceBean;
 import com.mingtai.mt.entity.BalanceDetailBean;
 import com.mingtai.mt.entity.BankBean;
@@ -109,6 +110,12 @@ public class DataManager {
      */
     public Observable<ResultBean<HomeMobileBean, Object>> getHomeData(HashMap<String, String> mHashMap) {
         return mRetrofitService.getHomeData(mHashMap);
+    }
+    /**
+     * 获取全局设置
+     */
+    public Observable<ResultBean<HomeMobileBean<ArrayList<ArticleBean>>, Object>> getHomeDatas(HashMap<String, String> mHashMap) {
+        return mRetrofitService.getHomeDatas(mHashMap);
     }
 
     /**

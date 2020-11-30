@@ -79,6 +79,8 @@ public class ProApplication extends Application {
 
   public static String BANNERIMG = "";
 
+  public static boolean isLogin = false;
+
   public static synchronized ProApplication context() {
     return (ProApplication) mContext;
   }

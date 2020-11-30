@@ -159,6 +159,8 @@ public class LoginActivity extends BaseActivity implements LoginContract {
 
       ProApplication.mAccountBean = accountBean;
 
+      ProApplication.isLogin = true;
+
       if (accountBean.getUserLogins() == 0){
 
         Bundle bundle = new Bundle();
