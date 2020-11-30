@@ -30,8 +30,8 @@ public class ProApplication extends Application {
     super.onCreate();
     mContext = this;
 
-    CrashHandler catchHandler = CrashHandler.getInstance();
-    catchHandler.init(getApplicationContext());
+//    CrashHandler catchHandler = CrashHandler.getInstance();
+//    catchHandler.init(getApplicationContext());
 
     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
     displayMetrics.scaledDensity = displayMetrics.density;

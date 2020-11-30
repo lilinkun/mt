@@ -1,7 +1,6 @@
 package com.mingtai.mt.activity;
 
 
-import android.app.Activity;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.KeyEvent;
@@ -50,6 +49,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void initEventAndData() {
+
 
 //        Eyes.setStatusBarWhiteColor(this,getResources().getColor(R.color.white));
         ActivityUtil.addAllActivity(this);

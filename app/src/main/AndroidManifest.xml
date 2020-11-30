@@ -78,6 +78,16 @@
         <activity android:name=".activity.PointActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".crash.DefaultErrorActivity"
+            android:process=":error_activity" />
+
+        <provider
+            android:name=".crash.CaocInitProvider"
+            android:authorities="${applicationId}.customactivityoncrashinitprovider"
+            android:exported="false"
+            android:initOrder="101" />
+
 
         <activity android:name=".wxapi.WXPayEntryActivity"
             android:theme="@android:style/Theme.Translucent"

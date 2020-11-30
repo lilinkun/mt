@@ -103,6 +103,9 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
         } else if  (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_EXIT) {
             holder.tv_exit_order.setVisibility(View.GONE);
             holder.tv_go_pay.setVisibility(View.GONE);
+        } else {
+            holder.tv_exit_order.setVisibility(View.GONE);
+            holder.tv_go_pay.setVisibility(View.GONE);
         }
 
         holder.tv_exit_order.setOnClickListener(new View.OnClickListener() {
