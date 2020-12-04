@@ -75,7 +75,7 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
                     return;
                 }
 
-                final int coinAmount = Integer.valueOf(et_wlm_coin.getText().toString());
+                final double coinAmount = Double.valueOf(et_wlm_coin.getText().toString());
 
                 View view1 = LayoutInflater.from(this).inflate(R.layout.layout_popup_psd, null);
                 payDialog =new Dialog(GetCashActivity.this);

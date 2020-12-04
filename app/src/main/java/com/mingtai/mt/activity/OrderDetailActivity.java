@@ -268,14 +268,10 @@ public class OrderDetailActivity extends BaseActivity implements AllOrderContrac
             rl_bottom.setVisibility(View.GONE);
         } else if (status == 3){
             tv_pay_message.setText("");
-            ll_price_status.setVisibility(View.GONE);
-            tv_exit_order.setVisibility(View.GONE);
-            tv_pay_order.setVisibility(View.GONE);
+            rl_bottom.setVisibility(View.GONE);
         } else if (status == 8){
             tv_pay_message.setText("");
-            ll_price_status.setVisibility(View.GONE);
-            tv_exit_order.setVisibility(View.GONE);
-            tv_pay_order.setVisibility(View.GONE);
+            rl_bottom.setVisibility(View.GONE);
         }
 
 

@@ -13,6 +13,19 @@ public class CheckBean {
     private String direct_install_url;
     private String update_url;
     private String changelog;
+    /*private BinaryBean binaryBean;
+
+    public class BinaryBean{
+        private String fsize;
+
+        public String getFsize() {
+            return fsize;
+        }
+
+        public void setFsize(String fsize) {
+            this.fsize = fsize;
+        }
+    }*/
 
     public String getName() {
         return name;

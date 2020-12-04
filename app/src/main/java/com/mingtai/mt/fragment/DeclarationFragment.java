@@ -59,6 +59,8 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
 
     @Override
     public void onItemClick(int position) {
+
+
         if (ProApplication.mAccountBean.getIsSingleCenter() > 0 || ProApplication.mAccountBean.isAgreement()) {
 
             isRegister = true;

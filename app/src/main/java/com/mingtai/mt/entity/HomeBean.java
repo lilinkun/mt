@@ -14,8 +14,8 @@ public class HomeBean {
     private String ImgVer;
     private String KFMobile;
     private boolean IsPDType;
-    private int IsShippingFree;
-    private int ShippingPrice;
+    private int IsShippingFree ;
+    private int ShippingPrice ;
     private String ShoppingApplication;
     private String imgUrl;
     private String Appid;

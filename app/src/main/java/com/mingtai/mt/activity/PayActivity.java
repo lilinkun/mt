@@ -168,7 +168,15 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                 if (isChecked){
                     ll_self.setVisibility(View.VISIBLE);
                     if (check_wx.isChecked()){
-                        tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - Double.valueOf(et_netcoin_pay.getText().toString()) - Double.valueOf(et_discount_pay.getText().toString())) + ")");
+                        double netcoin = 0;
+                        double discountPay = 0;
+                        if (et_netcoin_pay.getText() != null && !et_netcoin_pay.getText().toString().isEmpty()){
+                            netcoin = Double.valueOf(et_netcoin_pay.getText().toString());
+                        }
+                        if (et_discount_pay.getText() != null && !et_discount_pay.getText().toString().isEmpty()){
+                            discountPay = Double.valueOf(et_discount_pay.getText().toString());
+                        }
+                        tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - netcoin - discountPay) + ")");
                     }
                 }else {
                     ll_self.setVisibility(View.GONE);
@@ -185,7 +193,15 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                     if (isChecked){
                         if (orderDetailInfo != null){
                             if (check_self.isChecked()) {
-                                tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - Double.valueOf(et_netcoin_pay.getText().toString()) - Double.valueOf(et_discount_pay.getText().toString())) + ")");
+                                double netcoin = 0;
+                                double discountPay = 0;
+                                if (et_netcoin_pay.getText() != null && !et_netcoin_pay.getText().toString().isEmpty()){
+                                    netcoin = Double.valueOf(et_netcoin_pay.getText().toString());
+                                }
+                                if (et_discount_pay.getText() != null && !et_discount_pay.getText().toString().isEmpty()){
+                                    discountPay = Double.valueOf(et_discount_pay.getText().toString());
+                                }
+                                tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount() - netcoin - discountPay) + ")");
                             }else {
                                 tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(orderDetailInfo.getOrder().getOrderAmount()) +")");
                             }

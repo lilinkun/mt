@@ -72,8 +72,8 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
     private int userlevel = 0;
     private int goodsType = 0;
     private int deliveryMethod = 0;
-    private int ShippingFree;
-    private int ShippingFreePrice;
+    private int ShippingFree = 0;
+    private int ShippingFreePrice = 0;
     private int total_ShippingFree = 0;
     private GoodsAdapter goodsAdapter;
     private int PAGE_INDEX = 1;
@@ -114,8 +114,10 @@ public class GoodsActivity extends BaseActivity implements GoodsContract, GoodsA
         ActivityUtil.addHomeActivity(this);
         ActivityUtil.addActivity(this);
 
-        ShippingFree = ProApplication.mHomeBean.getIsShippingFree();
-        ShippingFreePrice = ProApplication.mHomeBean.getShippingPrice();
+        if(ProApplication.mHomeBean != null ){
+            ShippingFree = ProApplication.mHomeBean.getIsShippingFree();
+            ShippingFreePrice = ProApplication.mHomeBean.getShippingPrice();
+        }
 
         userlevel = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("UserLevel");
         goodsType = getIntent().getBundleExtra(MingtaiUtil.TYPEID).getInt("GoodsType");

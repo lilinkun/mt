@@ -36,7 +36,7 @@ public class AccountBean implements Serializable {
     private int UserLogins;
     private String StoreName;
     private String StoreNo;
-    private boolean Agreement;
+    private boolean Agreement = false;
     private int UserStatusTwo;
     private String UserStatusTwoName;
 
