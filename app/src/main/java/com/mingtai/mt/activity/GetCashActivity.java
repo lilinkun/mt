@@ -1,6 +1,7 @@
 package com.mingtai.mt.activity;
 
 import android.app.Dialog;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -112,7 +113,9 @@ public class GetCashActivity extends BaseActivity implements GetCashContract {
                 tv_forgetPwd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UiHelper.launcher(GetCashActivity.this, ModifyPayActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("type",1);
+                        UiHelper.launcherBundle(GetCashActivity.this, ModifyPayActivity.class,bundle);
                     }
                 });
 

@@ -289,7 +289,17 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                     }else {
 
                         if (check_wx.isChecked()){
-                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value3 - Double.valueOf(et_netcoin_pay.getText().toString())- Double.valueOf(et_discount_pay.getText().toString())) + ")");
+
+                            double netcoin = 0;
+                            double discountPay = 0;
+                            if (et_netcoin_pay.getText() != null && !et_netcoin_pay.getText().toString().isEmpty()){
+                                netcoin = Double.valueOf(et_netcoin_pay.getText().toString());
+                            }
+                            if (et_discount_pay.getText() != null && !et_discount_pay.getText().toString().isEmpty()){
+                                discountPay = Double.valueOf(et_discount_pay.getText().toString());
+                            }
+
+                            tv_wx_price.setText("(需付" + MingtaiUtil.isCoin(value3 - netcoin- discountPay) + ")");
                         }
                     }
                 }
@@ -685,7 +695,17 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
 
         if (orderDetailBeans.getMoney1() > 0 || orderDetailBeans.getMoney5() > 0) {
 
-            isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+
+            double netcoin = 0;
+            double discountPay = 0;
+            if (et_netcoin_pay.getText() != null && !et_netcoin_pay.getText().toString().isEmpty()){
+                netcoin = Double.valueOf(et_netcoin_pay.getText().toString());
+            }
+            if (et_discount_pay.getText() != null && !et_discount_pay.getText().toString().isEmpty()){
+                discountPay = Double.valueOf(et_discount_pay.getText().toString());
+            }
+
+            isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (netcoin + discountPay));
 
             payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
                     "", et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
@@ -733,14 +753,23 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                         @Override
                         public void onClick(View v) {
                             if (MingtaiUtil.editIsNotNull(et_psd)) {
-                                isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (Double.valueOf(et_netcoin_pay.getText().toString()) + Double.valueOf(et_discount_pay.getText().toString())));
+
+                                double netcoin = 0;
+                                double discountPay = 0;
+                                if (et_netcoin_pay.getText() != null && !et_netcoin_pay.getText().toString().isEmpty()){
+                                    netcoin = Double.valueOf(et_netcoin_pay.getText().toString());
+                                }
+                                if (et_discount_pay.getText() != null && !et_discount_pay.getText().toString().isEmpty()){
+                                    discountPay = Double.valueOf(et_discount_pay.getText().toString());
+                                }
+                                isRemind = MingtaiUtil.isCoin(orderDetailBeans.getOrderAmount() - (netcoin + discountPay));
                                 if (Double.valueOf(isRemind) > 0) {
                                     payPresenter.getPayOrderInfo(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
-                                            et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
+                                            et_psd.getText().toString(), netcoin+"", isRemind + "", discountPay+"",
                                             ProApplication.SESSIONID(PayActivity.this));
                                 } else {
                                     payPresenter.getPayOrderInfo1(orderid, orderDetailBeans.getOrderAmount() + "", MingtaiUtil.LOGO_ID, orderDetailBeans.getIntegral() + "",
-                                            et_psd.getText().toString(), et_netcoin_pay.getText().toString(), isRemind + "", et_discount_pay.getText().toString(),
+                                            et_psd.getText().toString(), netcoin+"", isRemind + "", discountPay+"",
                                             ProApplication.SESSIONID(PayActivity.this));
                                 }
                             } else {
@@ -753,7 +782,9 @@ public class PayActivity extends BaseActivity implements PayContract, IWxResultL
                     tv_forgetPwd.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            UiHelper.launcher(PayActivity.this, ModifyPayActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("type",1);
+                            UiHelper.launcherBundle(PayActivity.this, ModifyPayActivity.class,bundle);
                         }
                     });
 

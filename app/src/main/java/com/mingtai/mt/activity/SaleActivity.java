@@ -117,7 +117,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
         ActivityUtil.addActivity(this);
         ActivityUtil.addAllActivity(this);
 
-        if (ProApplication.mAccountBean.getStoreNo() != null) {
+        if (ProApplication.mAccountBean != null && ProApplication.mAccountBean.getStoreNo() != null) {
             et_business_name.setText(ProApplication.mAccountBean.getStoreNo());
             et_business_name.setFocusable(false);
         }else {
@@ -260,7 +260,7 @@ public class SaleActivity extends BaseActivity implements SaleContract {
 
 
 
-                if (ProApplication.mAccountBean.getStoreNo() != null) {
+                if (ProApplication.mAccountBean != null && ProApplication.mAccountBean.getStoreNo() != null) {
 
                     if (MingtaiUtil.editIsNotNull(tv_servicer_name)){
                         if ((typeInt == PersonalInt && personalInfoBean != null) || (typeInt == StoreInt && storeInfoAddressBean != null)) {

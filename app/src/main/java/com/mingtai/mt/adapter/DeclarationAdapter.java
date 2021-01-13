@@ -25,8 +25,10 @@ public class DeclarationAdapter extends RecyclerView.Adapter<DeclarationAdapter.
     public DeclarationAdapter(Context context){
         this.context = context;
 
-        if (ProApplication.mAccountBean.isAgreement() || ProApplication.mAccountBean.getIsSingleCenter() > 0){
-            isDeclaration = true;
+        if (ProApplication.mAccountBean != null) {
+            if (ProApplication.mAccountBean.isAgreement() || ProApplication.mAccountBean.getIsSingleCenter() > 0) {
+                isDeclaration = true;
+            }
         }
     }
 

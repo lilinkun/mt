@@ -173,9 +173,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
+                android:layout_margin="@dimen/margin_10"
                 android:background="@drawable/shape_info_pop"
                 android:orientation="vertical">
 
@@ -300,9 +298,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey_color2"
+                        android:textColor="@color/red_price"
                         android:textSize="@dimen/textsize12"
-                        android:text="物流信息：" />
+                        android:text="点击查看物流：" />
 
                     <TextView
                         android:id="@+id/logistics_information"

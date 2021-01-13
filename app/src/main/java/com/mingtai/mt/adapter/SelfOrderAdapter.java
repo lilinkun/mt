@@ -91,12 +91,12 @@ public class SelfOrderAdapter extends RecyclerView.Adapter<SelfOrderAdapter.View
         } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_SHIPPED) {
             holder.tv_go_pay.setVisibility(View.VISIBLE);
             holder.tv_go_pay.setText("确认收货");
-            holder.tv_query_logistics.setVisibility(View.VISIBLE);
+            holder.tv_query_logistics.setVisibility(View.GONE);
             holder.tv_exit_order.setVisibility(View.GONE);
         } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_SUCCESSFUL_TRADE) {
             holder.tv_go_pay.setVisibility(View.GONE);
             holder.tv_exit_order.setVisibility(View.GONE);
-            holder.tv_query_logistics.setVisibility(View.VISIBLE);
+            holder.tv_query_logistics.setVisibility(View.GONE);
         } else if (selfOrderBeans.get(position).getOrderStatus() == MingtaiUtil.ORDER_FAIL) {
             holder.tv_exit_order.setVisibility(View.GONE);
             holder.tv_go_pay.setVisibility(View.GONE);

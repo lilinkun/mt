@@ -27,7 +27,7 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
     @BindView(R.id.rv_declaration)
     RecyclerView rv_declaration;
 
-    private boolean isRegister = true;
+    private boolean isRegister = false;
 
     @Override
     public int getlayoutId() {
@@ -52,23 +52,28 @@ public class DeclarationFragment extends BaseFragment implements DeclarationAdap
 
         declarationAdapter.setItemClickListener(this);
 
-        if (ProApplication.mAccountBean.getUserLevel() == 0){
-            rv_declaration.setVisibility(View.GONE);
+
+        if (ProApplication.mAccountBean != null) {
+            if (ProApplication.mAccountBean.getUserLevel() == 0) {
+                rv_declaration.setVisibility(View.GONE);
+            }
         }
     }
 
     @Override
     public void onItemClick(int position) {
 
+        if (ProApplication.mAccountBean != null) {
 
-        if (ProApplication.mAccountBean.getIsSingleCenter() > 0 || ProApplication.mAccountBean.isAgreement()) {
+            if (ProApplication.mAccountBean.getIsSingleCenter() > 0 || ProApplication.mAccountBean.isAgreement()) {
 
-            isRegister = true;
+                isRegister = true;
 
-        } else {
+            } else {
 
-            isRegister = false;
+                isRegister = false;
 
+            }
         }
         switch (position) {
             case 0:
